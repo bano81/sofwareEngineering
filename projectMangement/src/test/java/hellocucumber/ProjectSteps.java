@@ -2,6 +2,8 @@ package hellocucumber;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import dtu.example.ui.CLIEngine;
@@ -35,6 +37,7 @@ public class ProjectSteps {
 		nameStr = string;
 		surnameStr = string2;
 		employeeIdStr = string3;
+		cliEngine.creatNewEmployees(employees, "Baqer", "Nour", "bano");
 	}
 
 	@Then("the system will return an error message.")
@@ -47,13 +50,18 @@ public class ProjectSteps {
 	}
 	
 	@When("an employee with ID {string} add activity with ID {string}, name {string}, start date {string}, end date {string}, budget hours {int} and status {string}")
-	public void anEmployeeWithIDAddActivityWithIDNameStartDateEndDateBudgetHoursAndStatus(String employeeId, String activityId, String activityName, String startDate, String endDate, Integer activityBudgtedhour, String activityStatus) {
-		//addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate, activityBudgtedhour, activityStatus); // Create a new activity
+	public void anEmployeeWithIDAddActivityWithIDNameStartDateEndDateBudgetHoursAndStatus(String employeeId, String activityId, String activityName, String startDateStr, String endDateStr, int activityBudgtedhour, String activityStatus) throws ParseException {
+		cliEngine.creatNewEmployees(employees, "Baqer", "Nour", "bano");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date startDate = sdf.parse(startDateStr);
+		Date endDate = sdf.parse(endDateStr);
+		cliEngine.addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate, activityBudgtedhour, activityStatus);
 	}
 
-	@Then("show the list of activities")
-	public void showTheListOfActivities() {
-	    
+	@Then("show the list of activities for the employee with ID {string}")
+	public void showTheListOfActivities(String employeeId) {
+		System.out.println("");
+		cliEngine.displayActivites(employeeId, employees);	   
 	}
 }
 

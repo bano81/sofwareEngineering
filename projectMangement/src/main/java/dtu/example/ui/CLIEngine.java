@@ -2,6 +2,7 @@ package dtu.example.ui;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -86,9 +87,26 @@ public class CLIEngine {
         employees.get(employeeId).getlistOfActivities();
     }
 
-    public void displayActivites(String employeeId, Map<String, Employee> employees) {
+    /*public void displayActivites(String employeeId, Map<String, Employee> employees) {
         System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
         employees.get(employeeId).getlistOfActivities();
+    }*/
+    
+    public void displayActivites(String employeeId, Map<String, Employee> employees) {
+    	SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+    	String starteDateStr;
+    	String endDateStr;
+        Map<String, Activity> activities = employees.get(employeeId).getActivities();
+        System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
+        System.out.println("Activity ID \t Name \t\t Start Date \t\t End Date \t Budgeted Hours \t Status");
+        System.out.println("----------- \t ---- \t\t ---------- \t\t --------- \t --------------- \t ------ ");
+        for (Map.Entry<String, Activity> entry : activities.entrySet()) {
+            String activityId = entry.getKey();
+            Activity activity = entry.getValue();
+            starteDateStr = formatter.format(activity.getStartDate());
+            endDateStr = formatter.format(activity.getEndDate());
+            System.out.println(activityId + " \t         " + activity.getActivityName() + " \t " + starteDateStr + " \t\t " + endDateStr + " \t " + activity.getBudgetedHours() + " \t\t\t " + activity.getActivityStatus());
+        }
     }
 
     public int displayChoices() {

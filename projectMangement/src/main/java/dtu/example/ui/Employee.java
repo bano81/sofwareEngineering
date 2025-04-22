@@ -97,11 +97,17 @@ public class Employee {
 
 
  public void getlistOfActivities(){
+	 System.out.println("Activity ID \t Activity");
+	 System.out.println("----------- \t ----------");
      for (Map.Entry<String, Activity> entry : activities.entrySet()) {
          String projectName = entry.getKey();
          Activity activity = entry.getValue();
-         System.out.println("Project Name: " + projectName + ", Activity: " + activity.getActivityName());
+         System.out.println(projectName + " \t\t " + activity.getActivityName());
      }
+ }
+ 
+ public Map<String, Activity> getActivities() {
+	    return activities;
  }
 
  public void getlistOfProjects(){
