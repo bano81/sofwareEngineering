@@ -96,7 +96,7 @@ public class Employee {
  }
 
 
- public void getlistOfActivities(){
+ /*public void getlistOfActivities(){
 	 System.out.println("Activity ID \t Activity");
 	 System.out.println("----------- \t ----------");
      for (Map.Entry<String, Activity> entry : activities.entrySet()) {
@@ -104,7 +104,7 @@ public class Employee {
          Activity activity = entry.getValue();
          System.out.println(projectName + " \t\t " + activity.getActivityName());
      }
- }
+ }*/
  
  public Map<String, Activity> getActivities() {
 	    return activities;
@@ -116,43 +116,31 @@ public class Employee {
          System.out.println("Project Name: " + projectName);
      }
  }
-
- public double geteBudgetedHours(String id){
-     Activity activity = activities.get(id);
-     if (activity != null) {
-         return activity.getBudgetedHours();
-     } else {
-         System.out.println("Activity not found!");
-         return 0;
-     }
+ 
+ public double geteBudgetedHours(String id) {
+	 return activities.get(id).getBudgetedHours();
  }
 
- public void setBudgetedHours(String id, int hours){
+ /*public void setBudgetedHours(String id, int hours){
      Activity activity = activities.get(id);
      if (activity != null) {
          activity.setBudgetedHours(hours);
      } else {
          System.out.println("Activity not found!");
      }
+ }*/
+ 
+ public void setBudgetedHours(String id, int hours){
+	 activities.get(id).setBudgetedHours(hours);
  }
 
- void setCurrentSpentHours(String id, double hours){
-     Activity activity = activities.get(id);
-     if (activity != null) {
-         activity.setCurrentSpentHours(hours);
-     } else {
-         System.out.println("Activity not found!");
-     }
+ public void setCurrentSpentHours(String id, double hours){
+	 activities.get(id).setCurrentSpentHours(hours);
  }
-
+ 
+ 
  public double getCurrentSpentHours(String id){
-     Activity activity = activities.get(id);
-     if (activity != null) {
-         return activity.getCurrentSpentHours();
-     } else {
-         System.out.println("Activity not found!");
-         return 0;
-     }
+	    return activities.get(id).getCurrentSpentHours(); 
  }
 
  public double calculateSpentHours(String id){

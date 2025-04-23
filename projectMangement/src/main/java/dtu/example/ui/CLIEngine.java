@@ -82,10 +82,10 @@ public class CLIEngine {
         System.out.println("5. Cancelled");
     }
 
-    public void displayAllActivities(String employeeId, Map<String, Employee> employees) {
+   /* public void displayAllActivities(String employeeId, Map<String, Employee> employees) {
         System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
         employees.get(employeeId).getlistOfActivities();
-    }
+    }*/
 
     /*public void displayActivites(String employeeId, Map<String, Employee> employees) {
         System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
