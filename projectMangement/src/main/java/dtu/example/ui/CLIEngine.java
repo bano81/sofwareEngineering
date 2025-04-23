@@ -113,7 +113,7 @@ public class CLIEngine {
         System.out.println("1. Create a new employee");
         System.out.println("2. Create a new project");
         System.out.println("3. Create a new activity");
-        System.out.println("4. Assign an employee to a project");
+        System.out.println("4. Display the number of activities"); //4. Assign an employee to a project
         System.out.println("5. Assign an employee to an activity");
         System.out.println("6. Display all employees");
         System.out.println("7. Display all projects");
@@ -179,6 +179,7 @@ public class CLIEngine {
                 sc = new Scanner(System.in);
                 System.out.print("Please enter employee ID: ");
                 employeeId = sc.nextLine();
+                employees.get(employeeId).countNumberOfActivities();
                 System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
                 System.out.println(employees.get(employeeId).getNumberOfActivities());
                 break;

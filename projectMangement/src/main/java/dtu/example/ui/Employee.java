@@ -16,7 +16,7 @@ public class Employee {
  private String password;
  private Map<String, Activity> activities = new HashMap<>(); // Activity ID and their corresponding activities
  private Map<String, String> projectNames = new HashMap<>(); // Activity ID and their corresponding project names
- private int numberOfActivities = 0; // Number of activities assigned to the employee
+ private int numberOfActivities; // Number of activities assigned to the employee
  private final int maxActivities = 20; // Maximum number of activities allowed for an employee
  
  public Employee() {
@@ -171,14 +171,14 @@ public class Employee {
  }
 
  public void countNumberOfActivities() {
-     int nun = getNumberOfActivities();
+     int num = 0; //getNumberOfActivities();
         for (Map.Entry<String, Activity> entry : activities.entrySet()) {
             Activity activity = entry.getValue();
             if (activity.getActivityStatus().equals("in progress")) {
-                nun++;
+                num++;
             }
         }
-        numberOfActivities = nun;
+        setNumberOfActivities(num);
  }
 
  public void setNumberOfActivities(int numberOfActivities) {
