@@ -2,7 +2,6 @@ package dtu.example.ui;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -177,6 +176,11 @@ public class CLIEngine {
                 break;
             case 4:
                 // Assign an employee to a project
+                sc = new Scanner(System.in);
+                System.out.print("Please enter employee ID: ");
+                employeeId = sc.nextLine();
+                System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
+                System.out.println(employees.get(employeeId).getNumberOfActivities());
                 break;
             case 5:
                 // Assign an employee to an activity
