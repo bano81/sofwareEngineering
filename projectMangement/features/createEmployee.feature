@@ -12,3 +12,8 @@ Scenario: Create an employee with used ID
 Scenario: Adding activity to existing employee
 	When an employee with ID "huba" add activity with ID "ana1", name "analysis", start date "2025-04-21", end date "2025-04-23", budget hours 3 and status "in progross"
 	Then show the list of activities for the employee with ID "huba"
+	
+Scenario: Display number of activity for an existing employee
+	Given an employee with ID "huba" exits
+	When the user select the employee with ID "huba"
+	Then the system should display the number of activities that are not finished and the list of activites for the employee with ID "huba"

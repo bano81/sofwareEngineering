@@ -76,6 +76,38 @@ public class ProjectSteps {
 		System.out.println("");
 		cliEngine.displayActivites(employeeId, employees);	   
 	}
+	
+	
+	@Given("an employee with ID {string} exits")
+	public void anEmployeeWithNameSurnameAndIDHubaExits(String employeeId) throws ParseException {
+		state = cliEngine.creatNewEmployees(employees, "Hubert", "Baumeister", "huba");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date startDate = sdf.parse("2025-04-21");
+		Date endDate = sdf.parse("2025-04-23");
+		cliEngine.addNewActivityToProject(employees, employeeId, "ana2", "analysis", startDate, endDate, 2, "in progross");
+
+		startDate = sdf.parse("2025-04-22");
+		endDate = sdf.parse("2025-04-23");
+		cliEngine.addNewActivityToProject(employees, employeeId, "ana2", "analysis", startDate, endDate, 2, "in progross");
+		
+		startDate = sdf.parse("2025-04-18");
+		endDate = sdf.parse("2025-04-22");
+		cliEngine.addNewActivityToProject(employees, employeeId, "des1", "design", startDate, endDate, 4, "completed");
+		
+		assertFalse(state);
+	}
+
+	@When("the user select the employee with ID {string}")
+	public void theUserSelectTheEmployeeWithID(String string) {
+		assertFalse(state);	    
+	}
+
+	@Then("the system should display the number of activities that are not finished and the list of activites for the employee with ID {string}")
+	public void theSystemShouldDisplayTheNumberOfActivitiesThatAreNotFinishedAndTheListOfActivitesForTheEmployee(String employeeId) {
+		int numberOfNotCompletedActivities = cliEngine.getNumberOfNotCompletedActivities(employees, employeeId);
+		System.out.println("\nNumber of not completed activites: " + numberOfNotCompletedActivities);
+	    
+	}
 }
 
 

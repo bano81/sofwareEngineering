@@ -73,6 +73,11 @@ public class CLIEngine {
         employees.get(employeeId).getActivity(activityId).setActivityStatus(activityStatus);
         employees.get(employeeId).sortActivitiesByDate();
     }
+	
+	public int getNumberOfNotCompletedActivities(Map<String, Employee> employees, String employeeId) {
+		employees.get(employeeId).countNumberOfActivities();
+		return employees.get(employeeId).getNumberOfActivities();
+	}
 
     public void displayActivityStatus(){
         System.out.println("1. Not started");
@@ -180,9 +185,10 @@ public class CLIEngine {
                 sc = new Scanner(System.in);
                 System.out.print("Please enter employee ID: ");
                 employeeId = sc.nextLine();
-                employees.get(employeeId).countNumberOfActivities();
+                //employees.get(employeeId).countNumberOfActivities();
                 System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
-                System.out.println(employees.get(employeeId).getNumberOfActivities());
+                //System.out.println(employees.get(employeeId).getNumberOfActivities());
+                System.out.println(getNumberOfNotCompletedActivities(employees,employeeId ));
                 break;
             case 5:
                 // Assign an employee to an activity

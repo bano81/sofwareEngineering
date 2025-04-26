@@ -169,7 +169,7 @@ public class Employee {
      return password;
  }
 
- public void countNumberOfActivities() {
+ /*public void countNumberOfActivities() {
      int num = 0; //getNumberOfActivities();
         for (Map.Entry<String, Activity> entry : activities.entrySet()) {
             Activity activity = entry.getValue();
@@ -178,6 +178,17 @@ public class Employee {
             }
         }
         setNumberOfActivities(num);
+ }*/
+ 
+ public void countNumberOfActivities() {
+	    int num = 0;
+	    for (Map.Entry<String, Activity> entry : activities.entrySet()) {
+	        Activity activity = entry.getValue();
+	        if (!activity.getActivityStatus().equalsIgnoreCase("is completed")) {
+	            num++;
+	        }
+	    }
+	    setNumberOfActivities(num);
  }
 
  public void setNumberOfActivities(int numberOfActivities) {
