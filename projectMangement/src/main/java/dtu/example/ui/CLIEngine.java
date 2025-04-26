@@ -32,7 +32,7 @@ public class CLIEngine {
     }
 
 	public boolean creatNewEmployees(Map<String, Employee> employees, String name, String surname, String emplyeeId) {
-		boolean employeeExists = checkIfEmployeeExists(emplyeeId, employees);
+		boolean employeeExists = checkIfEmployeeExists(emplyeeId, employees); 
 		if(!employeeExists) {
 			employees.put(emplyeeId, new Employee(name, surname));
 		}
@@ -72,7 +72,7 @@ public class CLIEngine {
         employees.get(employeeId).setActivity(activityId, new Activity(activityName, startDate, endDate, activityBudgtedhour));
         employees.get(employeeId).getActivity(activityId).setActivityStatus(activityStatus);
         employees.get(employeeId).sortActivitiesByDate();
-    }
+    } // This method only adds the activity to the employee's list of activities. It does not assign the activity to a project.
 	
 	public int getNumberOfNotCompletedActivities(Map<String, Employee> employees, String employeeId) {
 		employees.get(employeeId).countNumberOfActivities();

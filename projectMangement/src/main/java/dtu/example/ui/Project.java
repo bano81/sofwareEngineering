@@ -1,6 +1,7 @@
 package dtu.example.ui;
 
 import java.util.Date;
+import java.util.List;
 
 public class Project {
     private String projectId;
@@ -8,18 +9,63 @@ public class Project {
     private Date deadline;
     private Employee projectManager;
     // private Customer customer;
-    private Activity[] activities;
+    private List<Activity> activities;
+
+    public Project(String projectId, String projectName, Date deadline, Employee projectManager) {
+        this.projectId = projectId;
+        this.projectName = projectName;
+        this.deadline = deadline;
+        this.projectManager = projectManager;
+        // this.customer = customer;
+    }
+    public Project(String projectId, String projectName, Date deadline) {
+        this.projectId = projectId;
+        this.projectName = projectName;
+        this.deadline = deadline;
+    }
+
+    public Project(String projectId, String projectName) {
+        this.projectId = projectId;
+        this.projectName = projectName;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+    public Employee getProjectManager() {
+        return projectManager;
+    }
+
+    public void setProjectManager(Employee projectManager) {
+        this.projectManager = projectManager;
+    }
 
     public void addActivity(Activity activity) {
-        // Add activity to the project
+        this.activities.add(activity);
     }
 
     public void removeActivity(Activity activity) {
-        // Remove activity from the project
-    }
-
-    public void assignProjectManager(Employee employee) {
-        this.projectManager = employee;
+        this.activities.remove(activity);
     }
 
     public boolean isOverdue() {
@@ -28,8 +74,12 @@ public class Project {
     }
 
     public boolean isCompleted() {
-        // Check if all activities are completed
-       return false;
+        for (Activity activity : activities) {
+            if (!activity.isCompleted()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

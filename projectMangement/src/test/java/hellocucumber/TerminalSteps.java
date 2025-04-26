@@ -53,15 +53,12 @@ public class TerminalSteps {
 
     @Then("I should see {string} in the terminal output")
     public void iShouldSeeInTheTerminalOutput(String input) {
-        String output = ""; // Initialize output variable
         // Check if the output stream contains the expected output
         String[] lines = outputStream.toString().split("\n");
         for (String line : lines) {
-            if (line.contains(input)) {
-                output = line; // Store the output if it contains the expected input
-                break; // Exit the loop once we find the expected input
-            }
+            assertTrue(line.contains(input), "Expected output: " + input + ", but got: " + line);
         }
+
     }
     @Then("We leave the terminal")
     public void weLeaveTheTerminal() {
