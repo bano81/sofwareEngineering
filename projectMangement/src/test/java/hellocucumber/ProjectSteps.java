@@ -16,6 +16,7 @@ public class ProjectSteps {
 	Map<String, Employee> employees = new HashMap<>(); // List to store employees
 	int choice = 1;
 	String nameStr, surnameStr, employeeIdStr;
+	boolean state;
 	
 	@When("an employee is created with name {string}, surname {string} and ID {string}")
 	public void anEmployeeIsCreatedWithName(String name, String surname, String employeeId) {
@@ -31,27 +32,31 @@ public class ProjectSteps {
 	    
 	}
 	
+	@Given("emplyee with name {string}, surname {string} and ID {string} exists")
+	public void emplyeeWithNameSurnameAndID(String string, String string2, String string3) {
+		boolean  state = cliEngine.creatNewEmployees(employees, string, string2, string3);
+	    assertFalse(state);
+	}
 	
 	@When("an employee is created with name {string}, surname {string} and a used ID {string}")
 	public void anEmployeeIsCreatedWithNameSurnameAndAUsedID(String string, String string2, String string3) {
 		nameStr = string;
 		surnameStr = string2;
 		employeeIdStr = string3;
-		cliEngine.creatNewEmployees(employees, "Baqer", "Nour", "bano");
+		assertFalse(state);
 	}
 
 	@Then("the system will return an error message.")
 	public void theSystemWillReturnAnErrorMessage() {
 		System.out.println(" ");
-		boolean state = cliEngine.creatNewEmployees(employees, nameStr, surnameStr, employeeIdStr);
-		assertFalse(state);
-		cliEngine.creatNewEmployees(employees, nameStr, surnameStr, employeeIdStr);
+		state = cliEngine.creatNewEmployees(employees, nameStr, surnameStr, employeeIdStr);
+		assertTrue(state);
 	    
 	}
 	
 	@When("an employee with ID {string} add activity with ID {string}, name {string}, start date {string}, end date {string}, budget hours {int} and status {string}")
 	public void anEmployeeWithIDAddActivityWithIDNameStartDateEndDateBudgetHoursAndStatus(String employeeId, String activityId, String activityName, String startDateStr, String endDateStr, int activityBudgtedhour, String activityStatus) throws ParseException {
-		cliEngine.creatNewEmployees(employees, "Baqer", "Nour", "bano");
+		cliEngine.creatNewEmployees(employees, "Hubert", "Baumeister", "huba");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = sdf.parse(startDateStr);
 		Date endDate = sdf.parse(endDateStr);
