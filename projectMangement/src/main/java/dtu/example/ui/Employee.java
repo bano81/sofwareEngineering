@@ -1,8 +1,7 @@
 package dtu.example.ui;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 
 public class Employee {
  private String employeeId;
@@ -170,7 +169,7 @@ public class Employee {
      return password;
  }
 
- public void countNumberOfActivities() {
+ /*public void countNumberOfActivities() {
      int num = 0; //getNumberOfActivities();
         for (Map.Entry<String, Activity> entry : activities.entrySet()) {
             Activity activity = entry.getValue();
@@ -179,6 +178,17 @@ public class Employee {
             }
         }
         setNumberOfActivities(num);
+ }*/
+ 
+ public void countNumberOfActivities() {
+	    int num = 0;
+	    for (Map.Entry<String, Activity> entry : activities.entrySet()) {
+	        Activity activity = entry.getValue();
+	        if (!activity.getActivityStatus().equalsIgnoreCase("is completed")) {
+	            num++;
+	        }
+	    }
+	    setNumberOfActivities(num);
  }
 
  public void setNumberOfActivities(int numberOfActivities) {
@@ -191,6 +201,14 @@ public class Employee {
 
  public int getMaxActivities() {
      return maxActivities;
+ }
+ 
+ public void sortActivitiesByDate() {
+	    Map<String, Activity> sortedMap = new LinkedHashMap<>();
+	    activities.entrySet().stream()
+	            .sorted(Map.Entry.comparingByValue(Comparator.comparing(Activity::getStartDate)))
+	            .forEachOrdered(entry -> sortedMap.put(entry.getKey(), entry.getValue()));
+	    activities = sortedMap;
  }
 
 }
