@@ -84,15 +84,15 @@ public class ProjectSteps {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = sdf.parse("2025-04-21");
 		Date endDate = sdf.parse("2025-04-23");
-		cliEngine.addNewActivityToProject(employees, employeeId, "ana2", "analysis", startDate, endDate, 2, "in progross");
+		cliEngine.addNewActivityToProject(employees, employeeId, "ana1", "analysis", startDate, endDate, 2, "In progross");
 
 		startDate = sdf.parse("2025-04-22");
 		endDate = sdf.parse("2025-04-23");
-		cliEngine.addNewActivityToProject(employees, employeeId, "ana2", "analysis", startDate, endDate, 2, "in progross");
+		cliEngine.addNewActivityToProject(employees, employeeId, "ana2", "analysis", startDate, endDate, 2, "In progross");
 		
 		startDate = sdf.parse("2025-04-18");
 		endDate = sdf.parse("2025-04-22");
-		cliEngine.addNewActivityToProject(employees, employeeId, "des1", "design", startDate, endDate, 4, "completed");
+		cliEngine.addNewActivityToProject(employees, employeeId, "des1", "design", startDate, endDate, 4, "Completed");
 		
 		assertFalse(state);
 	}

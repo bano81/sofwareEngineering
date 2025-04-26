@@ -86,19 +86,33 @@ public class CLIEngine {
     }
     
     public void displayActivites(String employeeId, Map<String, Employee> employees) {
-    	SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
-    	String starteDateStr;
-    	String endDateStr;
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+        String startDateStr;
+        String endDateStr;
         Map<String, Activity> activities = employees.get(employeeId).getActivities();
+        
         System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
-        System.out.println("Activity ID \t Name \t\t Start Date \t\t End Date \t Budgeted Hours \t Status");
-        System.out.println("----------- \t ---- \t\t ---------- \t\t --------- \t --------------- \t ------ ");
+        
+        // Header with fixed column widths
+        System.out.printf("%-12s %-15s %-15s %-15s %-16s %-15s%n",
+                "Activity ID", "Name", "Start Date", "End Date", "Budgeted Hours", "Status");
+        System.out.printf("%-12s %-15s %-15s %-15s %-16s %-15s%n",
+                "-----------", "----", "----------", "--------", "---------------", "------");
+        
+        // Data rows with fixed column widths
         for (Map.Entry<String, Activity> entry : activities.entrySet()) {
             String activityId = entry.getKey();
             Activity activity = entry.getValue();
-            starteDateStr = formatter.format(activity.getStartDate());
+            startDateStr = formatter.format(activity.getStartDate());
             endDateStr = formatter.format(activity.getEndDate());
-            System.out.println(activityId + " \t         " + activity.getActivityName() + " \t " + starteDateStr + " \t\t " + endDateStr + " \t " + activity.getBudgetedHours() + " \t\t\t " + activity.getActivityStatus());
+            
+            System.out.printf("%-12s %-15s %-15s %-15s %-16.1f %-15s%n",
+                    activityId,
+                    activity.getActivityName(),
+                    startDateStr,
+                    endDateStr,
+                    activity.getBudgetedHours(),
+                    activity.getActivityStatus());
         }
     }
 

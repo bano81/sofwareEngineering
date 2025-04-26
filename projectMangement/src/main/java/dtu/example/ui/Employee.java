@@ -173,7 +173,7 @@ public class Employee {
 	    int num = 0;
 	    for (Map.Entry<String, Activity> entry : activities.entrySet()) {
 	        Activity activity = entry.getValue();
-	        if (!activity.getActivityStatus().equalsIgnoreCase("is completed")) {
+	        if (!activity.getActivityStatus().equalsIgnoreCase("Completed")) {
 	            num++;
 	        }
 	    }

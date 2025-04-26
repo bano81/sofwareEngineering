@@ -10,7 +10,7 @@ Scenario: Create an employee with used ID
 	Then the system will return an error message.
 	
 Scenario: Adding activity to existing employee
-	When an employee with ID "huba" add activity with ID "ana1", name "analysis", start date "2025-04-21", end date "2025-04-23", budget hours 3 and status "in progross"
+	When an employee with ID "huba" add activity with ID "ana1", name "analysis", start date "2025-04-21", end date "2025-04-23", budget hours 3 and status "In progross"
 	Then show the list of activities for the employee with ID "huba"
 	
 Scenario: Display number of activity for an existing employee
