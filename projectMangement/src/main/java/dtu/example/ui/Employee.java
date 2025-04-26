@@ -168,17 +168,6 @@ public class Employee {
  public String getPassword() {
      return password;
  }
-
- /*public void countNumberOfActivities() {
-     int num = 0; //getNumberOfActivities();
-        for (Map.Entry<String, Activity> entry : activities.entrySet()) {
-            Activity activity = entry.getValue();
-            if (activity.getActivityStatus().equals("in progress")) {
-                num++;
-            }
-        }
-        setNumberOfActivities(num);
- }*/
  
  public void countNumberOfActivities() {
 	    int num = 0;

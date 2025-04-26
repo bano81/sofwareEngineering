@@ -41,31 +41,6 @@ public class CLIEngine {
 		}
 		return employeeExists;
     }
-
-    /*public void addNewActivityToProject( Map<String, Employee> employees) throws ParseException {
-        int inputAccepted = 0;
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Please enter employee ID: ");
-        String employeeId = sc.nextLine();
-        System.out.print("Please enter activity ID: ");
-        String activityId = sc.nextLine();
-        System.out.print("Please enter activity name: ");
-        String activityName = sc.nextLine();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.print("Please enter activity start date (yyyy-MM-dd): ");
-        String startDateStr = sc.nextLine();
-        Date startDate = sdf.parse(startDateStr);
-        System.out.print("Please enter activity end date (yyyy-MM-dd): ");
-        String endDateStr = sc.nextLine();
-        Date endDate = sdf.parse(endDateStr);
-        System.out.print("Please enter activity budgted hours: ");
-        double activityBudgtedhour = sc.nextDouble();
-        sc.nextLine(); // Consume the newline character left by nextDouble()
-        System.out.print("Please enter activity status: ");
-        String activityStatus = sc.nextLine();
-        employees.get(employeeId).setActivity(activityId, new Activity(activityName, startDate, endDate, activityBudgtedhour));
-        employees.get(employeeId).getActivity(activityId).setActivityStatus(activityStatus);
-    }*/
 	
 	public void addNewActivityToProject( Map<String, Employee> employees, String employeeId, String activityId, 
 			String activityName, Date startDate, Date endDate, double activityBudgtedhour, String activityStatus) {
@@ -80,22 +55,35 @@ public class CLIEngine {
 	}
 
     public void displayActivityStatus(){
-        System.out.println("1. Not started");
-        System.out.println("2. In progress");
-        System.out.println("3. Completed");
-        System.out.println("4. On hold");
-        System.out.println("5. Cancelled");
+    	System.out.println("Please choose a status:");
+        System.out.println("\t1. Not started");
+        System.out.println("\t2. In progress");
+        System.out.println("\t3. Completed");
+        System.out.println("\t4. On hold");
+        System.out.println("\t5. Cancelled");
     }
-
-   /* public void displayAllActivities(String employeeId, Map<String, Employee> employees) {
-        System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
-        employees.get(employeeId).getlistOfActivities();
-    }*/
-
-    /*public void displayActivites(String employeeId, Map<String, Employee> employees) {
-        System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
-        employees.get(employeeId).getlistOfActivities();
-    }*/
+    
+    public String returnStatus(int choice) {
+    	String status;
+    	switch(choice) {
+    	case 1:
+    		status = "Not started";
+    		break;
+    	case 2: 
+    		status = "In progress";
+    		break;
+    	case 3:
+    		status = "Completed";
+    		break;
+    	case 4:
+    		status = "On hold";
+    		break;
+    	default:
+    		status = "Cancelled";
+    		break;
+    	}
+    	return status;
+    }
     
     public void displayActivites(String employeeId, Map<String, Employee> employees) {
     	SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
@@ -116,15 +104,15 @@ public class CLIEngine {
 
     public int displayChoices() {
         System.out.println("Please choose an option:");
-        System.out.println("1. Create a new employee");
-        System.out.println("2. Create a new project");
-        System.out.println("3. Create a new activity");
-        System.out.println("4. Display the number of activities"); //4. Assign an employee to a project
-        System.out.println("5. Assign an employee to an activity");
-        System.out.println("6. Display all employees");
-        System.out.println("7. Display all projects");
-        System.out.println("8. Display all activities");
-        System.out.println("9. Exit");
+        System.out.println("\t1. Create a new employee");
+        System.out.println("\t2. Create a new project");
+        System.out.println("\t3. Create a new activity");
+        System.out.println("\t4. Display the number of activities"); //4. Assign an employee to a project
+        System.out.println("\t5. Assign an employee to an activity");
+        System.out.println("\t6. Display all employees");
+        System.out.println("\t7. Display all projects");
+        System.out.println("\t8. Display all activities");
+        System.out.println("\t9. Exit");
 
         System.out.print("# ");
         Scanner sc = new Scanner(System.in);
@@ -174,9 +162,10 @@ public class CLIEngine {
                 Date endDate = sdf.parse(endDateStr);
                 System.out.print("Please enter activity budgted hours: ");
                 double activityBudgtedhour = sc.nextDouble();
-                sc.nextLine(); // Consume the newline character left by nextDouble()
-                System.out.print("Please enter activity status: ");
-                String activityStatus = sc.nextLine();
+                displayActivityStatus();
+                System.out.print("# ");
+                int statusChoice = sc.nextInt();
+                String activityStatus = returnStatus(statusChoice);
                 addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
                 		activityBudgtedhour, activityStatus); // Create a new activity
                 break;
