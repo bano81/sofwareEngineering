@@ -56,6 +56,14 @@ public class ProjectSteps {
 		Date startDate = sdf.parse(startDateStr);
 		Date endDate = sdf.parse(endDateStr);
 		cliEngine.addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate, activityBudgtedhour, activityStatus);
+		
+		startDate = sdf.parse("2025-04-22");
+		endDate = sdf.parse("2025-04-23");
+		cliEngine.addNewActivityToProject(employees, employeeId, "ana2", "analysis", startDate, endDate, 2, "in progross");
+		
+		startDate = sdf.parse("2025-04-18");
+		endDate = sdf.parse("2025-04-22");
+		cliEngine.addNewActivityToProject(employees, employeeId, "des1", "design", startDate, endDate, 4, "completed");
 	}
 
 	@Then("show the list of activities for the employee with ID {string}")

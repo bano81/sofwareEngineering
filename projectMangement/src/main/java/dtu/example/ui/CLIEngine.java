@@ -71,6 +71,7 @@ public class CLIEngine {
 			String activityName, Date startDate, Date endDate, double activityBudgtedhour, String activityStatus) {
         employees.get(employeeId).setActivity(activityId, new Activity(activityName, startDate, endDate, activityBudgtedhour));
         employees.get(employeeId).getActivity(activityId).setActivityStatus(activityStatus);
+        employees.get(employeeId).sortActivitiesByDate();
     }
 
     public void displayActivityStatus(){
