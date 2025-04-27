@@ -12,11 +12,11 @@ import io.cucumber.java.en.*;
 
 public class ProjectSteps {
 	
-	CLIEngine cliEngine = new CLIEngine();
-	Map<String, Employee> employees = new HashMap<>(); // List to store employees
-	int choice = 1;
-	String nameStr, surnameStr, employeeIdStr;
-	boolean state;
+	private CLIEngine cliEngine = new CLIEngine();
+	private Map<String, Employee> employees = new HashMap<>(); // List to store employees
+	private int choice = 1;
+	private String nameStr, surnameStr, employeeIdStr;
+	private boolean state;
 	
 	@When("an employee is created with name {string}, surname {string} and ID {string}")
 	public void anEmployeeIsCreatedWithName(String name, String surname, String employeeId) {
@@ -109,6 +109,32 @@ public class ProjectSteps {
 		int numberOfNotCompletedActivities = cliEngine.getNumberOfNotCompletedActivities(employees, employeeId);
 		System.out.println("\nNumber of not completed activites: " + numberOfNotCompletedActivities);
 	    
+	}
+
+	@When("the program is run")
+	public void theProgramIsRun() {
+		try {
+			this.cliEngine.run();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Then("the list of projects should include {string}")
+	public void theListOfProjectsShouldInclude(String projectName) {
+        // Print names of all projects in the list
+        System.out.println("List of projects:");
+        cliEngine.getProjectList().forEach(project -> System.out.println(project.getProjectName()));
+        
+        // Check if the project name is in the list of projects
+		assertTrue(cliEngine.getProjectList().stream()
+				.anyMatch(project -> project.getProjectName().equalsIgnoreCase(projectName)),
+                "Project " + projectName + " not found in the list of projects.");
+	}
+	@Then("the list of activities in {string} should include {string}")
+	public void theListOfActivitiesInShouldInclude(String string, String string2) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
 	}
 }
 

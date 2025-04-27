@@ -3,6 +3,7 @@ package hellocucumber;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.text.ParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,8 @@ public class TerminalSteps {
     private List<String> input = new ArrayList<>();
 
 
-    @Given("We are in the terminal")
-    public void weAreInTheTerminal() {
+    @Given("We examine the output of the terminal")
+    public void weExamineTheOutputOfTheTerminal() {
         System.setOut(new PrintStream(outputStream));
     }
 
@@ -38,10 +39,9 @@ public class TerminalSteps {
         }
         this.inputStream = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(inputStream); // Set the input stream to the input string
-
     }
 
-    @When("The input is ouput to the terminal")
+    @When("The input is output to the terminal")
     public void theInputIsOuputToTheTerminal() {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
@@ -65,4 +65,6 @@ public class TerminalSteps {
         System.setOut(originalOut);
         outputStream.reset();
     }
-}
+
+    
+}   

@@ -2,12 +2,37 @@ package dtu.example.ui;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Calendar;
 
 public class CLIEngine {
-	public boolean login (Map<String, Employee> employees) {
-        Scanner sc = new Scanner(System.in);
+    private List<Project> projects = new ArrayList<>(); // List to store projects
+
+    public List<Project> getProjectList() {
+        return this.projects;
+    }
+
+    public void run() throws ParseException{
+    Map<String, Employee> employees = new HashMap<>(); // List to store employees
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Welcome to the Project Management System!");
+    int choice = displayChoices(sc); // Display the choices
+     
+        while (choice != 0) {
+            executeChoice(choice, employees,sc); // Execute the choice made by the user
+            System.out.println("");
+            choice = displayChoices(sc); // Display the choices again
+        
+        }
+        sc.close(); // Close the scanner when done
+        System.out.println("Exiting the program. Thank you for using the Project Management System!");
+    }
+
+	public boolean login (Map<String, Employee> employees, Scanner sc) {
         System.out.print("Please enter your username: ");
         String username = sc.nextLine();
         System.out.print("Please enter your password: ");
@@ -77,7 +102,7 @@ public class CLIEngine {
         employees.get(employeeId).setActivity(activityId, new Activity(activityName, startDate, endDate, activityBudgtedhour));
         employees.get(employeeId).getActivity(activityId).setActivityStatus(activityStatus);
         employees.get(employeeId).sortActivitiesByDate();
-    } 
+    }
 	
 	public int getNumberOfNotCompletedActivities(Map<String, Employee> employees, String employeeId) {
 		employees.get(employeeId).countNumberOfActivities();
@@ -146,21 +171,21 @@ public class CLIEngine {
         }
     }
 
-    public int displayChoices() {
+    public int displayChoices(Scanner sc) {
         System.out.println("Please choose an option:");
         System.out.println("\t1. Create a new employee");
         System.out.println("\t2. Create a new project");
         System.out.println("\t3. Create a new activity");
-        System.out.println("\t4. Display the number of activities"); //4. Assign an employee to a project
+        System.out.println("\t4. Display the number of activities assigned to an employee");
         System.out.println("\t5. Assign an employee to an activity");
         System.out.println("\t6. Display all employees");
         System.out.println("\t7. Display all projects");
-        System.out.println("\t8. Display all activities");
-        System.out.println("\t9. Exit");
+        System.out.println("\t8. Display all activities for an employee");
+        System.out.println("\t0. Exit");
 
         System.out.print("# ");
-        Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character left by nextInt()
         return choice;
     }
     
@@ -174,10 +199,9 @@ public class CLIEngine {
         }
     }
 
-    public void executeChoice(int choice, Map<String, Employee> employees) throws ParseException {
+    public void executeChoice(int choice, Map<String, Employee> employees, Scanner sc) throws ParseException {
         switch (choice) {
             case 1:
-            	Scanner sc = new Scanner(System.in);
                 System.out.print("Please enter first name: ");
                 String name = sc.nextLine();
                 System.out.print("Please enter surname: ");
@@ -187,10 +211,12 @@ public class CLIEngine {
                 creatNewEmployees(employees, name, surname, emplyeeId); // Create a new employee
                 break;
             case 2:
-                // Create a new project
+                System.out.print("Please enter project name: ");
+                String projectName = sc.nextLine();
+                String projectID = String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + projects.size() + 1);
+                projects.add(new Project(projectID, projectName)); // Create a new project
                 break;
             case 3:
-            	sc = new Scanner(System.in);
                 System.out.print("Please enter employee ID: ");
                 String employeeId = sc.nextLine();
                 System.out.print("Please enter activity ID: ");
@@ -215,7 +241,6 @@ public class CLIEngine {
                 break;
             case 4:
                 // Assign an employee to a project
-                sc = new Scanner(System.in);
                 System.out.print("Please enter employee ID: ");
                 employeeId = sc.nextLine();
                 //employees.get(employeeId).countNumberOfActivities();
@@ -230,15 +255,16 @@ public class CLIEngine {
                 // Display all employees
                 break;
             case 7:
-                // Display all projects
+                for (Project project : projects) {
+                    System.out.println("Project ID: " + project.getProjectId() + ", Project Name: " + project.getProjectName());
+                } // Display all projects
                 break;
             case 8:
                 System.out.print("Please enter employee ID: ");
-                Scanner sc1 = new Scanner(System.in);
-                employeeId = sc1.nextLine();
+                employeeId = sc.nextLine();
                 displayActivites(employeeId, employees); // Display all activities for a specific employee
                 break;
-            case 9:
+            case 0:
                 System.out.println("Exiting the program.");
                 System.exit(0);
                 break;
