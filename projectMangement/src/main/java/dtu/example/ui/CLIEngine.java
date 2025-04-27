@@ -27,27 +27,57 @@ public class CLIEngine {
         return isLoggedIn;        
     }
 	
-	public boolean checkIfEmployeeExists(String employeeId, Map<String, Employee> employees) {
-        return employees.containsKey(employeeId);
-    }
-
+	
+	// checkIfEmployeeExists returns True if the employee exists in the database, otherwise False.
+	public boolean checkIfEmployeeExists(Map<String, Employee> employees, String name, String surname, String employeeId){
+    	boolean employeeExists = false;
+    	for (Map.Entry<String, Employee> entry : employees.entrySet()) {							// 1
+            Employee employee = entry.getValue();													// 2
+            if(employee.getEmployeeId().equals(employeeId)) {										// 3
+            	employeeExists = true;																// 4
+                break;																				// 5
+            }
+            if (employee.getName().equals(name) && employee.getSurname().equals(surname)) {			// 6
+                employeeExists = true;																// 7
+                break;																				// 8
+            }
+        }
+    	return employeeExists;																		// 9
+	}
+	
+	//createNewEmployees returns True if the employee is successfully added to the database and False if the addition fails
 	public boolean creatNewEmployees(Map<String, Employee> employees, String name, String surname, String emplyeeId) {
-		boolean employeeExists = checkIfEmployeeExists(emplyeeId, employees); 
+		boolean employeeExists = checkIfEmployeeExists(employees, name, surname, emplyeeId); 
 		if(!employeeExists) {
 			employees.put(emplyeeId, new Employee(name, surname));
 		}
-		else {
-			System.out.println("Error: \"" +  emplyeeId + "\" is used!");
-		}
-		return employeeExists;
+		return !employeeExists;
     }
 	
+	public void displayMessage(int messageNumber, boolean state) {
+		if(state) {
+			switch(messageNumber) {
+			case 0: 
+				System.out.println("Error: Each employee must have a unique ID; duplicate or multiple IDs per employee are not allowed!");
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	
+	
+	// addNewActivityToProject adds an activity to the employee's list of activities. It does not assign the activity to a project.
 	public void addNewActivityToProject( Map<String, Employee> employees, String employeeId, String activityId, 
 			String activityName, Date startDate, Date endDate, double activityBudgtedhour, String activityStatus) {
         employees.get(employeeId).setActivity(activityId, new Activity(activityName, startDate, endDate, activityBudgtedhour));
         employees.get(employeeId).getActivity(activityId).setActivityStatus(activityStatus);
         employees.get(employeeId).sortActivitiesByDate();
-    } // This method only adds the activity to the employee's list of activities. It does not assign the activity to a project.
+    } 
 	
 	public int getNumberOfNotCompletedActivities(Map<String, Employee> employees, String employeeId) {
 		employees.get(employeeId).countNumberOfActivities();

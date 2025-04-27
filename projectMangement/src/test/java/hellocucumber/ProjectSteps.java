@@ -34,7 +34,8 @@ public class ProjectSteps {
 	
 	@Given("emplyee with name {string}, surname {string} and ID {string} exists")
 	public void emplyeeWithNameSurnameAndID(String string, String string2, String string3) {
-		boolean  state = cliEngine.creatNewEmployees(employees, string, string2, string3);
+		state = cliEngine.checkIfEmployeeExists(employees, string, string2, string3);
+		cliEngine.creatNewEmployees(employees, string, string2, string3);
 	    assertFalse(state);
 	}
 	
@@ -43,14 +44,15 @@ public class ProjectSteps {
 		nameStr = string;
 		surnameStr = string2;
 		employeeIdStr = string3;
+		state = cliEngine.creatNewEmployees(employees, nameStr, surnameStr, employeeIdStr);
 		assertFalse(state);
 	}
 
 	@Then("the system will return an error message.")
 	public void theSystemWillReturnAnErrorMessage() {
 		System.out.println(" ");
-		state = cliEngine.creatNewEmployees(employees, nameStr, surnameStr, employeeIdStr);
-		assertTrue(state);
+		assertFalse(state);
+		cliEngine.displayMessage(0, !state);
 	    
 	}
 	
@@ -94,12 +96,12 @@ public class ProjectSteps {
 		endDate = sdf.parse("2025-04-22");
 		cliEngine.addNewActivityToProject(employees, employeeId, "des1", "design", startDate, endDate, 4, "Completed");
 		
-		assertFalse(state);
+		assertTrue(state);
 	}
 
 	@When("the user select the employee with ID {string}")
 	public void theUserSelectTheEmployeeWithID(String string) {
-		assertFalse(state);	    
+		assertTrue(state);	    
 	}
 
 	@Then("the system should display the number of activities that are not finished and the list of activites for the employee with ID {string}")
