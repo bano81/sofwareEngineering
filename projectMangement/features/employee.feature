@@ -2,8 +2,8 @@ Feature: Create employee
 
 Scenario: Create employee
 	Given the user is logged in as an admin
-	When the user creates an employee with name "Hubert", surname "Baumeister"
-	Then the user is added to the list of employees
+	When the user creates an employee with name "Hubert", surname "Baumeister" and ID "huba"
+	Then a user with id "huba" is added to the list of employees
 
 # Scenario: Create employee with a name, surname and ID
 # 	When an employee is created with name "Hubert", surname "Baumeister" and ID "huba"	
