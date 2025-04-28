@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class UIConsole {
+    BLController blController = new BLController(); // Create an instance of BLController
 
 
     public void displayMessage(int messageNumber, boolean state) {

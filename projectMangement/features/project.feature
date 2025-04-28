@@ -7,7 +7,7 @@ Feature: Create and manage projects
         Given an admin user exists
         And the admin user is logged in
         When the user creates a new project with name "NewProject"
-        Then the project "NewProject" is created successfully
+        Then the project "NewProject" is created with a unique ID
 
     Scenario: Create a new activity
         Given a user exists

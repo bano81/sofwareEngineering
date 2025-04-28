@@ -17,25 +17,47 @@ public class SystemStorage {
         return employees.stream().
                 anyMatch(employee -> employee.getEmployeeId().equals(employeeId));
     }
+
+    public static boolean employeeExists(String employeeId, String name, String surname) {
+        boolean employeeExists = false; // Flag to check if the employee exists
+        for (Employee employee : employees) {
+            if (employee.getEmployeeId().equals(employeeId)) { // Check if the employee ID already exists
+                employeeExists = true; // Employee ID already exists
+                break;
+            }
+            if (employee.getName().equals(name) && employee.getSurname().equals(surname)) { // Check if the name and surname already exist
+                employeeExists = true; // Name and surname already exist
+                break;
+            }
+        }
+        return employeeExists; // Return true if the employee exists, false otherwise
+        
+    }
+
+    public static Employee getEmployee(String employeeId) {
+        return employees.stream()
+                .filter(employee -> employee.getEmployeeId().equals(employeeId))
+                .findFirst()
+                .orElse(null);
+    }
     public static void setLoggedInEmployee(String employeeId) {
         employeeLoggedIn = employeeId; // Set the employee's logged-in status to true
     }
-
-    public static Employee getLoggedInEmployee() {
-        return getEmployee(employeeLoggedIn);
+// ####################### Projects #######################
+    public static void addProject(Project project) {
+        projects.add(project);
+    }
+    public static void removeProject(Project project) {
+        projects.remove(project);
+    }
+    public static Object getLoggedInEmployee() {
+        return employeeLoggedIn;
     }
 
     public static void getEmployeeList() {
         for (Employee employee : employees) {
             System.out.println(employee.getName() + " " + employee.getSurname() + " " + employee.getEmployeeId());
         }
-    }
-
-    public static Employee getEmployee(String string) {
-        return employees.stream()
-                .filter(employee -> employee.getEmployeeId().equals(string))
-                .findFirst()
-                .orElse(null); // Return the employee with the given ID or null if not found
     }
 
     
