@@ -136,6 +136,45 @@ public class ProjectSteps {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
+
+
+	// ####################### project steps #######################
+
+	@Given("an admin user is logged in")
+	public void anAdminUserIsLoggedIn() {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@When("the user creates a new project with name {string}")
+	public void theUserCreatesANewProjectWithName(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Then("the project {string} is created successfully")
+	public void theProjectIsCreatedSuccessfully(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("a project named {string} exists")
+	public void aProjectNamedExists(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("an activity named {string} is created for project {string}")
+	public void anActivityNamedIsCreatedForProject(String string, String string2) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@When("the activity is added to the project")
+	public void theActivityIsAddedToTheProject() {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
 }
 
 
