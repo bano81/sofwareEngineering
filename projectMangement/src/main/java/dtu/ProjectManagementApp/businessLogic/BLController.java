@@ -1,11 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -62,6 +57,8 @@ public class BLController {
 		}
 		return !employeeExists;
     }
+
+    
 
     // addNewActivityToProject adds an activity to the employee's list of activities. It does not assign the activity to a project.
 	public void addNewActivityToProject( Map<String, Employee> employees, String employeeId, String activityId, 
