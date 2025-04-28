@@ -1,5 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,11 @@ public class Project {
     private Employee projectManager;
     // private Customer customer;
     private List<Activity> activities;
+
+    public Project(String projectName) {
+        this.projectId = generateProjectId();
+        this.projectName = projectName;
+    }
 
     public Project(String projectName, Date deadline) {
         this.projectId = generateProjectId();
@@ -82,8 +88,7 @@ public class Project {
     }
 
     public String generateProjectId() {
-        String uniqueId = projectName + "_" + System.currentTimeMillis();
-        return uniqueId;
+        return String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + SystemStorage.getProjects().size() + 1);
     }
 }
 

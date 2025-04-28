@@ -50,6 +50,11 @@ public class SystemStorage {
     public static void removeProject(Project project) {
         projects.remove(project);
     }
+
+    public static List<Project> getProjects() {
+        return projects;
+    }
+
     public static Object getLoggedInEmployee() {
         return employeeLoggedIn;
     }
