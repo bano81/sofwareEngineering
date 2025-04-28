@@ -63,6 +63,11 @@ public class BLController {
 		return !employeeExists;
     }
 
+    public void createNewProject(String projectName) {
+        Project project = new Project(projectName);
+        SystemStorage.addProject(project); // Add the project to the system storage
+    }
+
     // addNewActivityToProject adds an activity to the employee's list of activities. It does not assign the activity to a project.
 	public void addNewActivityToProject( Map<String, Employee> employees, String employeeId, String activityId, 
 			String activityName, Date startDate, Date endDate, double activityBudgtedhour, String activityStatus) {

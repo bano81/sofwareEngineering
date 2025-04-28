@@ -30,6 +30,12 @@ public class SystemStorage {
     public static void setLoggedInEmployee(String employeeId) {
         employeeLoggedIn = employeeId; // Set the employee's logged-in status to true
     }
-
+// ####################### Projects #######################
+    public static void addProject(Project project) {
+        projects.add(project);
+    }
+    public static void removeProject(Project project) {
+        projects.remove(project);
+    }
 
 }

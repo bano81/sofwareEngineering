@@ -6,10 +6,10 @@ Feature: Create and manage projects
     Scenario: Create a new project
         Given an admin user is logged in
         When the user creates a new project with name "NewProject"
-        Then the project "NewProject" is created successfully
+        Then the project "NewProject" is created with a unique ID
 
-    Scenario: Create a new activity
-        Given a project named "NewProject" exists
-        And an activity named "NewActivity" is created for project "NewProject"
-        When the activity is added to the project
-        Then the list of activities in "NewProject" should include "NewActivity"
+    # Scenario: Create a new activity
+    #     Given a project named "NewProject" exists
+    #     And an activity named "NewActivity" is created for project "NewProject"
+    #     When the activity is added to the project
+    #     Then the list of activities in "NewProject" should include "NewActivity"

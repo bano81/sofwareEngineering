@@ -12,12 +12,10 @@ public class Project {
     // private Customer customer;
     private List<Activity> activities;
 
-    public Project(String projectId, String projectName, Date deadline, Employee projectManager) {
-        this.projectId = projectId;
+    public Project(String projectName, Date deadline) {
+        this.projectId = generateProjectId();
         this.projectName = projectName;
         this.deadline = deadline;
-        this.projectManager = projectManager;
-        // this.customer = customer;
     }
     public Project(String projectId, String projectName, Date deadline) {
         this.projectId = projectId;
@@ -83,5 +81,9 @@ public class Project {
         return true;
     }
 
+    public String generateProjectId() {
+        String uniqueId = projectName + "_" + System.currentTimeMillis();
+        return uniqueId;
+    }
 }
 
