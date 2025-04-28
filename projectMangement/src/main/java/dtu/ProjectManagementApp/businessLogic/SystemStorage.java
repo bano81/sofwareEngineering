@@ -9,16 +9,33 @@ public class SystemStorage {
     private static final List<Project> projects = new ArrayList<>();
     private static String employeeLoggedIn = "";
 
-    public static void addEmployee(Employee employee) {
-        employees.add(employee);
+    public static void addEmployee(String firstName, String surName, String employeeId) { 
+        employees.add(new Employee(employeeId, firstName, surName)); // Create a new employee and add it to the list
     }
-    public static void removeEmployee(Employee employee) {
-        employees.remove(employee);
+
+    public static void removeEmployee(String employeeId) {
+        employees.removeIf(employee -> employee.getEmployeeId().equals(employeeId)); // Remove the employee with the given ID from the list
     }
 
     public static boolean employeeExists(String employeeId) {
         return employees.stream().
                 anyMatch(employee -> employee.getEmployeeId().equals(employeeId));
+    }
+
+    public static boolean employeeExists(String employeeId, String name, String surname) {
+        boolean employeeExists = false; // Flag to check if the employee exists
+        for (Employee employee : employees) {
+            if (employee.getEmployeeId().equals(employeeId)) { // Check if the employee ID already exists
+                employeeExists = true; // Employee ID already exists
+                break;
+            }
+            if (employee.getName().equals(name) && employee.getSurname().equals(surname)) { // Check if the name and surname already exist
+                employeeExists = true; // Name and surname already exist
+                break;
+            }
+        }
+        return employeeExists; // Return true if the employee exists, false otherwise
+        
     }
 
     public static Employee getEmployee(String employeeId) {
@@ -37,5 +54,16 @@ public class SystemStorage {
     public static void removeProject(Project project) {
         projects.remove(project);
     }
+    public static Object getLoggedInEmployee() {
+        return employeeLoggedIn;
+    }
+
+    public static void getEmployeeList() {
+        for (Employee employee : employees) {
+            System.out.println(employee.getName() + " " + employee.getSurname() + " " + employee.getEmployeeId());
+        }
+    }
+
+    
 
 }

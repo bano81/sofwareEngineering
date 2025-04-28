@@ -1,40 +1,13 @@
 package dtu.ProjectManagementApp.businessLogic;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class BLController {
 
-    public boolean login (Map<String, Employee> employees, Scanner sc) {
-        System.out.print("Please enter your username: ");
-        String username = sc.nextLine();
-        System.out.print("Please enter your password: ");
-        String password = sc.nextLine();
-        boolean isLoggedIn = false; // Flag to check if the user is logged in
-        for (Map.Entry<String, Employee> entry : employees.entrySet()) {
-            Employee employee = entry.getValue();
-            if (employee.getUsername().equals(username) && employee.getPassword().equals(password)) {
-                System.out.println("Login successful! Welcome " + employee.getName() + " " + employee.getSurname() + "!");
-                isLoggedIn = true;
-                break;
-            }
-        }
-        if (!isLoggedIn) {
-            System.out.println("Invalid username or password. Please try again.");
-        }
-        return isLoggedIn;        
-    }
-
-    public void login2(String employeeId) {
-        if (SystemStorage.employeeExists(employeeId)){
-            SystemStorage.setLoggedInEmployee(employeeId); // Set the employee's logged-in status to true
-        } // Set the employee's logged-in status to true
+    public void login (String emplyeeId) {
+        SystemStorage.setLoggedInEmployee(emplyeeId);
     }
 
     // checkIfEmployeeExists returns True if the employee exists in the database, otherwise False.
@@ -63,6 +36,8 @@ public class BLController {
 		return !employeeExists;
     }
 
+    
+
     public void createNewProject(String projectName) {
         Project project = new Project(projectName);
         SystemStorage.addProject(project); // Add the project to the system storage
@@ -80,6 +55,10 @@ public class BLController {
 		employees.get(employeeId).countNumberOfActivities();
 		return employees.get(employeeId).getNumberOfActivities();
 	}
+
+    public void createEmployee(String firstName, String surName, String employeeId) {
+        SystemStorage.addEmployee(firstName, surName, employeeId);
+    }
 
     
 }
