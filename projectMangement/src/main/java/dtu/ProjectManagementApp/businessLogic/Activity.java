@@ -1,4 +1,4 @@
-package dtu.example.ui;
+package dtu.ProjectManagementApp.businessLogic;
 import java.util.Date;
 import java.util.List;
 

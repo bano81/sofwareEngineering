@@ -1,4 +1,5 @@
-package dtu.example.ui;
+package dtu.ProjectManagementApp.ui;
+import dtu.ProjectManagementApp.businessLogic.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,22 +15,6 @@ public class CLIEngine {
 
     public List<Project> getProjectList() {
         return this.projects;
-    }
-
-    public void run() throws ParseException{
-    Map<String, Employee> employees = new HashMap<>(); // List to store employees
-    Scanner sc = new Scanner(System.in);
-    System.out.println("Welcome to the Project Management System!");
-    int choice = displayChoices(sc); // Display the choices
-     
-        while (choice != 0) {
-            executeChoice(choice, employees,sc); // Execute the choice made by the user
-            System.out.println("");
-            choice = displayChoices(sc); // Display the choices again
-        
-        }
-        sc.close(); // Close the scanner when done
-        System.out.println("Exiting the program. Thank you for using the Project Management System!");
     }
 
 	public boolean login (Map<String, Employee> employees, Scanner sc) {

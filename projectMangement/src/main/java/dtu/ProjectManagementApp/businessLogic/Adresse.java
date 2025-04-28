@@ -1,4 +1,4 @@
-package dtu.example.ui;
+package dtu.ProjectManagementApp.businessLogic;
 
 public class Adresse {
     private String strasse;

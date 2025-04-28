@@ -1,4 +1,4 @@
-package dtu.example.ui;
+package dtu.ProjectManagementApp.ui;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
