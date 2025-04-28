@@ -13,33 +13,29 @@ public class SystemStorage {
         employees.add(new Employee(employeeId, firstName, surName)); // Create a new employee and add it to the list
     }
 
-    public static void removeEmployee(String employeeId) {
-        employees.removeIf(employee -> employee.getEmployeeId().equals(employeeId)); // Remove the employee with the given ID from the list
-    }
-
     public static boolean employeeExists(String employeeId) {
         return employees.stream().
                 anyMatch(employee -> employee.getEmployeeId().equals(employeeId));
-    }
-
-    public static Employee getEmployee(String employeeId) {
-        return employees.stream()
-                .filter(employee -> employee.getEmployeeId().equals(employeeId))
-                .findFirst()
-                .orElse(null);
     }
     public static void setLoggedInEmployee(String employeeId) {
         employeeLoggedIn = employeeId; // Set the employee's logged-in status to true
     }
 
-    public static Object getLoggedInEmployee() {
-        return employeeLoggedIn;
+    public static Employee getLoggedInEmployee() {
+        return getEmployee(employeeLoggedIn);
     }
 
     public static void getEmployeeList() {
         for (Employee employee : employees) {
             System.out.println(employee.getName() + " " + employee.getSurname() + " " + employee.getEmployeeId());
         }
+    }
+
+    public static Employee getEmployee(String string) {
+        return employees.stream()
+                .filter(employee -> employee.getEmployeeId().equals(string))
+                .findFirst()
+                .orElse(null); // Return the employee with the given ID or null if not found
     }
 
     

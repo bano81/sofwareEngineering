@@ -17,6 +17,7 @@ public class Employee {
  private Map<String, String> projectNames = new HashMap<>(); // Activity ID and their corresponding project names
  private int numberOfActivities; // Number of activities assigned to the employee
  private final int maxActivities = 20; // Maximum number of activities allowed for an employee
+ private boolean isAdmin = false;
  
  public Employee() {
      // Default constructor
@@ -198,6 +199,13 @@ public class Employee {
 	            .sorted(Map.Entry.comparingByValue(Comparator.comparing(Activity::getStartDate)))
 	            .forEachOrdered(entry -> sortedMap.put(entry.getKey(), entry.getValue()));
 	    activities = sortedMap;
+ }
+
+ public void setAdmin(boolean isAdmin) {
+     this.isAdmin = isAdmin;
+ }
+ public boolean isAdmin() {
+     return isAdmin;
  }
 
 }

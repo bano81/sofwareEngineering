@@ -1,37 +1,22 @@
 package hellocucumber;
-<<<<<<< HEAD
-/*
+
+
+import dtu.ProjectManagementApp.businessLogic.SystemStorage;
+
 import static org.junit.jupiter.api.Assertions.*;
-=======
 
-// import static org.junit.jupiter.api.Assertions.*;
->>>>>>> ed79a8e4da4743553d7b947990a68fcb8643da89
 
-// import java.text.ParseException;
-// import java.text.SimpleDateFormat;
-// import java.util.*;
+ import io.cucumber.java.en.*;
 
-// import dtu.example.ui.CLIEngine;
-// import dtu.example.ui.Employee;
-import io.cucumber.java.en.*;
-*/
 
 public class ProjectSteps {
-<<<<<<< HEAD
-	/*
-	private CLIEngine cliEngine = new CLIEngine();
-	private Map<String, Employee> employees = new HashMap<>(); // List to store employees
-	private int choice = 1;
-	private String nameStr, surnameStr, employeeIdStr;
-	private boolean state;
-=======
+
 	
 	// private CLIEngine cliEngine = new CLIEngine();
 	// private Map<String, Employee> employees = new HashMap<>(); // List to store employees
 	// private int choice = 1;
 	// private String nameStr, surnameStr, employeeIdStr;
 	// private boolean state;
->>>>>>> ed79a8e4da4743553d7b947990a68fcb8643da89
 	
 	// @When("an employee is created with name {string}, surname {string} and ID {string}")
 	// public void anEmployeeIsCreatedWithName(String name, String surname, String employeeId) {
@@ -154,11 +139,17 @@ public class ProjectSteps {
 
 
 	// ####################### project steps #######################
+	
+	@Given("an admin user exists")
+	public void anAdminUserExists() {
+		SystemStorage.addEmployee("admin", "admin", "admin"); // Simulate admin user creation
+		SystemStorage.getEmployee("admin").setAdmin(true); // Set the user as admin
+	}
 
 	@Given("an admin user is logged in")
 	public void anAdminUserIsLoggedIn() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		SystemStorage.setLoggedInEmployee("admin"); // Simulate admin login
+		assertTrue(SystemStorage.getLoggedInEmployee().isAdmin());
 	}
 
 	@When("the user creates a new project with name {string}")
@@ -189,7 +180,37 @@ public class ProjectSteps {
 	public void theActivityIsAddedToTheProject() {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
-	}*/
+	}
+
+	@Given("the admin user is logged in")
+	public void theAdminUserIsLoggedIn() {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("a user exists")
+	public void aUserExists() {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("the user is logged in")
+	public void theUserIsLoggedIn() {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("the user is assigned as project manager for {string}")
+	public void theUserIsAssignedAsProjectManagerFor(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Then("the list of activities in {string} should include {string}")
+	public void theListOfActivitiesInShouldInclude(String string, String string2) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
 }
 
 
