@@ -14,7 +14,6 @@ public class ProjectSteps {
 	
 	private CLIEngine cliEngine = new CLIEngine();
 	private Map<String, Employee> employees = new HashMap<>(); // List to store employees
-	private int choice = 1;
 	private String nameStr, surnameStr, employeeIdStr;
 	private boolean state;
 	
@@ -133,6 +132,22 @@ public class ProjectSteps {
 	}
 	@Then("the list of activities in {string} should include {string}")
 	public void theListOfActivitiesInShouldInclude(String string, String string2) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("a project named {string} exists")
+	public void aProjectNamedExists(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+	@Given("an activity named {string} is created")
+	public void anActivityNamedIsCreated(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+	@When("the activity is added to the project")
+	public void theActivityIsAddedToTheProject() {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
