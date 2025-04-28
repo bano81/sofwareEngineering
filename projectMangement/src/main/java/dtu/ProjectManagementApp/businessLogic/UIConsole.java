@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class UIConsole {
     BLController blController = new BLController(); // Create an instance of BLController
+    SystemStorage systemStorage = new SystemStorage(); // Create an instance of SystemStorage
 
 
     public void displayMessage(int messageNumber, boolean state) {
@@ -94,7 +95,13 @@ public class UIConsole {
                 String surname = sc.nextLine();
                 System.out.print("Please enter employee ID: ");
                 String emplyeeId = sc.nextLine();
-                //creatNewEmployees(employees, name, surname, emplyeeId); // Create a new employee
+                boolean employeeExists =  blController.createNewEmployees(surname, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
+                if (!employeeExists) {
+                    System.out.println("Error: Employee with the same ID or name already exists.");
+                }   else {
+                    //blController.createEmployee(name, surname, emplyeeId); // Create a new employee
+                    System.out.println("Employee created successfully.");
+                }
                 break;
             case 2:
                 System.out.print("Please enter project name: ");

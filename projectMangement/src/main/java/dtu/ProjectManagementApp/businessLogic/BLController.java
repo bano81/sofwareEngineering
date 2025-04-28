@@ -9,33 +9,14 @@ public class BLController {
         SystemStorage.setLoggedInEmployee(emplyeeId);
     }
 
-    // checkIfEmployeeExists returns True if the employee exists in the database, otherwise False.
-	public boolean checkIfEmployeeExists(Map<String, Employee> employees, String name, String surname, String employeeId){
-    	boolean employeeExists = false;
-    	for (Map.Entry<String, Employee> entry : employees.entrySet()) {							// 1
-            Employee employee = entry.getValue();													// 2
-            if(employee.getEmployeeId().equals(employeeId)) {										// 3
-            	employeeExists = true;																// 4
-                break;																				// 5
-            }
-            if (employee.getName().equals(name) && employee.getSurname().equals(surname)) {			// 6
-                employeeExists = true;																// 7
-                break;																				// 8
-            }
+    public boolean createNewEmployees(String firstName, String surName, String employeeId) {
+        boolean employeeExists = SystemStorage.employeeExists(employeeId, surName, surName); // Check if the employee already exists
+        if (!employeeExists) {
+            SystemStorage.addEmployee(firstName, surName, employeeId); // Create a new employee
+            return true; // Employee created successfully
         }
-    	return employeeExists;																		// 9
-	}
-	
-	//createNewEmployees returns True if the employee is successfully added to the database and False if the addition fails
-	public boolean createNewEmployees(Map<String, Employee> employees, String name, String surname, String emplyeeId) {
-		boolean employeeExists = checkIfEmployeeExists(employees, name, surname, emplyeeId); 
-		if(!employeeExists) {
-			employees.put(emplyeeId, new Employee(name, surname));
-		}
-		return !employeeExists;
+        return false; // Employee already exists
     }
-
-    
 
     public void createNewProject(String projectName) {
         Project project = new Project(projectName);
