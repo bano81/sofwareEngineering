@@ -4,8 +4,20 @@ import java.util.Map;
 
 public class BLController {
 
-    public void login (String emplyeeId) {
-        SystemStorage.setLoggedInEmployee(emplyeeId);
+    public boolean login(String employeeId) {
+        if (SystemStorage.employeeExists(employeeId)) {
+            SystemStorage.setLoggedInEmployee(employeeId);
+            return true; // Login successful
+        }
+        SystemStorage.setLoggedInEmployee(null);
+        return false; // Login failed
+    }
+    private Employee getLoggedInEmployee() {
+        Employee loggedInEmployee = SystemStorage.getLoggedInEmployee();
+        if (loggedInEmployee == null) {
+            throw new IllegalStateException("No employee is currently logged in.");
+        }
+        return loggedInEmployee;
     }
 
     public boolean createNewEmployee(String firstName, String surName, String employeeId) {

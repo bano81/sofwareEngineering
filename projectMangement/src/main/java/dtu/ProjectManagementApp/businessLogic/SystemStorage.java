@@ -7,7 +7,15 @@ public class SystemStorage {
 
     private static final List<Employee> employees = new ArrayList<>();
     private static final List<Project> projects = new ArrayList<>();
-    private static String employeeLoggedIn = "";
+    private static Employee employeeLoggedIn = null; // Variable to store the logged-in employee
+
+    public static void intitiateTestUsers(){
+        //test user
+        employees.add(new Employee("test", "normal", "employee")); // Create a test user
+        employees.add(new Employee("test2", "project", "manager")); // Create a test user
+        employees.add(new Employee("test3", "admin", "admin")); // Create a test user
+    }
+
 
     public static void addEmployee(String firstName, String surName, String employeeId) { 
         employees.add(new Employee(employeeId, firstName, surName)); // Create a new employee and add it to the list
@@ -40,9 +48,17 @@ public class SystemStorage {
                 .findFirst()
                 .orElse(null);
     }
+
     public static void setLoggedInEmployee(String employeeId) {
-        employeeLoggedIn = employeeId; // Set the employee's logged-in status to true
+        if (employeeExists(employeeId)) {
+            employeeLoggedIn = getEmployee(employeeId);
+        }
+
     }
+    public static Employee getLoggedInEmployee() {
+        return employeeLoggedIn;
+    }
+
 // ####################### Projects #######################
     public static void addProject(Project project) {
         projects.add(project);
@@ -55,9 +71,7 @@ public class SystemStorage {
         return projects;
     }
 
-    public static Employee getLoggedInEmployee() {
-        return getEmployee(employeeLoggedIn);
-    }
+
 
     public static void getEmployeeList() {
         for (Employee employee : employees) {

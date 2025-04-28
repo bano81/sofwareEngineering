@@ -57,6 +57,20 @@ public class UIConsole {
         }
     }
 
+    public void displayLogin(Scanner sc) {
+        boolean loggedIn = false;
+        while (!loggedIn) {
+            System.out.println("Please enter your employee ID to log in:");
+            String employeeId = sc.nextLine();
+            if (blController.login(employeeId)) {
+                System.out.println("Login successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+                loggedIn = true; // Exits loop if logged in true
+            } else {
+                System.out.println("Invalid employee ID. Please try again.");
+            }
+        }
+    }
+
     public int displayChoices(Scanner sc) {
         System.out.println("Please choose an option:");
         System.out.println("\t1. Create a new employee");

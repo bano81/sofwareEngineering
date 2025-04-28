@@ -15,7 +15,9 @@ public class LoginLogoutSteps {
 
     @Given("An employee with ID {string} exists")
     public void anEmployeeWithIDExists(String employeeId) {
+
         SystemStorage.addEmployee("John", "Doe", employeeId);
+        assertTrue(SystemStorage.employeeExists(employeeId));
     }
 
     @When("I login with ID {string}")
@@ -25,6 +27,16 @@ public class LoginLogoutSteps {
 
     @Then("The employee with ID {string} should be logged in")
     public void theEmployeeWithIDShouldBeLoggedIn(String string) {
-        assertTrue(SystemStorage.getLoggedInEmployee().equals(string));
+        assertEquals(SystemStorage.getLoggedInEmployee().getEmployeeId(), string);
+    }
+
+    @Given("No employee with ID {string} exists")
+    public void noEmployeeWithIDExists(String arg0) {
+        assertFalse(SystemStorage.employeeExists(arg0));
+    }
+
+
+    @Then("The login attempt should fail")
+    public void theLoginAttemptShouldFail() {
     }
 }

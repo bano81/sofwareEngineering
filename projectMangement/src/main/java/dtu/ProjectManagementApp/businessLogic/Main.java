@@ -17,8 +17,14 @@ public class Main {
  public static void main(String[] args) throws ParseException {
     Scanner sc = new Scanner(System.in); // Create a scanner for user input
     System.out.println("Welcome to the Project Management System!");
+
+    SystemStorage.intitiateTestUsers(); // JUST FOR TESTING PURPOSES, DELETE LATER
+
+     // Login process
+     uiConsole.displayLogin(sc);
+
+     //Main menu
     int choice = uiConsole.displayChoices(sc); // Display the choices
-     
         while (choice != 0) {
             uiConsole.executeChoice(choice, sc);
             System.out.println("");
