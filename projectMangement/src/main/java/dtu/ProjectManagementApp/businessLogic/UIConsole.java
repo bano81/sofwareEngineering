@@ -95,7 +95,7 @@ public class UIConsole {
                 String surname = sc.nextLine();
                 System.out.print("Please enter employee ID: ");
                 String emplyeeId = sc.nextLine();
-                boolean employeeExists =  blController.createNewEmployees(surname, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
+                boolean employeeExists =  blController.createNewEmployee(surname, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
                 if (!employeeExists) {
                     System.out.println("Error: Employee with the same ID or name already exists.");
                 }   else {

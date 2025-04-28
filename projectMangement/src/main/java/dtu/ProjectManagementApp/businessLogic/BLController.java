@@ -9,7 +9,7 @@ public class BLController {
         SystemStorage.setLoggedInEmployee(emplyeeId);
     }
 
-    public boolean createNewEmployees(String firstName, String surName, String employeeId) {
+    public boolean createNewEmployee(String firstName, String surName, String employeeId) {
         boolean employeeExists = SystemStorage.employeeExists(employeeId, surName, surName); // Check if the employee already exists
         if (!employeeExists) {
             SystemStorage.addEmployee(firstName, surName, employeeId); // Create a new employee
