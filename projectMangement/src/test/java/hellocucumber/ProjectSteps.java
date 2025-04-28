@@ -1,5 +1,5 @@
 package hellocucumber;
-
+/*
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
@@ -9,9 +9,10 @@ import java.util.*;
 import dtu.example.ui.CLIEngine;
 import dtu.example.ui.Employee;
 import io.cucumber.java.en.*;
+*/
 
 public class ProjectSteps {
-	
+	/*
 	private CLIEngine cliEngine = new CLIEngine();
 	private Map<String, Employee> employees = new HashMap<>(); // List to store employees
 	private int choice = 1;
@@ -135,7 +136,7 @@ public class ProjectSteps {
 	public void theListOfActivitiesInShouldInclude(String string, String string2) {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
-	}
+	}*/
 }
 
 

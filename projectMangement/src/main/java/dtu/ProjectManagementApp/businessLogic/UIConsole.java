@@ -2,12 +2,12 @@ package dtu.ProjectManagementApp.businessLogic;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Scanner;
 
 public class UIConsole {
+
 
     public void displayMessage(int messageNumber, boolean state) {
 		if(state) {
@@ -84,7 +84,7 @@ public class UIConsole {
         }
     }
 
-    public void executeChoice(int choice, Map<String, Employee> employees, Scanner sc) throws ParseException {
+    public void executeChoice(int choice, Scanner sc) throws ParseException {
         switch (choice) {
             case 1:
                 System.out.print("Please enter first name: ");
@@ -93,13 +93,13 @@ public class UIConsole {
                 String surname = sc.nextLine();
                 System.out.print("Please enter employee ID: ");
                 String emplyeeId = sc.nextLine();
-                creatNewEmployees(employees, name, surname, emplyeeId); // Create a new employee
+                //creatNewEmployees(employees, name, surname, emplyeeId); // Create a new employee
                 break;
             case 2:
                 System.out.print("Please enter project name: ");
                 String projectName = sc.nextLine();
-                String projectID = String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + projects.size() + 1);
-                projects.add(new Project(projectID, projectName)); // Create a new project
+                //String projectID = String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + projects.size() + 1);
+                //projects.add(new Project(projectID, projectName)); // Create a new project
                 break;
             case 3:
                 System.out.print("Please enter employee ID: ");
@@ -117,21 +117,17 @@ public class UIConsole {
                 Date endDate = sdf.parse(endDateStr);
                 System.out.print("Please enter activity budgted hours: ");
                 double activityBudgtedhour = sc.nextDouble();
-                displayActivityStatus();
                 System.out.print("# ");
                 int statusChoice = sc.nextInt();
-                String activityStatus = returnStatus(statusChoice);
-                addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
-                		activityBudgtedhour, activityStatus); // Create a new activity
+                //addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
+                //		activityBudgtedhour, activityStatus); // Create a new activity
                 break;
             case 4:
                 // Assign an employee to a project
                 System.out.print("Please enter employee ID: ");
                 employeeId = sc.nextLine();
-                //employees.get(employeeId).countNumberOfActivities();
-                System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
-                //System.out.println(employees.get(employeeId).getNumberOfActivities());
-                System.out.println(getNumberOfNotCompletedActivities(employees,employeeId ));
+                //System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
+                //System.out.println(getNumberOfNotCompletedActivities(employees,employeeId ));
                 break;
             case 5:
                 // Assign an employee to an activity
@@ -140,14 +136,14 @@ public class UIConsole {
                 // Display all employees
                 break;
             case 7:
-                for (Project project : projects) {
+                /*for (Project project : projects) {
                     System.out.println("Project ID: " + project.getProjectId() + ", Project Name: " + project.getProjectName());
-                } // Display all projects
+                } // Display all projects*/
                 break;
             case 8:
                 System.out.print("Please enter employee ID: ");
                 employeeId = sc.nextLine();
-                displayActivites(employeeId, employees); // Display all activities for a specific employee
+                //displayActivites(employeeId, employees); // Display all activities for a specific employee
                 break;
             case 0:
                 System.out.println("Exiting the program.");

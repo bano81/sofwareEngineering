@@ -7,24 +7,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import dtu.ProjectManagementApp.ui.CLIEngine;
-
 public class Main {
 
     private static Map<String, Employee> employees = new HashMap<>(); // Create a map to store employees
     private static List<Project> projects = new ArrayList<>();
-    private static CLIEngine cliEngine = new CLIEngine(); // Create an instance of CLIEngine
+    //private static CLIEngine cliEngine = new CLIEngine(); // Create an instance of CLIEngine
+    private static UIConsole uiConsole = new UIConsole(); // Create an instance of UIConsole
     
  public static void main(String[] args) throws ParseException {
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in); // Create a scanner for user input
     System.out.println("Welcome to the Project Management System!");
-    int choice = cliEngine.displayChoices(sc); // Display the choices
+    int choice = uiConsole.displayChoices(sc); // Display the choices
      
         while (choice != 0) {
-            cliEngine.executeChoice(choice, employees,sc); // Execute the choice made by the user
+            uiConsole.executeChoice(choice, sc);
             System.out.println("");
-            choice = cliEngine.displayChoices(sc); // Display the choices again
-        
+            choice = uiConsole.displayChoices(sc); // Display the choices again        
         }
         sc.close(); // Close the scanner when done
         System.out.println("Exiting the program. Thank you for using the Project Management System!");
