@@ -1,6 +1,5 @@
 package dtu.ProjectManagementApp.businessLogic;
 
-import java.util.Date;
 import java.util.Map;
 
 public class BLController {
@@ -23,13 +22,24 @@ public class BLController {
         SystemStorage.addProject(project); // Add the project to the system storage
     }
 
-    // addNewActivityToProject adds an activity to the employee's list of activities. It does not assign the activity to a project.
+    public void createNewActivity(String projectName, String activityId, String activityName) {
+        SystemStorage.getProjects().stream()
+                .filter(project -> project.getProjectName().equals(projectName))
+                .findFirst()
+                .ifPresent(project -> {
+                    project.addActivity(new Activity(activityId, activityName)); // Add the activity to the project  
+                });
+    }
+
+
+        
+    /*// addNewActivityToProject adds an activity to the employee's list of activities. It does not assign the activity to a project.
 	public void addNewActivityToProject( Map<String, Employee> employees, String employeeId, String activityId, 
 			String activityName, Date startDate, Date endDate, double activityBudgtedhour, String activityStatus) {
         employees.get(employeeId).setActivity(activityId, new Activity(activityName, startDate, endDate, activityBudgtedhour));
         employees.get(employeeId).getActivity(activityId).setActivityStatus(activityStatus);
         employees.get(employeeId).sortActivitiesByDate();
-    }
+    }*/
 
     public int getNumberOfNotCompletedActivities(Map<String, Employee> employees, String employeeId) {
 		employees.get(employeeId).countNumberOfActivities();

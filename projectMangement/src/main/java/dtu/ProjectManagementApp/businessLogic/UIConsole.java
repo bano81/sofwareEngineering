@@ -2,13 +2,12 @@ package dtu.ProjectManagementApp.businessLogic;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.Scanner;
 
 public class UIConsole {
     BLController blController = new BLController(); // Create an instance of BLController
-    SystemStorage systemStorage = new SystemStorage(); // Create an instance of SystemStorage
+    //SystemStorage systemStorage = new SystemStorage(); // Create an instance of SystemStorage
 
 
     public void displayMessage(int messageNumber, boolean state) {
@@ -106,17 +105,18 @@ public class UIConsole {
             case 2:
                 System.out.print("Please enter project name: ");
                 String projectName = sc.nextLine();
-                //String projectID = String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + projects.size() + 1);
-                //projects.add(new Project(projectID, projectName)); // Create a new project
+                blController.createNewProject(projectName); // Create a new project
+                System.out.println("Project created successfully.");
                 break;
             case 3:
-                System.out.print("Please enter employee ID: ");
-                String employeeId = sc.nextLine();
-                System.out.print("Please enter activity ID: ");
-                String activityId = sc.nextLine();
+                System.out.print("Please enter project name: ");
+                projectName = sc.nextLine();
                 System.out.print("Please enter activity name: ");
                 String activityName = sc.nextLine();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.print("Please enter activity ID: ");
+                String activityId = sc.nextLine();
+                
+                /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 System.out.print("Please enter activity start week (yyyy-MM-dd): ");
                 String startDateStr = sc.nextLine();
                 Date startDate = sdf.parse(startDateStr);
@@ -124,16 +124,17 @@ public class UIConsole {
                 String endDateStr = sc.nextLine();
                 Date endDate = sdf.parse(endDateStr);
                 System.out.print("Please enter activity budgted hours: ");
-                double activityBudgtedhour = sc.nextDouble();
+                double activityBudgtedhour = sc.nextDouble();*/
+
                 System.out.print("# ");
-                int statusChoice = sc.nextInt();
+                //int statusChoice = sc.nextInt();
                 //addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
                 //		activityBudgtedhour, activityStatus); // Create a new activity
                 break;
             case 4:
                 // Assign an employee to a project
                 System.out.print("Please enter employee ID: ");
-                employeeId = sc.nextLine();
+                String employeeId = sc.nextLine();
                 //System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
                 //System.out.println(getNumberOfNotCompletedActivities(employees,employeeId ));
                 break;
