@@ -1,0 +1,158 @@
+package dtu.ProjectManagementApp.businessLogic;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.Scanner;
+
+public class UIConsole {
+
+
+    public void displayMessage(int messageNumber, boolean state) {
+		if(state) {
+			switch(messageNumber) {
+			case 0: 
+				System.out.println("Error: Each employee must have a unique ID; duplicate or multiple IDs per employee are not allowed!");
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+    public void displayActivites(String employeeId, Map<String, Employee> employees) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+        String startDateStr;
+        String endDateStr;
+        Map<String, Activity> activities = employees.get(employeeId).getActivities();
+        
+        System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
+        
+        // Header with fixed column widths
+        System.out.printf("%-12s %-15s %-15s %-15s %-16s %-15s%n",
+                "Activity ID", "Name", "Start Date", "End Date", "Budgeted Hours");
+        System.out.printf("%-12s %-15s %-15s %-15s %-16s %-15s%n",
+                "-----------", "----", "----------", "--------", "---------------");
+        
+        // Data rows with fixed column widths
+        for (Map.Entry<String, Activity> entry : activities.entrySet()) {
+            String activityId = entry.getKey();
+            Activity activity = entry.getValue();
+            startDateStr = formatter.format(activity.getStartDate());
+            endDateStr = formatter.format(activity.getEndDate());
+            
+            System.out.printf("%-12s %-15s %-15s %-15s %-16.1f %-15s%n",
+                    activityId,
+                    activity.getActivityName(),
+                    startDateStr,
+                    endDateStr,
+                    activity.getBudgetedHours(),
+                    activity.getActivityStatus());
+        }
+    }
+
+    public int displayChoices(Scanner sc) {
+        System.out.println("Please choose an option:");
+        System.out.println("\t1. Create a new employee");
+        System.out.println("\t2. Create a new project");
+        System.out.println("\t3. Create a new activity");
+        System.out.println("\t4. Display the number of activities assigned to an employee");
+        System.out.println("\t5. Assign an employee to an activity");
+        System.out.println("\t6. Display all employees");
+        System.out.println("\t7. Display all projects");
+        System.out.println("\t8. Display all activities for an employee");
+        System.out.println("\t0. Exit");
+
+        System.out.print("# ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character left by nextInt()
+        return choice;
+    }
+
+    public void getlistOfEmployees(Map<String, Employee> employees) {
+        System.out.println("Employee ID \t Name ");
+        System.out.println("----------- \t ----------- ");
+        for (Map.Entry<String, Employee> entry : employees.entrySet()) {
+            String employeeId = entry.getKey();
+            Employee employee = entry.getValue();
+            System.out.println(employeeId + " \t         " + employee.getName() + " " + employee.getSurname());
+        }
+    }
+
+    public void executeChoice(int choice, Scanner sc) throws ParseException {
+        switch (choice) {
+            case 1:
+                System.out.print("Please enter first name: ");
+                String name = sc.nextLine();
+                System.out.print("Please enter surname: ");
+                String surname = sc.nextLine();
+                System.out.print("Please enter employee ID: ");
+                String emplyeeId = sc.nextLine();
+                //creatNewEmployees(employees, name, surname, emplyeeId); // Create a new employee
+                break;
+            case 2:
+                System.out.print("Please enter project name: ");
+                String projectName = sc.nextLine();
+                //String projectID = String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + projects.size() + 1);
+                //projects.add(new Project(projectID, projectName)); // Create a new project
+                break;
+            case 3:
+                System.out.print("Please enter employee ID: ");
+                String employeeId = sc.nextLine();
+                System.out.print("Please enter activity ID: ");
+                String activityId = sc.nextLine();
+                System.out.print("Please enter activity name: ");
+                String activityName = sc.nextLine();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.print("Please enter activity start week (yyyy-MM-dd): ");
+                String startDateStr = sc.nextLine();
+                Date startDate = sdf.parse(startDateStr);
+                System.out.print("Please enter activity end date (yyyy-MM-dd): ");
+                String endDateStr = sc.nextLine();
+                Date endDate = sdf.parse(endDateStr);
+                System.out.print("Please enter activity budgted hours: ");
+                double activityBudgtedhour = sc.nextDouble();
+                System.out.print("# ");
+                int statusChoice = sc.nextInt();
+                //addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
+                //		activityBudgtedhour, activityStatus); // Create a new activity
+                break;
+            case 4:
+                // Assign an employee to a project
+                System.out.print("Please enter employee ID: ");
+                employeeId = sc.nextLine();
+                //System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
+                //System.out.println(getNumberOfNotCompletedActivities(employees,employeeId ));
+                break;
+            case 5:
+                // Assign an employee to an activity
+                break;
+            case 6:
+                // Display all employees
+                break;
+            case 7:
+                /*for (Project project : projects) {
+                    System.out.println("Project ID: " + project.getProjectId() + ", Project Name: " + project.getProjectName());
+                } // Display all projects*/
+                break;
+            case 8:
+                System.out.print("Please enter employee ID: ");
+                employeeId = sc.nextLine();
+                //displayActivites(employeeId, employees); // Display all activities for a specific employee
+                break;
+            case 0:
+                System.out.println("Exiting the program.");
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+
+}

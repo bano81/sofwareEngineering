@@ -1,6 +1,11 @@
 package hellocucumber;
+<<<<<<< HEAD
+/*
+import static org.junit.jupiter.api.Assertions.*;
+=======
 
 // import static org.junit.jupiter.api.Assertions.*;
+>>>>>>> ed79a8e4da4743553d7b947990a68fcb8643da89
 
 // import java.text.ParseException;
 // import java.text.SimpleDateFormat;
@@ -9,14 +14,24 @@ package hellocucumber;
 // import dtu.example.ui.CLIEngine;
 // import dtu.example.ui.Employee;
 import io.cucumber.java.en.*;
+*/
 
 public class ProjectSteps {
+<<<<<<< HEAD
+	/*
+	private CLIEngine cliEngine = new CLIEngine();
+	private Map<String, Employee> employees = new HashMap<>(); // List to store employees
+	private int choice = 1;
+	private String nameStr, surnameStr, employeeIdStr;
+	private boolean state;
+=======
 	
 	// private CLIEngine cliEngine = new CLIEngine();
 	// private Map<String, Employee> employees = new HashMap<>(); // List to store employees
 	// private int choice = 1;
 	// private String nameStr, surnameStr, employeeIdStr;
 	// private boolean state;
+>>>>>>> ed79a8e4da4743553d7b947990a68fcb8643da89
 	
 	// @When("an employee is created with name {string}, surname {string} and ID {string}")
 	// public void anEmployeeIsCreatedWithName(String name, String surname, String employeeId) {
@@ -174,7 +189,7 @@ public class ProjectSteps {
 	public void theActivityIsAddedToTheProject() {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
-	}
+	}*/
 }
 
 

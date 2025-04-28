@@ -1,14 +1,16 @@
 package dtu.ProjectManagementApp.ui;
-import dtu.ProjectManagementApp.businessLogic.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Calendar;
+
+import dtu.ProjectManagementApp.businessLogic.Activity;
+import dtu.ProjectManagementApp.businessLogic.Employee;
+import dtu.ProjectManagementApp.businessLogic.Project;
 
 public class CLIEngine {
     private List<Project> projects = new ArrayList<>(); // List to store projects
