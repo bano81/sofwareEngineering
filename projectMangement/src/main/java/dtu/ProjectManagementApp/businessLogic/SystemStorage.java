@@ -21,7 +21,7 @@ public class SystemStorage {
                 anyMatch(employee -> employee.getEmployeeId().equals(employeeId));
     }
 
-    public static boolean employeeExists2(String employeeId, String name, String surname) {
+    public static boolean employeeExists(String employeeId, String name, String surname) {
         boolean employeeExists = false; // Flag to check if the employee exists
         for (Employee employee : employees) {
             if (employee.getEmployeeId().equals(employeeId)) { // Check if the employee ID already exists
