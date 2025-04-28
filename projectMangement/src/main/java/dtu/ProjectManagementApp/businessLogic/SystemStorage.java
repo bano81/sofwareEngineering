@@ -55,8 +55,8 @@ public class SystemStorage {
         return projects;
     }
 
-    public static Object getLoggedInEmployee() {
-        return employeeLoggedIn;
+    public static Employee getLoggedInEmployee() {
+        return getEmployee(employeeLoggedIn);
     }
 
     public static void getEmployeeList() {
