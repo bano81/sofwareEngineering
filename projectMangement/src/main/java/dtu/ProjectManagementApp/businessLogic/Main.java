@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import dtu.ProjectManagementApp.ui.CLIEngine;
 
-public class User {
+public class Main {
 
     private static Map<String, Employee> employees = new HashMap<>(); // Create a map to store employees
     private static List<Project> projects = new ArrayList<>();
