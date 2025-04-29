@@ -28,17 +28,17 @@ public class SystemStorage {
 
     public static boolean employeeExists(String employeeId, String name, String surname) {
         boolean employeeExists = false; // Flag to check if the employee exists
-        for (Employee employee : employees) {
-            if (employee.getEmployeeId().equals(employeeId)) { // Check if the employee ID already exists
-                employeeExists = true; // Employee ID already exists
+        for (Employee employee : employees) {                                                   // 1
+            if (employee.getEmployeeId().equals(employeeId)) {                                  // 2  
+                employeeExists = true;                                                          // 3
                 break;
             }
-            if (employee.getName().equals(name) && employee.getSurname().equals(surname)) { // Check if the name and surname already exist
-                employeeExists = true; // Name and surname already exist
+            if (employee.getName().equals(name) && employee.getSurname().equals(surname)) {     // 4
+                employeeExists = true;                                                          // 5
                 break;
             }
         }
-        return employeeExists; // Return true if the employee exists, false otherwise
+        return employeeExists;                                                                  // 6
         
     }
 
@@ -79,7 +79,7 @@ public class SystemStorage {
         }
     }
 
-    
+
 
     
 

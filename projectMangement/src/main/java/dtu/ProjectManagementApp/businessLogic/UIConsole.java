@@ -177,5 +177,71 @@ public class UIConsole {
         }
     }
 
+    public int start(Scanner sc) {
+        int role=3; // 1 = employee, 2 = manager, 3 = admin
+        System.out.println("Welcome to the Project Management System!");
+        System.out.println("Please enter your employee ID to log in:");
+        System.out.print("# ");
+        String employeeId = sc.nextLine();
+        if (blController.login(employeeId) && blController.getEmployee(employeeId).isAdmin()) {
+            System.out.println("Login successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+            role = 3; // Admin role
+        } else if (blController.login(employeeId) && blController.getEmployee(employeeId).isProjectManager()) {
+            System.out.println("Login successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+            role = 2; // Manager role
+        } else if (blController.login(employeeId) && (!blController.getEmployee(employeeId).isAdmin()
+                && !blController.getEmployee(employeeId).isProjectManager())) {
+            System.out.println("Login successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+            role = 1; // Employee role
+        } else {
+            System.out.println("Invalid employee ID. Please try again.");
+        }
+
+        return role; // Return the role of the logged-in user
+    }
+
+    public int displayChoicesForEmployee(Scanner sc) {
+        System.out.println("Please choose an option:");
+        System.out.println("\t1. Display my projects");
+        System.out.println("\t2. Display my activities");
+        System.out.println("\t3. Register used hours for an activity");
+        System.out.println("\t0. Exit");
+        System.out.print("# ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character left by nextInt()
+        return choice;
+    }
+
+    public void executeChoiceForEmployee(int choice, Scanner sc) throws ParseException {
+        switch (choice) {
+            case 1: 
+                System.out.print("List of my projects: ");
+                // Display the list of projects for the logged-in employee
+                //blController.getEmployeeProjects(SystemStorage.getLoggedInEmployee().getEmployeeId());
+                break;
+            case 2:
+                // Display the list of activities for the logged-in employee
+                System.out.print("List of my activities: ");
+                //blController.getEmployeeActivities(SystemStorage.getLoggedInEmployee().getEmployeeId());
+                break;
+            case 3:
+                // retgister used hours for an activity
+                System.out.print("Please enter project name: ");
+                String projectName = sc.nextLine();
+                System.out.print("Please enter activity ID: ");
+                String activityId = sc.nextLine();
+                System.out.print("Please enter activity budgted hours: ");
+                double activityBudgtedhour = sc.nextDouble();
+                //blController.registerUsedHours(projectName, activityId, activityBudgtedhour); // Register used hours for an activity
+                System.out.println("Used hours registered successfully.");
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                break;
+        }
+
+    }
+
+
 
 }

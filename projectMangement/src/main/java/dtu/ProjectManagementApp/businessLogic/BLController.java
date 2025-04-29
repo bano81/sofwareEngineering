@@ -62,5 +62,11 @@ public class BLController {
         SystemStorage.addEmployee(firstName, surName, employeeId);
     }
 
+    public static Employee getEmployee(String employeeId) {
+        if (!SystemStorage.employeeExists(employeeId)) {
+            throw new IllegalArgumentException("Employee with ID " + employeeId + " does not exist.");
+        } 
+        return SystemStorage.getEmployee(employeeId);
+    }
     
 }

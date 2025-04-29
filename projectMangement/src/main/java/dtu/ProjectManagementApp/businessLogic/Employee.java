@@ -1,6 +1,10 @@
 package dtu.ProjectManagementApp.businessLogic;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class Employee {
@@ -18,6 +22,7 @@ public class Employee {
  private int numberOfActivities; // Number of activities assigned to the employee
  private final int maxActivities = 20; // Maximum number of activities allowed for an employee
  private boolean isAdmin = false;
+ private boolean isProjectManager = false; // Flag to check if the employee is a project manager
  
  public Employee() {
      // Default constructor
@@ -207,5 +212,13 @@ public class Employee {
  public boolean isAdmin() {
      return isAdmin;
  }
+
+ public void setProjectManager(boolean isProjectManager) {
+     this.isProjectManager = isProjectManager;
+ }
+ public boolean isProjectManager() {
+     return isProjectManager;
+ }
+ 
 
 }
