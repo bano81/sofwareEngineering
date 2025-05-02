@@ -15,6 +15,10 @@ public class Activity {
    private Date endDate;
    private List<Employee> assignedEmployees;
 
+   public Activity(String activityName) {
+       this.activityName = activityName;
+   }
+
    public Activity(String activityId, String activityName) {
     this.activityName = activityName;
     this.ativityStatus = activityId;

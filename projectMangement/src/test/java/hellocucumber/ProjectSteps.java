@@ -2,6 +2,10 @@ package hellocucumber;
 
 
 import dtu.ProjectManagementApp.businessLogic.SystemStorage;
+import dtu.ProjectManagementApp.businessLogic.Project;
+import dtu.ProjectManagementApp.businessLogic.Activity;
+import dtu.ProjectManagementApp.businessLogic.BLController;
+import dtu.ProjectManagementApp.businessLogic.Employee;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,206 +14,80 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ProjectSteps {
-
 	
-	// private CLIEngine cliEngine = new CLIEngine();
-	// private Map<String, Employee> employees = new HashMap<>(); // List to store employees
-	// private int choice = 1;
-	// private String nameStr, surnameStr, employeeIdStr;
-	// private boolean state;
-	
-	// @When("an employee is created with name {string}, surname {string} and ID {string}")
-	// public void anEmployeeIsCreatedWithName(String name, String surname, String employeeId) {
-	// 	cliEngine.creatNewEmployees(employees, name, surname, employeeId);
-	// }
-	
-	
-	// @Then("show the list of employees contains an employee with that name, surname and ID")
-	// public void theListOfEmployeesContainsAnEmployeeWithThatNameSurnameAndID() {
-	// 	cliEngine.creatNewEmployees(employees, "John", "Smith", "jhsm");
-	// 	cliEngine.creatNewEmployees(employees, "Anne", "Andersen", "anan");
-	// 	cliEngine.getlistOfEmployees(employees);
-	    
-	// }
-	
-	// @Given("emplyee with name {string}, surname {string} and ID {string} exists")
-	// public void emplyeeWithNameSurnameAndID(String string, String string2, String string3) {
-	// 	state = cliEngine.checkIfEmployeeExists(employees, string, string2, string3);
-	// 	cliEngine.creatNewEmployees(employees, string, string2, string3);
-	//     assertFalse(state);
-	// }
-	
-	// @When("an employee is created with name {string}, surname {string} and a used ID {string}")
-	// public void anEmployeeIsCreatedWithNameSurnameAndAUsedID(String string, String string2, String string3) {
-	// 	nameStr = string;
-	// 	surnameStr = string2;
-	// 	employeeIdStr = string3;
-	// 	state = cliEngine.creatNewEmployees(employees, nameStr, surnameStr, employeeIdStr);
-	// 	assertFalse(state);
-	// }
-
-	// @Then("the system will return an error message.")
-	// public void theSystemWillReturnAnErrorMessage() {
-	// 	System.out.println(" ");
-	// 	assertFalse(state);
-	// 	cliEngine.displayMessage(0, !state);
-	    
-	// }
-	
-	// @When("an employee with ID {string} add activity with ID {string}, name {string}, start date {string}, end date {string}, budget hours {int} and status {string}")
-	// public void anEmployeeWithIDAddActivityWithIDNameStartDateEndDateBudgetHoursAndStatus(String employeeId, String activityId, String activityName, String startDateStr, String endDateStr, int activityBudgtedhour, String activityStatus) throws ParseException {
-	// 	cliEngine.creatNewEmployees(employees, "Hubert", "Baumeister", "huba");
-	// 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	// 	Date startDate = sdf.parse(startDateStr);
-	// 	Date endDate = sdf.parse(endDateStr);
-	// 	cliEngine.addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate, activityBudgtedhour, activityStatus);
-		
-	// 	startDate = sdf.parse("2025-04-22");
-	// 	endDate = sdf.parse("2025-04-23");
-	// 	cliEngine.addNewActivityToProject(employees, employeeId, "ana2", "analysis", startDate, endDate, 2, "in progross");
-		
-	// 	startDate = sdf.parse("2025-04-18");
-	// 	endDate = sdf.parse("2025-04-22");
-	// 	cliEngine.addNewActivityToProject(employees, employeeId, "des1", "design", startDate, endDate, 4, "completed");
-	// }
-
-	// @Then("show the list of activities for the employee with ID {string}")
-	// public void showTheListOfActivities(String employeeId) {
-	// 	System.out.println("");
-	// 	cliEngine.displayActivites(employeeId, employees);	   
-	// }
-	
-	
-	// @Given("an employee with ID {string} exits")
-	// public void anEmployeeWithNameSurnameAndIDHubaExits(String employeeId) throws ParseException {
-	// 	state = cliEngine.creatNewEmployees(employees, "Hubert", "Baumeister", "huba");
-	// 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	// 	Date startDate = sdf.parse("2025-04-21");
-	// 	Date endDate = sdf.parse("2025-04-23");
-	// 	cliEngine.addNewActivityToProject(employees, employeeId, "ana1", "analysis", startDate, endDate, 2, "In progross");
-
-	// 	startDate = sdf.parse("2025-04-22");
-	// 	endDate = sdf.parse("2025-04-23");
-	// 	cliEngine.addNewActivityToProject(employees, employeeId, "ana2", "analysis", startDate, endDate, 2, "In progross");
-		
-	// 	startDate = sdf.parse("2025-04-18");
-	// 	endDate = sdf.parse("2025-04-22");
-	// 	cliEngine.addNewActivityToProject(employees, employeeId, "des1", "design", startDate, endDate, 4, "Completed");
-		
-	// 	assertTrue(state);
-	// }
-
-	// @When("the user select the employee with ID {string}")
-	// public void theUserSelectTheEmployeeWithID(String string) {
-	// 	assertTrue(state);	    
-	// }
-
-	// @Then("the system should display the number of activities that are not finished and the list of activites for the employee with ID {string}")
-	// public void theSystemShouldDisplayTheNumberOfActivitiesThatAreNotFinishedAndTheListOfActivitesForTheEmployee(String employeeId) {
-	// 	int numberOfNotCompletedActivities = cliEngine.getNumberOfNotCompletedActivities(employees, employeeId);
-	// 	System.out.println("\nNumber of not completed activites: " + numberOfNotCompletedActivities);
-	    
-	// }
-
-	// @When("the program is run")
-	// public void theProgramIsRun() {
-	// 	try {
-	// 		this.cliEngine.run();
-	// 	} catch (ParseException e) {
-	// 		e.printStackTrace();
-	// 	}
-	// }
-
-	// @Then("the list of projects should include {string}")
-	// public void theListOfProjectsShouldInclude(String projectName) {
-    //     // Print names of all projects in the list
-    //     System.out.println("List of projects:");
-    //     cliEngine.getProjectList().forEach(project -> System.out.println(project.getProjectName()));
-        
-    //     // Check if the project name is in the list of projects
-	// 	assertTrue(cliEngine.getProjectList().stream()
-	// 			.anyMatch(project -> project.getProjectName().equalsIgnoreCase(projectName)),
-    //             "Project " + projectName + " not found in the list of projects.");
-	// }
-	// @Then("the list of activities in {string} should include {string}")
-	// public void theListOfActivitiesInShouldInclude(String string, String string2) {
-	// 	// Write code here that turns the phrase above into concrete actions
-	// 	throw new io.cucumber.java.PendingException();
-	// }
-
-
-	// ####################### project steps #######################
+	private Exception e;
+	private String projectID = "";
+	private BLController blController = new BLController(); // Create an instance of the BLController
 	
 	@Given("an admin user exists")
 	public void anAdminUserExists() {
-		SystemStorage.addEmployee("admin", "admin", "admin"); // Simulate admin user creation
+		SystemStorage.addEmployee(new Employee("admin", "admin", "admin")); // Simulate admin user creation
 		SystemStorage.getEmployee("admin").setAdmin(true); // Set the user as admin
 	}
 
 	@Given("an admin user is logged in")
 	public void anAdminUserIsLoggedIn() {
-		SystemStorage.setLoggedInEmployee("admin"); // Simulate admin login
+		blController.login("admin"); // Simulate admin login
 		assertTrue(SystemStorage.getLoggedInEmployee().isAdmin());
 	}
 
-	@When("the user creates a new project with name {string}")
-	public void theUserCreatesANewProjectWithName(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Then("the project {string} is created successfully")
-	public void theProjectIsCreatedSuccessfully(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@When("the user tries to create a new project with name {string}")
+	public void theUserTriesToCreateANewProjectWithName(String projectName) {
+		try {
+			blController.createProject(projectName); // Simulate project creation
+		} catch (Exception e) {
+			this.e = e; // Capture the exception if thrown
+		}
+		projectID = SystemStorage.getProjects().get(0).getProjectId(); // Store the project ID for later use
 	}
 
 	@Given("a project named {string} exists")
-	public void aProjectNamedExists(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void aProjectNamedExists(String projectName) {
+		SystemStorage.getProjects().add(new Project(projectName)); // Simulate project creation
+		projectID = SystemStorage.getProjects().get(0).getProjectId(); // Store the project ID for later use
 	}
 
-	@Given("an activity named {string} is created for project {string}")
-	public void anActivityNamedIsCreatedForProject(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@When("an activity named {string} is created for project {string}")
+	public void anActivityNamedIsCreatedForProject(String activityName, String string2) {
+		SystemStorage.getProject(projectID).addActivity(new Activity(activityName)); // Simulate activity creation
 	}
 
-	@When("the activity is added to the project")
-	public void theActivityIsAddedToTheProject() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Given("a user with id {string} exists")
+	public void aUserWithIdExists(String userId) {
+		SystemStorage.addEmployee(new Employee("test", "test", userId)); // Simulate user creation
 	}
 
-	@Given("the admin user is logged in")
-	public void theAdminUserIsLoggedIn() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Given("the user {string} is logged in")
+	public void theUserIsLoggedIn(String userId) {
+		blController.login(userId); // Simulate user login	
 	}
 
-	@Given("a user exists")
-	public void aUserExists() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Given("the user is logged in")
-	public void theUserIsLoggedIn() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Given("the user is assigned as project manager for {string}")
-	public void theUserIsAssignedAsProjectManagerFor(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
 
 	@Then("the list of activities in {string} should include {string}")
-	public void theListOfActivitiesInShouldInclude(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void theListOfActivitiesInShouldInclude(String projectName, String activityName) {
+		assertTrue(SystemStorage.getProject(projectID).getActivities().stream().anyMatch(a -> a.getActivityName().equals(activityName))); // Check if the activity is in the project
+	}
+
+	@Then("the project {string} is created with a unique ID")
+	public void theProjectIsCreatedWithAUniqueID(String ProjectName) {
+		assertTrue(SystemStorage.getProject(projectID).getProjectName().equals(ProjectName)); // Check if the project name matches the expected name
+		assertTrue(SystemStorage.getProjects().stream().filter(p -> p.getProjectId().equals(projectID)).toList().size() < 2); // Check if the project ID is unique
+	}
+
+	@Then("the system should return the error message {string}")
+	public void theSystemShouldReturnTheErrorMessage(String string) {
+		assertNotNull(e); // Check if an exception was thrown
+		assertEquals(string, e.getMessage()); // Check if the exception message matches the expected message
+	}
+
+	@When("the admin assigns {string} as project manager for {string}")
+	public void theAdminAssignsAsProjectManagerFor(String userId, String string) {
+		SystemStorage.getProject(projectID).setProjectManager(userId); // Simulate assigning the user as project manager
+	}
+
+	@Then("{string} should be listed as project manager for {string}")
+	public void ShouldBeListedAsProjectManagerFor(String userId, String string) {
+		assertEquals(userId, SystemStorage.getProject(projectID).getProjectManagerId()); // Check if the user is listed as project manager
 	}
 }
 

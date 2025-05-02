@@ -108,7 +108,7 @@ public class UIConsole {
                 String surname = sc.nextLine();
                 System.out.print("Please enter employee ID: ");
                 String emplyeeId = sc.nextLine();
-                boolean employeeExists =  blController.createNewEmployee(surname, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
+                boolean employeeExists =  blController.createEmployee(surname, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
                 if (!employeeExists) {
                     System.out.println("Error: Employee with the same ID or name already exists.");
                 }   else {
@@ -119,7 +119,7 @@ public class UIConsole {
             case 2:
                 System.out.print("Please enter project name: ");
                 String projectName = sc.nextLine();
-                blController.createNewProject(projectName); // Create a new project
+                blController.createProject(projectName); // Create a new project
                 System.out.println("Project created successfully.");
                 break;
             case 3:

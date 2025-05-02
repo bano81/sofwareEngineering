@@ -1,13 +1,11 @@
 Feature: Create employee
 
 Scenario: Create employee
-	Given the user is logged in as an admin
+	Given an admin user exists
+	And an admin user is logged in
 	When the user creates an employee with name "Hubert", surname "Baumeister" and ID "huba"
 	Then a user with id "huba" is added to the list of employees
-
-# Scenario: Create employee with a name, surname and ID
-# 	When an employee is created with name "Hubert", surname "Baumeister" and ID "huba"	
-# 	Then show the list of employees contains an employee with that name, surname and ID
+	And I logout
 	
 # Scenario: Create an employee with used ID
 # 	Given emplyee with name "Baqer", surname "Nour" and ID "bano" exists
