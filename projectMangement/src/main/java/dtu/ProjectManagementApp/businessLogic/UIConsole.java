@@ -191,7 +191,7 @@ public class UIConsole {
                 String surname = sc.nextLine();
                 System.out.print("Please enter employee ID: ");
                 String emplyeeId = sc.nextLine();
-                boolean employeeExists =  blController.createEmployee(surname, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
+                boolean employeeExists =  blController.createEmployee(name, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
                 if (!employeeExists) {
                     System.out.println("Error: Employee with the same ID or name already exists.");
                 }   else {
@@ -202,7 +202,9 @@ public class UIConsole {
             case 2:
                 System.out.print("Please enter project name: ");
                 String projectName = sc.nextLine();
-                blController.createProject(projectName); // Create a new project
+                System.out.print("Please enter project ID: ");
+                String projectId = sc.nextLine();
+                blController.createProject(projectId, projectName); // Create a new project
                 System.out.println("Project created successfully.");
                 break;
             case 3:
@@ -244,19 +246,20 @@ public class UIConsole {
                 // Assign an employee to an activity
                 break;
             case 6:
-                // Display all employees
-                //System.out.println("List of all employees: ");
                 System.out.printf("%-15s %-15s%n","Employee ID", "Name");
                 System.out.printf("%-15s %-15s %n","-----------", "---- ");
                 for(Employee employee : blController.getEmployees()) {
-                    System.out.println(employee.getEmployeeId() + " \t " + employee.getName() + " " + employee.getSurname());
+                    System.out.printf("%-15s %-15s%n", employee.getEmployeeId(), employee.getName() + " " + employee.getSurname());
                 }
                 System.out.println("");
                 break;
             case 7:
-                /*for (Project project : projects) {
-                    System.out.println("Project ID: " + project.getProjectId() + ", Project Name: " + project.getProjectName());
-                } // Display all projects*/
+                System.out.printf("%-15s %-15s%n","Project ID", "Name");
+                System.out.printf("%-15s %-15s %n","-----------", "---- ");
+                for (Project project : blController.getProjects()) {
+                    System.out.printf("%-15s %-15s%n", project.getProjectId(), project.getProjectName());
+                } // Display all projects
+                System.out.println("");
                 break;
             case 8:
                 System.out.print("Please enter employee ID: ");

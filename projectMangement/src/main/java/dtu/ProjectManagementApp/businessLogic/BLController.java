@@ -85,6 +85,17 @@ public class BLController {
         SystemStorage.addProject(project); // Add the project to the system storage
     }
 
+    public void createProject(String projectId, String projectName) {
+        Project project = new Project(projectId, projectName);
+        if (!SystemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
+            throw new IllegalArgumentException("Insufficient permissions to create a project"); // Throw an exception if not an admin
+        }
+        if (SystemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
+            throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
+        }
+        SystemStorage.addProject(project); // Add the project to the system storage
+    }
+
     public void createNewActivity(String projectName, String activityId, String activityName) {
         SystemStorage.getProjects().stream()
                 .filter(project -> project.getProjectName().equals(projectName))
@@ -139,7 +150,7 @@ public class BLController {
     public List<Employee> getEmployees() {
         return SystemStorage.getEmployees(); // Return the list of employees
     }
-    
+
     public List<Project> getProjects() {
         return SystemStorage.getProjects(); // Return the list of projects
     }
