@@ -62,6 +62,17 @@ public class BLController {
         return false; // Employee already exists
     }
 
+    /*public boolean createEmployee(String firstName, String surName, String employeeId){
+        if(!SystemStorage.getLoggedInEmployee().isAdmin() && !SystemStorage.getLoggedInEmployee().isProjectManager()) { // Check if the logged-in employee is an admin or project manager
+            return false; // Check if the logged-in employee is an admin
+        } else if (employeeExists(employeeId, firstName, surName)) { // Check if the employee ID already exists
+            return false; // Employee ID already exists
+        } else {
+            SystemStorage.addEmployee(new Employee(firstName, surName, employeeId)); // Create a new employee
+            return true; // Employee created successfully
+        }
+    } */
+
     public void createProject(String projectName) {
         Project project = new Project(projectName);
         if (!SystemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
@@ -106,6 +117,22 @@ public class BLController {
             throw new IllegalArgumentException("Employee with ID " + employeeId + " does not exist.");
         } 
         return SystemStorage.getEmployee(employeeId);
+    }
+
+    public int getLoggedInEmployeeRole() {
+        int role; // 0 = admin, 1 = manager, 2 = employee, 3 = no role
+        if (SystemStorage.getLoggedInEmployee().isAdmin()) {
+            role = 0; // Admin role
+        } else if (SystemStorage.getLoggedInEmployee().isProjectManager()) {
+            role = 1; // Project Manager role
+        } else if (SystemStorage.getLoggedInEmployee().isEmployee() && !SystemStorage.getLoggedInEmployee().isProjectManager() 
+                   && !SystemStorage.getLoggedInEmployee().isAdmin()) {
+            role = 2; // Employee role
+        } else {
+            role = 3; // No role assigned           
+        }
+
+        return role; // Return the role of the logged-in user
     }
     
 }

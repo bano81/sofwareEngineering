@@ -23,6 +23,7 @@ public class Employee {
  private final int maxActivities = 20; // Maximum number of activities allowed for an employee
  private boolean isAdmin = false;
  private boolean isProjectManager = false; // Flag to check if the employee is a project manager
+ private boolean isEmployee = true; // Flag to check if the employee is a regular employee
  
  public Employee() {
      // Default constructor
@@ -178,6 +179,13 @@ public class Employee {
  }
  public boolean isProjectManager() {
      return isProjectManager;
+ }
+
+ public boolean isEmployee() {
+     return isEmployee;
+ }
+ public void setEmployee(boolean isEmployee) {
+     this.isEmployee = isEmployee;
  }
 
  /*public void getlistOfActivities(){

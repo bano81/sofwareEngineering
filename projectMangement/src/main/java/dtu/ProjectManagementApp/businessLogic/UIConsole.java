@@ -177,27 +177,24 @@ public class UIConsole {
         }
     }
 
-    public int start(Scanner sc) {
-        int role=3; // 1 = employee, 2 = manager, 3 = admin
-        System.out.println("Welcome to the Project Management System!");
-        System.out.println("Please enter your employee ID to log in:");
-        System.out.print("# ");
-        String employeeId = sc.nextLine();
-        if (blController.login(employeeId) && blController.getEmployee(employeeId).isAdmin()) {
-            System.out.println("Login successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
-            role = 3; // Admin role
-        } else if (blController.login(employeeId) && blController.getEmployee(employeeId).isProjectManager()) {
-            System.out.println("Login successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
-            role = 2; // Manager role
-        } else if (blController.login(employeeId) && (!blController.getEmployee(employeeId).isAdmin()
-                && !blController.getEmployee(employeeId).isProjectManager())) {
-            System.out.println("Login successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
-            role = 1; // Employee role
+    public int start(Scanner sc) throws ParseException {
+        int choice=2;        
+        if (blController.getLoggedInEmployeeRole() == 0) {
+            //System.out.println("Login as Admin successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+            choice = displayChoices(sc);
+            System.out.println("");
+            executeChoice(choice, sc);
+        } else if (blController.getLoggedInEmployeeRole() == 1) {
+            System.out.println("Login as Manager successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+        } else if (blController.getLoggedInEmployeeRole() == 2) {
+            //System.out.println("Login as Employee successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+            choice = displayChoicesForEmployee(sc);
+            System.out.println("");
+            executeChoiceForEmployee(choice, sc);
         } else {
             System.out.println("Invalid employee ID. Please try again.");
         }
-
-        return role; // Return the role of the logged-in user
+        return choice; // Return the choice made by the user
     }
 
     public int displayChoicesForEmployee(Scanner sc) {
