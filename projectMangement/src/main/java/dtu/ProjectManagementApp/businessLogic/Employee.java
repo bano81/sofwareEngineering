@@ -28,7 +28,7 @@ public class Employee {
      // Default constructor
  }
 
- public Employee(String employeeId, String name, String surname) {
+ public Employee(String name, String surname,String employeeId ) {
      this.name = name;
      this.surname = surname;
      this.employeeId = employeeId; // Set employee ID directly

@@ -17,10 +17,11 @@ public class SystemStorage {
     }
 
 
-    public static void addEmployee(String firstName, String surName, String employeeId) { 
-        employees.add(new Employee(employeeId, firstName, surName)); // Create a new employee and add it to the list
+    public static void addEmployee(Employee employee) { 
+        employees.add(employee); // Create a new employee and add it to the list
     }
 
+<<<<<<< HEAD
     public static boolean employeeExists(String employeeId) {
         return employees.stream().
                 anyMatch(employee -> employee.getEmployeeId().equals(employeeId));
@@ -40,6 +41,10 @@ public class SystemStorage {
         }
         return employeeExists;                                                                  // 6
         
+=======
+    public static List<Employee> getEmployees() {
+        return employees;
+>>>>>>> be78a0a5b2e430fe4b1178781c783858c7293b00
     }
 
     public static Employee getEmployee(String employeeId) {
@@ -49,13 +54,14 @@ public class SystemStorage {
                 .orElse(null);
     }
 
-    public static void setLoggedInEmployee(String employeeId) {
-        if (employeeExists(employeeId)) {
-            employeeLoggedIn = getEmployee(employeeId);
-        }
-
+    public static void setLoggedInEmployee(Employee employee) {
+        employeeLoggedIn = employee; // Set the logged-in employee
     }
-    public static Employee getLoggedInEmployee() {
+    public static void removeLoggedInEmployee() {
+        employeeLoggedIn = null; // Remove the logged-in employee
+    }
+    
+    public static Employee getLoggedInEmployee()  {
         return employeeLoggedIn;
     }
 
@@ -63,13 +69,22 @@ public class SystemStorage {
     public static void addProject(Project project) {
         projects.add(project);
     }
-    public static void removeProject(Project project) {
-        projects.remove(project);
+
+    public static Project getProject(String projectID) {
+        return projects.stream()
+                .filter(project -> project.getProjectId().equals(projectID))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static void removeProject(String projectID) {
+        projects.remove(getProject(projectID));
     }
 
     public static List<Project> getProjects() {
         return projects;
     }
+<<<<<<< HEAD
 
 
 
@@ -83,4 +98,6 @@ public class SystemStorage {
 
     
 
+=======
+>>>>>>> be78a0a5b2e430fe4b1178781c783858c7293b00
 }

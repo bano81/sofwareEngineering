@@ -12,19 +12,13 @@ public class EmployeeSteps {
     
     private BLController blController = new BLController();
 
-    @Given("the user is logged in as an admin")
-    public void theUserIsLoggedInAsAnAdmin() {
-        assertTrue(true);
-    } //Det finder vi ud af
-
     @When("the user creates an employee with name {string}, surname {string} and ID {string}")
     public void theUserCreatesAnEmployeeWithNameSurname(String firstName, String surName, String employeeId) {
-        blController.createEmployee(firstName, surName, employeeId);
+        assertTrue(blController.createEmployee(firstName, surName, employeeId));
     }
 
     @Then("a user with id {string} is added to the list of employees")
     public void theUserIsAddedToTheListOfEmployees(String employeeId) {
-        SystemStorage.getEmployeeList();
-        assertTrue(SystemStorage.employeeExists(employeeId));
+        assertTrue(blController.employeeExists(employeeId)); // Check if the employee exists in the list
     }
 }

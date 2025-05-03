@@ -1,17 +1,18 @@
 package dtu.ProjectManagementApp.businessLogic;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class Project {
     private String projectId;
     private String projectName;
     private Date deadline;
-    private Employee projectManager;
-    // private Customer customer;
-    private List<Activity> activities;
+    private String projectManagerId;
+    private List<Activity> activities = new ArrayList<>(); // Initialize the list to avoid NullPointerException
 
     public Project(String projectName) {
         this.projectId = generateProjectId();
@@ -57,12 +58,12 @@ public class Project {
         this.deadline = deadline;
     }
 
-    public Employee getProjectManager() {
-        return projectManager;
+    public String getProjectManagerId() {
+        return projectManagerId;
     }
 
-    public void setProjectManager(Employee projectManager) {
-        this.projectManager = projectManager;
+    public void setProjectManager(String projectManagerId) {
+        this.projectManagerId = projectManagerId;
     }
 
     public void addActivity(Activity activity) {
@@ -89,6 +90,10 @@ public class Project {
 
     public String generateProjectId() {
         return String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + SystemStorage.getProjects().size() + 1);
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
     }
 }
 
