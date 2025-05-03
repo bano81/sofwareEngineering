@@ -19,7 +19,7 @@ public class Main {
     System.out.println("Welcome to the Project Management System!");
 
     SystemStorage.intitiateTestUsers(); // JUST FOR TESTING PURPOSES, DELETE LATER
-    System.out.println("ID: admin, manager, employee"); // JUST FOR TESTING PURPOSES, DELETE LATER
+    System.out.println("ID: admin, manager, employee, employee2"); // JUST FOR TESTING PURPOSES, DELETE LATER
 
      // Login process
      uiConsole.displayLogin(sc);   // test ID: admin, manager, employee
@@ -28,9 +28,6 @@ public class Main {
      //Main menu
     int choice = uiConsole.start(sc); // Start the UIConsole; choice = uiConsole.displayChoices(sc); // Display the choices
         while (choice != 0) {
-            /*uiConsole.executeChoice(choice, sc);
-            System.out.println("");
-            choice = uiConsole.displayChoices(sc); // Display the choices again   */
             choice = uiConsole.start(sc); // Start the UIConsole  
         }
         sc.close(); // Close the scanner when done

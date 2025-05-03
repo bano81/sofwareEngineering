@@ -1,5 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
 
+import java.util.List;
 import java.util.Map;
 
 public class BLController {
@@ -112,7 +113,7 @@ public class BLController {
         SystemStorage.addEmployee(firstName, surName, employeeId);
     }*/
 
-    public static Employee getEmployee(String employeeId) {
+    public Employee getEmployee(String employeeId) {
         if (!SystemStorage.employeeExists(employeeId)) {
             throw new IllegalArgumentException("Employee with ID " + employeeId + " does not exist.");
         } 
@@ -133,6 +134,14 @@ public class BLController {
         }
 
         return role; // Return the role of the logged-in user
+    }
+
+    public List<Employee> getEmployees() {
+        return SystemStorage.getEmployees(); // Return the list of employees
+    }
+    
+    public List<Project> getProjects() {
+        return SystemStorage.getProjects(); // Return the list of projects
     }
     
 }

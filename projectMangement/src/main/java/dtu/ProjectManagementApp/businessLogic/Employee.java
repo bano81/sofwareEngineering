@@ -1,8 +1,10 @@
 package dtu.ProjectManagementApp.businessLogic;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -19,6 +21,9 @@ public class Employee {
  */
  private Map<String, Activity> activities = new HashMap<>(); // Activity ID and their corresponding activities
  private Map<String, String> projectNames = new HashMap<>(); // Activity ID and their corresponding project names
+
+ private List<Project> projectList = new ArrayList<>(); // List of projects assigned to the employee
+
  private int numberOfActivities; // Number of activities assigned to the employee
  private final int maxActivities = 20; // Maximum number of activities allowed for an employee
  private boolean isAdmin = false;
@@ -78,9 +83,6 @@ public class Employee {
  public Activity getActivity(String id){
      return activities.get(id);
  }
-
-
- 
  
  public Map<String, Activity> getActivities() {
 	    return activities;
@@ -98,8 +100,7 @@ public class Employee {
  }
 
  
- 
- public void setBudgetedHours(String id, int hours){
+ public void setBudgetedHours(String id, double hours){
 	 activities.get(id).setBudgetedHours(hours);
  }
 
@@ -115,14 +116,6 @@ public class Employee {
      return 0; // Placeholder for actual calculation logic
  }
 
- public void removeActivity(String id){
-     activities.remove(id);
- }
-
- public void removeAllActivities(){
-     activities.clear();
- }
-
  public void setUsername(String username) {
      this.username = username;
  }
@@ -135,21 +128,26 @@ public class Employee {
  public String getPassword() {
      return password;
  }
- 
- public void countNumberOfActivities() {
-	    int num = 0;
-	    for (Map.Entry<String, Activity> entry : activities.entrySet()) {
-	        Activity activity = entry.getValue();
-	        if (!activity.getActivityStatus().equalsIgnoreCase("Completed")) {
-	            num++;
-	        }
-	    }
-	    setNumberOfActivities(num);
- }
+
+ public void removeActivity(String id){
+    activities.remove(id);
+}
+
+public void removeAllActivities(){
+    activities.clear();
+}
 
  public void setNumberOfActivities(int numberOfActivities) {
         this.numberOfActivities = numberOfActivities;
  }
+
+ public void sortActivitiesByDate() {
+    Map<String, Activity> sortedMap = new LinkedHashMap<>();
+    activities.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.comparing(Activity::getStartDate)))
+            .forEachOrdered(entry -> sortedMap.put(entry.getKey(), entry.getValue()));
+    activities = sortedMap;
+}
 
  public int getNumberOfActivities() {
      return numberOfActivities;
@@ -157,14 +155,6 @@ public class Employee {
 
  public int getMaxActivities() {
      return maxActivities;
- }
- 
- public void sortActivitiesByDate() {
-	    Map<String, Activity> sortedMap = new LinkedHashMap<>();
-	    activities.entrySet().stream()
-	            .sorted(Map.Entry.comparingByValue(Comparator.comparing(Activity::getStartDate)))
-	            .forEachOrdered(entry -> sortedMap.put(entry.getKey(), entry.getValue()));
-	    activities = sortedMap;
  }
 
  public void setAdmin(boolean isAdmin) {
@@ -187,6 +177,75 @@ public class Employee {
  public void setEmployee(boolean isEmployee) {
      this.isEmployee = isEmployee;
  }
+
+
+ // Method to add a project name to the list of projects assigned to the employee
+ public void setProject(Project project) {
+     projectList.add(project);
+ }
+
+ public List<Project> getProjectList() {
+     return projectList;
+ }
+
+ public void setBudgetedHours(String pojectName, String activityName, int hours) {
+    projectList.stream()
+            .filter(project -> project.getProjectName().equalsIgnoreCase(pojectName))
+            .flatMap(project -> project.getActivities().stream())
+            .filter(activity -> activity.getActivityName().equalsIgnoreCase(activityName))
+            .findFirst()
+            .ifPresent(activity -> activity.setBudgetedHours(hours));   
+}
+
+public void setCurrentSpentHours(String pojectName, String activityName, int hours){
+    projectList.stream()
+            .filter(project -> project.getProjectName().equalsIgnoreCase(pojectName))
+            .flatMap(project -> project.getActivities().stream())
+            .filter(activity -> activity.getActivityName().equalsIgnoreCase(activityName))
+            .findFirst()
+            .ifPresent(activity -> activity.setCurrentSpentHours(hours));   
+}
+
+public double geteBudgetedHours(String pojectName, String activityName) {
+    return projectList.stream()
+            .filter(project -> project.getProjectName().equalsIgnoreCase(pojectName))
+            .flatMap(project -> project.getActivities().stream())
+            .filter(activity -> activity.getActivityName().equalsIgnoreCase(activityName))
+            .findFirst()
+            .map(Activity::getBudgetedHours)
+            .orElse(0.0); // Return 0 if not found  
+}
+
+public double getCurrentSpentHours(String pojectName, String activityName){
+    return projectList.stream()
+            .filter(project -> project.getProjectName().equalsIgnoreCase(pojectName))
+            .flatMap(project -> project.getActivities().stream())
+            .filter(activity -> activity.getActivityName().equalsIgnoreCase(activityName))
+            .findFirst()
+            .map(Activity::getCurrentSpentHours)
+            .orElse(0.0); // Return 0 if not found 
+}
+
+public void countNumberOfActivities() {
+    int num = 0;
+    for(Project project : projectList) {
+        for (Activity activity : project.getActivities()) {
+            num++;
+        }
+    }
+    setNumberOfActivities(num);
+}
+
+ /*public void countNumberOfActivities() {
+	    int num = 0;
+	    for (Map.Entry<String, Activity> entry : activities.entrySet()) {
+	        Activity activity = entry.getValue();
+	        if (!activity.getActivityStatus().equalsIgnoreCase("Completed")) {
+	            num++;
+	        }
+	    }
+	    setNumberOfActivities(num);
+ }*/
 
  /*public void getlistOfActivities(){
 	 System.out.println("Activity ID \t Activity");

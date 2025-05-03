@@ -14,6 +14,7 @@ public class SystemStorage {
         employees.add(new Employee("test", "normal", "employee")); // Create a test user
         employees.add(new Employee("test2", "project", "manager",false, true)); // Create a test user
         employees.add(new Employee("test3", "admin", "admin", true, false)); // Create a test user
+        employees.add(new Employee("test4", "normal", "employee2")); // Create a test user
     }
 
 

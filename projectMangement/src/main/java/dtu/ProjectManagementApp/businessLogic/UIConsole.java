@@ -71,7 +71,100 @@ public class UIConsole {
         }
     }
 
-    public int displayChoices(Scanner sc) {
+    public void getlistOfEmployees(Map<String, Employee> employees) {
+        System.out.println("Employee ID \t Name ");
+        System.out.println("----------- \t ----------- ");
+        for (Map.Entry<String, Employee> entry : employees.entrySet()) {
+            String employeeId = entry.getKey();
+            Employee employee = entry.getValue();
+            System.out.println(employeeId + " \t         " + employee.getName() + " " + employee.getSurname());
+        }
+    }
+
+    public int start(Scanner sc) throws ParseException {
+        int choice=2;        
+        if (blController.getLoggedInEmployeeRole() == 0) {
+            //System.out.println("Login as Admin successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+            choice = displayChoicesForManager(sc);
+            System.out.println("");
+            executeChoiceForManager(choice, sc);
+        } else if (blController.getLoggedInEmployeeRole() == 1) {
+            //System.out.println("Login as Manager successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+            choice = displayChoicesForManager(sc);
+            System.out.println("");
+            executeChoiceForManager(choice, sc);
+        } else if (blController.getLoggedInEmployeeRole() == 2) {
+            //System.out.println("Login as Employee successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+            choice = displayChoicesForEmployee(sc);
+            System.out.println("");
+            executeChoiceForEmployee(choice, sc);
+        } else {
+            System.out.println("Invalid employee ID. Please try again.");
+        }
+        return choice; // Return the choice made by the user
+    }
+
+    public int displayChoicesForEmployee(Scanner sc) {
+        System.out.println("Please choose an option:");
+        System.out.println("\t1. Display my projects");
+        System.out.println("\t2. Display my activities");
+        System.out.println("\t3. Register used hours for an activity");
+        System.out.println("\t4. Choose a project manager");
+        System.out.println("\t0. Exit");
+        System.out.print("# ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character left by nextInt()
+        return choice;
+    }
+
+    public void executeChoiceForEmployee(int choice, Scanner sc) throws ParseException {
+        switch (choice) {
+            case 1: 
+                System.out.print("List of my projects: ");
+                // Display the list of projects for the logged-in employee
+                //blController.getEmployeeProjects(SystemStorage.getLoggedInEmployee().getEmployeeId());
+                break;
+            case 2:
+                // Display the list of activities for the logged-in employee
+                System.out.print("List of my activities: ");
+                //blController.getEmployeeActivities(SystemStorage.getLoggedInEmployee().getEmployeeId());
+                break;
+            case 3:
+                // retgister used hours for an activity
+                System.out.print("Please enter project name: ");
+                String projectName = sc.nextLine();
+                System.out.print("Please enter activity ID: ");
+                String activityId = sc.nextLine();
+                System.out.print("Please enter activity budgted hours: ");
+                double activityBudgtedhour = sc.nextDouble();
+                //blController.registerUsedHours(projectName, activityId, activityBudgtedhour); // Register used hours for an activity
+                System.out.println("Used hours registered successfully.");
+                break;
+            case 4:
+                // Choose a project manager
+                System.out.print("Please enter project ID: ");
+                String projectId = sc.nextLine();
+                // check if project exists
+                /*blController.getProject(projectId); // Check if the project exists
+                if (project == null) {    
+                    System.out.println("Project with ID " + projectId + " does not exist.");
+                    break;    
+                }*/
+                // Display the list of employees who are project managers
+                System.out.print("Please enter project employee ID: ");
+                String projectManagerId = sc.nextLine();    
+                blController.getEmployee(projectManagerId).isProjectManager();
+                //blController.chooseProjectManager(projectManagerId); // Choose a project manager
+                System.out.println("Project manager chosen successfully.");
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                break;
+        }
+
+    }
+
+    public int displayChoicesForManager(Scanner sc) {
         System.out.println("Please choose an option:");
         System.out.println("\t1. Create a new employee");
         System.out.println("\t2. Create a new project");
@@ -89,17 +182,97 @@ public class UIConsole {
         return choice;
     }
 
-    public void getlistOfEmployees(Map<String, Employee> employees) {
-        System.out.println("Employee ID \t Name ");
-        System.out.println("----------- \t ----------- ");
-        for (Map.Entry<String, Employee> entry : employees.entrySet()) {
-            String employeeId = entry.getKey();
-            Employee employee = entry.getValue();
-            System.out.println(employeeId + " \t         " + employee.getName() + " " + employee.getSurname());
+    public void executeChoiceForManager(int choice, Scanner sc) throws ParseException {
+        switch (choice) {
+            case 1:
+                System.out.print("Please enter first name: ");
+                String name = sc.nextLine();
+                System.out.print("Please enter surname: ");
+                String surname = sc.nextLine();
+                System.out.print("Please enter employee ID: ");
+                String emplyeeId = sc.nextLine();
+                boolean employeeExists =  blController.createEmployee(surname, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
+                if (!employeeExists) {
+                    System.out.println("Error: Employee with the same ID or name already exists.");
+                }   else {
+                    //blController.createEmployee(name, surname, emplyeeId); // Create a new employee
+                    System.out.println("Employee created successfully.");
+                }
+                break;
+            case 2:
+                System.out.print("Please enter project name: ");
+                String projectName = sc.nextLine();
+                blController.createProject(projectName); // Create a new project
+                System.out.println("Project created successfully.");
+                break;
+            case 3:
+                System.out.print("Please enter project name: ");
+                projectName = sc.nextLine();
+                System.out.print("Please enter activity name: ");
+                String activityName = sc.nextLine();
+                System.out.print("Please enter activity ID: ");
+                String activityId = sc.nextLine();
+                blController.createNewActivity(projectName, activityId, activityName); // Create a new activity
+                
+                /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.print("Please enter activity start week (yyyy-MM-dd): ");
+                String startDateStr = sc.nextLine();
+                Date startDate = sdf.parse(startDateStr);
+                System.out.print("Please enter activity end date (yyyy-MM-dd): ");
+                String endDateStr = sc.nextLine();
+                Date endDate = sdf.parse(endDateStr);
+                System.out.print("Please enter activity budgted hours: ");
+                double activityBudgtedhour = sc.nextDouble();*/
+
+                
+                //int statusChoice = sc.nextInt();
+                //addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
+                //		activityBudgtedhour, activityStatus); // Create a new activity
+                break;
+            case 4: // Display the number of activities assigned to an employee
+                // Assign an employee to a project
+                System.out.print("Please enter employee ID: ");
+                String employeeId = sc.nextLine();
+                blController.getEmployee(employeeId).getActivities();
+                for (Map.Entry<String, Activity> entry : blController.getEmployee(employeeId).getActivities().entrySet()) {
+                    System.out.println("Activity ID: " + entry.getKey() + ", Activity Name: " + entry.getValue().getActivityName());
+                }
+                //System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
+                //System.out.println(getNumberOfNotCompletedActivities(employees,employeeId ));
+                break;
+            case 5:
+                // Assign an employee to an activity
+                break;
+            case 6:
+                // Display all employees
+                //System.out.println("List of all employees: ");
+                System.out.printf("%-15s %-15s%n","Employee ID", "Name");
+                System.out.printf("%-15s %-15s %n","-----------", "---- ");
+                for(Employee employee : blController.getEmployees()) {
+                    System.out.println(employee.getEmployeeId() + " \t " + employee.getName() + " " + employee.getSurname());
+                }
+                System.out.println("");
+                break;
+            case 7:
+                /*for (Project project : projects) {
+                    System.out.println("Project ID: " + project.getProjectId() + ", Project Name: " + project.getProjectName());
+                } // Display all projects*/
+                break;
+            case 8:
+                System.out.print("Please enter employee ID: ");
+                employeeId = sc.nextLine();
+                //displayActivites(employeeId, employees); // Display all activities for a specific employee
+                break;
+            case 0:
+                System.out.println("Exiting the program.");
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
         }
     }
 
-    public void executeChoice(int choice, Scanner sc) throws ParseException {
+    public void executeChoiceForAdmin(int choice, Scanner sc) throws ParseException {
         switch (choice) {
             case 1:
                 System.out.print("Please enter first name: ");
@@ -176,69 +349,4 @@ public class UIConsole {
                 System.out.println("Invalid choice. Please try again.");
         }
     }
-
-    public int start(Scanner sc) throws ParseException {
-        int choice=2;        
-        if (blController.getLoggedInEmployeeRole() == 0) {
-            //System.out.println("Login as Admin successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
-            choice = displayChoices(sc);
-            System.out.println("");
-            executeChoice(choice, sc);
-        } else if (blController.getLoggedInEmployeeRole() == 1) {
-            System.out.println("Login as Manager successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
-        } else if (blController.getLoggedInEmployeeRole() == 2) {
-            //System.out.println("Login as Employee successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
-            choice = displayChoicesForEmployee(sc);
-            System.out.println("");
-            executeChoiceForEmployee(choice, sc);
-        } else {
-            System.out.println("Invalid employee ID. Please try again.");
-        }
-        return choice; // Return the choice made by the user
-    }
-
-    public int displayChoicesForEmployee(Scanner sc) {
-        System.out.println("Please choose an option:");
-        System.out.println("\t1. Display my projects");
-        System.out.println("\t2. Display my activities");
-        System.out.println("\t3. Register used hours for an activity");
-        System.out.println("\t0. Exit");
-        System.out.print("# ");
-        int choice = sc.nextInt();
-        sc.nextLine(); // Consume the newline character left by nextInt()
-        return choice;
-    }
-
-    public void executeChoiceForEmployee(int choice, Scanner sc) throws ParseException {
-        switch (choice) {
-            case 1: 
-                System.out.print("List of my projects: ");
-                // Display the list of projects for the logged-in employee
-                //blController.getEmployeeProjects(SystemStorage.getLoggedInEmployee().getEmployeeId());
-                break;
-            case 2:
-                // Display the list of activities for the logged-in employee
-                System.out.print("List of my activities: ");
-                //blController.getEmployeeActivities(SystemStorage.getLoggedInEmployee().getEmployeeId());
-                break;
-            case 3:
-                // retgister used hours for an activity
-                System.out.print("Please enter project name: ");
-                String projectName = sc.nextLine();
-                System.out.print("Please enter activity ID: ");
-                String activityId = sc.nextLine();
-                System.out.print("Please enter activity budgted hours: ");
-                double activityBudgtedhour = sc.nextDouble();
-                //blController.registerUsedHours(projectName, activityId, activityBudgtedhour); // Register used hours for an activity
-                System.out.println("Used hours registered successfully.");
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
-                break;
-        }
-
-    }
-
-
-
 }
