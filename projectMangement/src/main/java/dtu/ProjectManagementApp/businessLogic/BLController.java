@@ -97,10 +97,9 @@ public class BLController {
 		return employees.get(employeeId).getNumberOfActivities();
 	}
 
-<<<<<<< HEAD
-    public void createEmployee(String firstName, String surName, String employeeId) {
+    /*public void createEmployee(String firstName, String surName, String employeeId) {
         SystemStorage.addEmployee(firstName, surName, employeeId);
-    }
+    }*/
 
     public static Employee getEmployee(String employeeId) {
         if (!SystemStorage.employeeExists(employeeId)) {
@@ -108,7 +107,5 @@ public class BLController {
         } 
         return SystemStorage.getEmployee(employeeId);
     }
-=======
->>>>>>> be78a0a5b2e430fe4b1178781c783858c7293b00
     
 }

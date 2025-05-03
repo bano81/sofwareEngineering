@@ -21,7 +21,7 @@ public class Main {
     SystemStorage.intitiateTestUsers(); // JUST FOR TESTING PURPOSES, DELETE LATER
 
      // Login process
-     uiConsole.displayLogin(sc);
+     //uiConsole.displayLogin(sc);
 
      //Main menu
     int choice = uiConsole.displayChoices(sc); // Display the choices
