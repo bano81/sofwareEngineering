@@ -158,6 +158,10 @@ public class CLIEngine {
         }
     }
 
+    public void displayActivities(){
+        
+    }
+
     public int displayChoices(Scanner sc) {
         System.out.println("Please choose an option:");
         System.out.println("\t1. Create a new employee");

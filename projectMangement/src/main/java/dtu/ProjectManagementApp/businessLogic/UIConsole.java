@@ -2,6 +2,7 @@ package dtu.ProjectManagementApp.businessLogic;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -71,16 +72,6 @@ public class UIConsole {
         }
     }
 
-    public void getlistOfEmployees(Map<String, Employee> employees) {
-        System.out.println("Employee ID \t Name ");
-        System.out.println("----------- \t ----------- ");
-        for (Map.Entry<String, Employee> entry : employees.entrySet()) {
-            String employeeId = entry.getKey();
-            Employee employee = entry.getValue();
-            System.out.println(employeeId + " \t         " + employee.getName() + " " + employee.getSurname());
-        }
-    }
-
     public int start(Scanner sc) throws ParseException {
         int choice=2;        
         if (blController.getLoggedInEmployeeRole() == 0) {
@@ -103,6 +94,118 @@ public class UIConsole {
         }
         return choice; // Return the choice made by the user
     }
+
+    public void readNewEmployee(Scanner sc) {
+        System.out.print("Please enter first name: ");
+        String name = sc.nextLine();
+        System.out.print("Please enter surname: ");
+        String surname = sc.nextLine();
+        System.out.print("Please enter employee ID: ");
+        String emplyeeId = sc.nextLine();
+        boolean employeeExists =  blController.createEmployee(name, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
+        if (!employeeExists) {
+            System.out.println("Error: Employee with the same ID or name already exists.");
+        }   else {
+            //blController.createEmployee(name, surname, emplyeeId); // Create a new employee
+            System.out.println("Employee created successfully.");
+        }
+    }
+
+    public void readNewActivity(Scanner sc){
+                System.out.print("Please enter project name: ");
+                String projectName = sc.nextLine();
+                System.out.print("Please enter activity name: ");
+                String activityName = sc.nextLine();
+                System.out.print("Please enter activity ID: ");
+                String activityIdStr = sc.nextLine();
+                int activityId = Integer.parseInt(activityIdStr); // Convert activity ID to integer
+                System.out.print("Please enter employee ID: ");
+                String employeeId = sc.nextLine();
+                blController.createNewActivity(projectName, activityId, activityName, employeeId); // Create a new activity
+                
+                /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.print("Please enter activity start week (yyyy-MM-dd): ");
+                String startDateStr = sc.nextLine();
+                Date startDate = sdf.parse(startDateStr);
+                System.out.print("Please enter activity end date (yyyy-MM-dd): ");
+                String endDateStr = sc.nextLine();
+                Date endDate = sdf.parse(endDateStr);
+                System.out.print("Please enter activity budgted hours: ");
+                double activityBudgtedhour = sc.nextDouble();*/
+
+                
+                //int statusChoice = sc.nextInt();
+                //addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
+                //		activityBudgtedhour, activityStatus); // Create a new activity
+    }
+
+    public void readNewProject(Scanner sc){
+                System.out.print("Please enter project name: ");
+                String projectName = sc.nextLine();
+                System.out.print("Please enter project ID: ");
+                String projectId = sc.nextLine();
+                blController.createProject(projectId, projectName); // Create a new project
+                System.out.println("Project created successfully.");
+    }
+
+    public void displayAllActivities(){
+       List<Activity> activities = blController.getActivities(); // Get the list of activities
+       System.out.printf("%-12s %-15s %-15s %-15s %-16s%n",
+               "Activity ID", "Name", "Start Date", "End Date", "Budgeted Hours");
+       System.out.printf("%-12s %-15s %-15s %-15s %-16s%n",
+               "-----------", "----", "----------", "--------", "---------------");
+        for (Activity activity : activities) {
+            System.out.printf("%-12d %-15s %-15s %-15s %-16.1f%n",
+                    activity.getActivityId(),
+                    activity.getActivityName(),
+                    activity.getStartDate(),
+                    activity.getEndDate(),
+                    activity.getBudgetedHours());
+        }
+    }
+
+    public void displayAllActivitiesForEmployee(String employeeId){
+        List<Activity> activities = blController.getActivitiesByEmployee(employeeId); // Get the list of activities for a specific employee
+        System.out.printf("%-12s %-15s %-15s %-15s %-16s %n",
+                "Activity ID", "Name", "Start Date", "End Date", "Budgeted Hours");
+        System.out.printf("%-12s %-15s %-15s %-15s %-16s %n",
+                "-----------", "----", "----------", "--------", "---------------");
+        for (Activity activity : activities) {
+            System.out.printf("%-12d %-15s %-15s %-15s %-16.1f %n",
+                    activity.getActivityId(),
+                    activity.getActivityName(),
+                    activity.getStartDate(),
+                    activity.getEndDate(),
+                    activity.getBudgetedHours());
+        }
+    }
+
+    public void displayAllEmployees(){
+        List<Employee> employees = blController.getEmployees(); // Get the list of employees
+        System.out.printf("%-12s %-15s%n",
+                "Employee ID", "Name");
+        System.out.printf("%-12s %-15s%n",
+                "-----------", "---- ");
+        for (Employee employee : employees) {
+            System.out.printf("%-12s %-15s%n",
+                    employee.getEmployeeId(),
+                    employee.getName() + " " + employee.getSurname());
+        }
+    }
+
+    public void displayAllProjects(){
+        List<Project> projects = blController.getProjects(); // Get the list of projects
+        System.out.printf("%-12s %-15s%n",
+                "Project ID", "Name");
+        System.out.printf("%-12s %-15s%n",
+                "-----------", "---- ");
+        for (Project project : projects) {
+            System.out.printf("%-12s %-15s%n",
+                    project.getProjectId(),
+                    project.getProjectName());
+        }
+    }
+
 
     public int displayChoicesForEmployee(Scanner sc) {
         System.out.println("Please choose an option:");
@@ -185,51 +288,13 @@ public class UIConsole {
     public void executeChoiceForManager(int choice, Scanner sc) throws ParseException {
         switch (choice) {
             case 1:
-                System.out.print("Please enter first name: ");
-                String name = sc.nextLine();
-                System.out.print("Please enter surname: ");
-                String surname = sc.nextLine();
-                System.out.print("Please enter employee ID: ");
-                String emplyeeId = sc.nextLine();
-                boolean employeeExists =  blController.createEmployee(name, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
-                if (!employeeExists) {
-                    System.out.println("Error: Employee with the same ID or name already exists.");
-                }   else {
-                    //blController.createEmployee(name, surname, emplyeeId); // Create a new employee
-                    System.out.println("Employee created successfully.");
-                }
+                readNewEmployee(sc);
                 break;
             case 2:
-                System.out.print("Please enter project name: ");
-                String projectName = sc.nextLine();
-                System.out.print("Please enter project ID: ");
-                String projectId = sc.nextLine();
-                blController.createProject(projectId, projectName); // Create a new project
-                System.out.println("Project created successfully.");
+                readNewProject(sc);
                 break;
             case 3:
-                System.out.print("Please enter project name: ");
-                projectName = sc.nextLine();
-                System.out.print("Please enter activity name: ");
-                String activityName = sc.nextLine();
-                System.out.print("Please enter activity ID: ");
-                String activityId = sc.nextLine();
-                blController.createNewActivity(projectName, activityId, activityName); // Create a new activity
-                
-                /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                System.out.print("Please enter activity start week (yyyy-MM-dd): ");
-                String startDateStr = sc.nextLine();
-                Date startDate = sdf.parse(startDateStr);
-                System.out.print("Please enter activity end date (yyyy-MM-dd): ");
-                String endDateStr = sc.nextLine();
-                Date endDate = sdf.parse(endDateStr);
-                System.out.print("Please enter activity budgted hours: ");
-                double activityBudgtedhour = sc.nextDouble();*/
-
-                
-                //int statusChoice = sc.nextInt();
-                //addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
-                //		activityBudgtedhour, activityStatus); // Create a new activity
+                readNewActivity(sc);
                 break;
             case 4: // Display the number of activities assigned to an employee
                 // Assign an employee to a project
@@ -246,24 +311,15 @@ public class UIConsole {
                 // Assign an employee to an activity
                 break;
             case 6:
-                System.out.printf("%-15s %-15s%n","Employee ID", "Name");
-                System.out.printf("%-15s %-15s %n","-----------", "---- ");
-                for(Employee employee : blController.getEmployees()) {
-                    System.out.printf("%-15s %-15s%n", employee.getEmployeeId(), employee.getName() + " " + employee.getSurname());
-                }
-                System.out.println("");
+                displayAllEmployees(); // Display all employees 
                 break;
             case 7:
-                System.out.printf("%-15s %-15s%n","Project ID", "Name");
-                System.out.printf("%-15s %-15s %n","-----------", "---- ");
-                for (Project project : blController.getProjects()) {
-                    System.out.printf("%-15s %-15s%n", project.getProjectId(), project.getProjectName());
-                } // Display all projects
-                System.out.println("");
+                displayAllProjects(); // Display all projects
                 break;
             case 8:
                 System.out.print("Please enter employee ID: ");
                 employeeId = sc.nextLine();
+                displayAllActivitiesForEmployee(employeeId); // Display all activities for a specific employee
                 //displayActivites(employeeId, employees); // Display all activities for a specific employee
                 break;
             case 0:
@@ -278,55 +334,16 @@ public class UIConsole {
     public void executeChoiceForAdmin(int choice, Scanner sc) throws ParseException {
         switch (choice) {
             case 1:
-                System.out.print("Please enter first name: ");
-                String name = sc.nextLine();
-                System.out.print("Please enter surname: ");
-                String surname = sc.nextLine();
-                System.out.print("Please enter employee ID: ");
-                String emplyeeId = sc.nextLine();
-                boolean employeeExists =  blController.createEmployee(surname, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
-                if (!employeeExists) {
-                    System.out.println("Error: Employee with the same ID or name already exists.");
-                }   else {
-                    //blController.createEmployee(name, surname, emplyeeId); // Create a new employee
-                    System.out.println("Employee created successfully.");
-                }
+                
                 break;
             case 2:
-                System.out.print("Please enter project name: ");
-                String projectName = sc.nextLine();
-                blController.createProject(projectName); // Create a new project
-                System.out.println("Project created successfully.");
+                
                 break;
             case 3:
-                System.out.print("Please enter project name: ");
-                projectName = sc.nextLine();
-                System.out.print("Please enter activity name: ");
-                String activityName = sc.nextLine();
-                System.out.print("Please enter activity ID: ");
-                String activityId = sc.nextLine();
                 
-                /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                System.out.print("Please enter activity start week (yyyy-MM-dd): ");
-                String startDateStr = sc.nextLine();
-                Date startDate = sdf.parse(startDateStr);
-                System.out.print("Please enter activity end date (yyyy-MM-dd): ");
-                String endDateStr = sc.nextLine();
-                Date endDate = sdf.parse(endDateStr);
-                System.out.print("Please enter activity budgted hours: ");
-                double activityBudgtedhour = sc.nextDouble();*/
-
-                System.out.print("# ");
-                //int statusChoice = sc.nextInt();
-                //addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
-                //		activityBudgtedhour, activityStatus); // Create a new activity
                 break;
             case 4:
-                // Assign an employee to a project
-                System.out.print("Please enter employee ID: ");
-                String employeeId = sc.nextLine();
-                //System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
-                //System.out.println(getNumberOfNotCompletedActivities(employees,employeeId ));
+                
                 break;
             case 5:
                 // Assign an employee to an activity
@@ -340,13 +357,10 @@ public class UIConsole {
                 } // Display all projects*/
                 break;
             case 8:
-                System.out.print("Please enter employee ID: ");
-                employeeId = sc.nextLine();
-                //displayActivites(employeeId, employees); // Display all activities for a specific employee
+                
                 break;
             case 0:
-                System.out.println("Exiting the program.");
-                System.exit(0);
+                
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");

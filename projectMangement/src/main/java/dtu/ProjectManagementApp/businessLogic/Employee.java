@@ -188,6 +188,30 @@ public void removeAllActivities(){
      return projectList;
  }
 
+ public List<Activity> getAllActivities() {
+    List<Activity> activityList = new ArrayList<>();
+    for(Project project : projectList) {
+        activityList.addAll(project.getActivities());
+    }
+    return activityList;
+}
+
+public List<Activity> getActivitiesByProject(String projectName) {
+    List<Activity> activityList = new ArrayList<>();
+    for(Project project : projectList) {
+        if (project.getProjectName().equalsIgnoreCase(projectName)) {
+            activityList.addAll(project.getActivities());
+        }
+    }
+    return activityList;
+}
+
+public void countNumberOfActivities() {
+    List<Activity> allActivities = getAllActivities();
+    int num = allActivities.size();
+    setNumberOfActivities(num);
+}
+
  public void setBudgetedHours(String pojectName, String activityName, int hours) {
     projectList.stream()
             .filter(project -> project.getProjectName().equalsIgnoreCase(pojectName))
@@ -224,16 +248,6 @@ public double getCurrentSpentHours(String pojectName, String activityName){
             .findFirst()
             .map(Activity::getCurrentSpentHours)
             .orElse(0.0); // Return 0 if not found 
-}
-
-public void countNumberOfActivities() {
-    int num = 0;
-    for(Project project : projectList) {
-        for (Activity activity : project.getActivities()) {
-            num++;
-        }
-    }
-    setNumberOfActivities(num);
 }
 
  /*public void countNumberOfActivities() {

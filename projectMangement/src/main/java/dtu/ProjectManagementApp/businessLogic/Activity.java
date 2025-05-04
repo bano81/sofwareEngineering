@@ -19,9 +19,9 @@ public class Activity {
        this.activityName = activityName;
    }
 
-   public Activity(String activityId, String activityName) {
+   public Activity(int activityId, String activityName) {
     this.activityName = activityName;
-    this.ativityStatus = activityId;
+    this.activityId = activityId;
    }
 
    public Activity(String activityName, String activityStatus, Date startDate, Date endDate) {
