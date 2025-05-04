@@ -78,4 +78,7 @@ public class SystemStorage {
         return employees.stream()
                 .anyMatch(employee -> employee.getEmployeeId().equals(employeeId));        
     }
+    public static void resetLoginState() {
+        employeeLoggedIn = null;
+    }
 }
