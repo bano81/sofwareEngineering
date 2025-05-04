@@ -1,22 +1,41 @@
-Feature: Create employee
+Feature: Create and manage employees
 
-Scenario: Create employee
-	Given an admin user exists
-	And an admin user is logged in
-	When the user creates an employee with name "Hubert", surname "Baumeister" and ID "huba"
-	Then a user with id "huba" is added to the list of employees
-	And I logout
-	
-# Scenario: Create an employee with used ID
-# 	Given emplyee with name "Baqer", surname "Nour" and ID "bano" exists
-# 	When an employee is created with name "Noah", surname "Johnsen" and a used ID "bano"
-# 	Then the system will return an error message.
-	
-# Scenario: Adding activity to existing employee
-# 	When an employee with ID "huba" add activity with ID "ana1", name "analysis", start date "2025-04-21", end date "2025-04-23", budget hours 3 and status "In progross"
-# 	Then show the list of activities for the employee with ID "huba"
-	
-# Scenario: Display number of activity for an existing employee
-# 	Given an employee with ID "huba" exits
-# 	When the user select the employee with ID "huba"
-# 	Then the system should display the number of activities that are not finished and the list of activites for the employee with ID "huba"
+	Scenario: Create employee
+		Given an admin user exists
+		And an admin user is logged in
+		When the user creates an employee with name "Hubert", surname "Baumeister" and ID "huba"
+		Then a user with id "huba" is added to the list of employees
+		And I logout
+
+# 	Scenario: Create an employee with used ID
+# 		Given emplyee with name "Baqer", surname "Nour" and ID "bano" exists
+# 		When an employee is created with name "Noah", surname "Johnsen" and a used ID "bano"
+# 		Then the system will return an error message.
+
+#	Scenario: Adding activity to existing employee
+#		Given an admin user exists
+#		And the admin user is logged in
+#		And an employee with ID "huba" exists
+#		And a project named "NewProject" exists
+#		And an activity named "NewActivity" exists in project "NewProject"
+#		When the admin adds the activity "NewActivity" from project "NewProject" to the employee with ID "huba"
+#		Then the employee with ID "huba" should have the activity "NewActivity" from project "NewProject" assigned
+#		And I logout
+
+# 	Scenario: Adding activity to existing employee
+# 		When an employee with ID "huba" add activity with ID "ana1", name "analysis", start date "2025-04-21", end date "2025-04-23", budget hours 3 and status "In progross"
+# 		Then show the list of activities for the employee with ID "huba"
+
+# 	Scenario: Display number of activity for an existing employee
+# 		Given an employee with ID "huba" exits
+# 		When the user select the employee with ID "huba"
+# 		Then the system should display the number of activities that are not finished and the list of activites for the employee with ID "huba"
+
+# 	Scenario: Display available employees
+#		Given a project manager exists
+#		And a project manager is logged in
+#		And an employee with ID "huba" exists
+#		And an employee with ID "bano" exists
+#		When the project manager requests the list of available employees
+#		Then the system should display the list of available employees
+#		And I logout
