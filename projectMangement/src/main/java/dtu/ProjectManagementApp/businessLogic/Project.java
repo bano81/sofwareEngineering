@@ -1,10 +1,9 @@
 package dtu.ProjectManagementApp.businessLogic;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 
 
 public class Project {
@@ -72,6 +71,15 @@ public class Project {
 
     public void removeActivity(Activity activity) {
         this.activities.remove(activity);
+    }
+
+    public Activity getActivity(String activityName) {
+        for (Activity activity : activities) {
+            if (activity.getActivityName().equals(activityName)) {
+                return activity;
+            }
+        }
+        return null;
     }
 
     public boolean isOverdue() {

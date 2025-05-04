@@ -55,6 +55,14 @@ public class SystemStorage {
                 .findFirst()
                 .orElse(null);
     }
+    
+    public static Project getProjectByName(String projectName) {
+        return projects.stream()
+                .filter(project -> project.getProjectName().equals(projectName))
+                .findFirst()
+                .orElse(null);
+    }
+    
 
     public static void removeProject(String projectID) {
         projects.remove(getProject(projectID));

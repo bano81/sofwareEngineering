@@ -23,6 +23,7 @@ public class Employee {
  private Map<String, String> projectNames = new HashMap<>(); // Activity ID and their corresponding project names
 
  private List<Project> projectList = new ArrayList<>(); // List of projects assigned to the employee
+ private List<Activity> activityList = new ArrayList<>(); // List of activities assigned to the employee
 
  private int numberOfActivities; // Number of activities assigned to the employee
  private final int maxActivities = 20; // Maximum number of activities allowed for an employee
@@ -80,12 +81,28 @@ public class Employee {
      activities.put(id, activity);
  }
 
+ public void setActivity(Activity activity){
+     activities.put(activity.getActivityName(), activity);
+ }
+
  public Activity getActivity(String id){
      return activities.get(id);
  }
  
  public Map<String, Activity> getActivities() {
 	    return activities;
+ }
+
+ public Activity getActivity(int id){
+    return activityList.get(id);
+ }
+
+ public List<Activity> getActivityList() {
+     return activityList;
+ }
+
+ public void setActivityList(Activity activity){
+     activityList.add(activity);
  }
 
  public void getlistOfProjects(){
@@ -249,6 +266,7 @@ public double getCurrentSpentHours(String pojectName, String activityName){
             .map(Activity::getCurrentSpentHours)
             .orElse(0.0); // Return 0 if not found 
 }
+
 
  /*public void countNumberOfActivities() {
 	    int num = 0;

@@ -90,6 +90,31 @@ public class BLController {
         return SystemStorage.getEmployee(employeeId);
     }
 
+    void assignEmployeeToActivity(String projectName, String activityName, String employeeId) {
+        /*SystemStorage.getProjects().stream()
+                .filter(project -> project.getProjectName().equals(projectName))
+                .flatMap(project -> project.getActivities().stream())
+                .filter(activity -> activity.getActivityName().equals(activityName))
+                .findFirst()
+                .ifPresent(activity -> {
+                    Employee employee = SystemStorage.getEmployee(employeeId); // Get the employee by ID
+                    activity.assignEmployee(employee); // Assign the employee to the activity
+                    employee.setActivity(activity); // Set the activity for the employee
+                }); // Assign the employee to the activity*/
+        Project project = SystemStorage.getProjectByName(projectName); // Get the project by name
+        if (project != null) {
+            Activity activity = project.getActivity(activityName); // Get the activity by name
+            if (activity != null) {
+                SystemStorage.getEmployee(employeeId).setProject(project);
+                SystemStorage.getEmployee(employeeId).setActivityList(activity);  // Set the activity for the employee
+            } else {
+                throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectName + ".");
+            }
+        } else {
+            throw new IllegalArgumentException("Project with name " + projectName + " does not exist.");
+        }
+    }
+
     /*public boolean createEmployee(String firstName, String surName, String employeeId){
         if(!SystemStorage.getLoggedInEmployee().isAdmin() && !SystemStorage.getLoggedInEmployee().isProjectManager()) { // Check if the logged-in employee is an admin or project manager
             return false; // Check if the logged-in employee is an admin
@@ -163,11 +188,16 @@ public class BLController {
                 .toList(); // Return the list of activities for the specified project
     }
 
-    public List<Activity> getActivitiesByEmployee(String employeeId) {
+    /*public List<Activity> getActivitiesByEmployee(String employeeId) {
         return SystemStorage.getEmployees().stream()
                 .filter(employee -> employee.getEmployeeId().equals(employeeId))
                 .flatMap(employee -> employee.getAllActivities().stream())
                 .toList(); // Return the list of activities for the specified employee
+    }*/
+
+    public List<Activity> getActivitiesByEmployee(String employeeId) {
+        Employee employee = SystemStorage.getEmployee(employeeId); // Get the employee by ID
+        return employee.getActivityList();//  getAllActivities(); // Return the list of activities for the specified employee
     }
 
     public int getNumberOfActivitiesByEmployee(String employeeId) {
@@ -200,6 +230,8 @@ public class BLController {
     /*public void createEmployee(String firstName, String surName, String employeeId) {
         SystemStorage.addEmployee(firstName, surName, employeeId);
     }*/
+
+    
 
     
 

@@ -27,37 +27,6 @@ public class UIConsole {
 		}
 	}
 
-    public void displayActivites(String employeeId, Map<String, Employee> employees) {
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
-        String startDateStr;
-        String endDateStr;
-        Map<String, Activity> activities = employees.get(employeeId).getActivities();
-        
-        System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
-        
-        // Header with fixed column widths
-        System.out.printf("%-12s %-15s %-15s %-15s %-16s %-15s%n",
-                "Activity ID", "Name", "Start Date", "End Date", "Budgeted Hours");
-        System.out.printf("%-12s %-15s %-15s %-15s %-16s %-15s%n",
-                "-----------", "----", "----------", "--------", "---------------");
-        
-        // Data rows with fixed column widths
-        for (Map.Entry<String, Activity> entry : activities.entrySet()) {
-            String activityId = entry.getKey();
-            Activity activity = entry.getValue();
-            startDateStr = formatter.format(activity.getStartDate());
-            endDateStr = formatter.format(activity.getEndDate());
-            
-            System.out.printf("%-12s %-15s %-15s %-15s %-16.1f %-15s%n",
-                    activityId,
-                    activity.getActivityName(),
-                    startDateStr,
-                    endDateStr,
-                    activity.getBudgetedHours(),
-                    activity.getActivityStatus());
-        }
-    }
-
     public void displayLogin(Scanner sc) {
         boolean loggedIn = false;
         while (!loggedIn) {
@@ -120,8 +89,9 @@ public class UIConsole {
                 String activityIdStr = sc.nextLine();
                 int activityId = Integer.parseInt(activityIdStr); // Convert activity ID to integer
                 System.out.print("Please enter employee ID: ");
-                String employeeId = sc.nextLine();
-                blController.createNewActivity(projectName, activityId, activityName, employeeId); // Create a new activity
+                blController.createNewActivity(projectName, activityId, activityName);
+                //String employeeId = sc.nextLine();
+                //blController.createNewActivity(projectName, activityId, activityName, employeeId); // Create a new activity
                 
                 /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 System.out.print("Please enter activity start week (yyyy-MM-dd): ");
@@ -137,6 +107,23 @@ public class UIConsole {
                 //int statusChoice = sc.nextInt();
                 //addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
                 //		activityBudgtedhour, activityStatus); // Create a new activity
+    }
+
+    public void assignEmployeeToActivity(Scanner sc) {
+        String choice = "y";
+        System.out.print("Please enter project name: ");
+        String projectName = sc.nextLine();
+        System.out.print("Please enter activity name: ");
+        String activityName = sc.nextLine();
+        while (choice.equalsIgnoreCase("y")) {    
+            System.out.print("Please enter employee ID: ");
+            String employeeId = sc.nextLine();
+            blController.assignEmployeeToActivity(projectName, activityName, employeeId); // Assign an employee to an activity
+            System.out.println("");
+            System.out.print("Do you want to assign another employee to an activity? (y/n): ");
+            choice = sc.nextLine();
+            choice = choice.toLowerCase(); // Convert to lowercase for comparison
+        }
     }
 
     public void readNewProject(Scanner sc){
@@ -308,7 +295,7 @@ public class UIConsole {
                 //System.out.println(getNumberOfNotCompletedActivities(employees,employeeId ));
                 break;
             case 5:
-                // Assign an employee to an activity
+                assignEmployeeToActivity(sc); // Assign an employee to an activity
                 break;
             case 6:
                 displayAllEmployees(); // Display all employees 
@@ -366,4 +353,39 @@ public class UIConsole {
                 System.out.println("Invalid choice. Please try again.");
         }
     }
+
+
+
+    public void displayActivites(String employeeId, Map<String, Employee> employees) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+        String startDateStr;
+        String endDateStr;
+        Map<String, Activity> activities = employees.get(employeeId).getActivities();
+        
+        System.out.println("List of activities for employee " + employees.get(employeeId).getName() + ":");
+        
+        // Header with fixed column widths
+        System.out.printf("%-12s %-15s %-15s %-15s %-16s %-15s%n",
+                "Activity ID", "Name", "Start Date", "End Date", "Budgeted Hours");
+        System.out.printf("%-12s %-15s %-15s %-15s %-16s %-15s%n",
+                "-----------", "----", "----------", "--------", "---------------");
+        
+        // Data rows with fixed column widths
+        for (Map.Entry<String, Activity> entry : activities.entrySet()) {
+            String activityId = entry.getKey();
+            Activity activity = entry.getValue();
+            startDateStr = formatter.format(activity.getStartDate());
+            endDateStr = formatter.format(activity.getEndDate());
+            
+            System.out.printf("%-12s %-15s %-15s %-15s %-16.1f %-15s%n",
+                    activityId,
+                    activity.getActivityName(),
+                    startDateStr,
+                    endDateStr,
+                    activity.getBudgetedHours(),
+                    activity.getActivityStatus());
+        }
+    }
+
+
 }
