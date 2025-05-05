@@ -1,11 +1,8 @@
 package dtu.ProjectManagementApp.businessLogic;
 
+
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class Employee {
@@ -19,8 +16,9 @@ public class Employee {
  private String telephonnumber;
  private Adresse adresse;
  */
- private Map<String, Activity> activities = new HashMap<>(); // Activity ID and their corresponding activities
- private Map<String, String> projectNames = new HashMap<>(); // Activity ID and their corresponding project names
+ 
+ //private Map<String, Activity> activities = new HashMap<>(); // Activity ID and their corresponding activities
+ //private Map<String, String> projectNames = new HashMap<>(); // Activity ID and their corresponding project names
 
  private List<Project> projectList = new ArrayList<>(); // List of projects assigned to the employee
  private List<Activity> activityList = new ArrayList<>(); // List of activities assigned to the employee
@@ -77,22 +75,7 @@ public class Employee {
      return surname;
  }
 
- public void setActivity(String id, Activity activity){
-     activities.put(id, activity);
- }
-
- public void setActivity(Activity activity){
-     activities.put(activity.getActivityName(), activity);
- }
-
- public Activity getActivity(String id){
-     return activities.get(id);
- }
  
- public Map<String, Activity> getActivities() {
-	    return activities;
- }
-
  public Activity getActivity(int id){
     return activityList.get(id);
  }
@@ -105,29 +88,7 @@ public class Employee {
      activityList.add(activity);
  }
 
- public void getlistOfProjects(){
-     for (Map.Entry<String, Activity> entry : activities.entrySet()) {
-         String projectName = entry.getKey();
-         System.out.println("Project Name: " + projectName);
-     }
- }
- 
- public double geteBudgetedHours(String id) {
-	 return activities.get(id).getBudgetedHours();
- }
 
- 
- public void setBudgetedHours(String id, double hours){
-	 activities.get(id).setBudgetedHours(hours);
- }
-
- public void setCurrentSpentHours(String id, double hours){
-	 activities.get(id).setCurrentSpentHours(hours);
- }
- 
- public double getCurrentSpentHours(String id){
-	    return activities.get(id).getCurrentSpentHours(); 
- }
 
  public double calculateSpentHours(String id){
      return 0; // Placeholder for actual calculation logic
@@ -145,26 +106,12 @@ public class Employee {
  public String getPassword() {
      return password;
  }
-
- public void removeActivity(String id){
-    activities.remove(id);
-}
-
-public void removeAllActivities(){
-    activities.clear();
-}
-
+ 
  public void setNumberOfActivities(int numberOfActivities) {
-        this.numberOfActivities = numberOfActivities;
- }
-
- public void sortActivitiesByDate() {
-    Map<String, Activity> sortedMap = new LinkedHashMap<>();
-    activities.entrySet().stream()
-            .sorted(Map.Entry.comparingByValue(Comparator.comparing(Activity::getStartDate)))
-            .forEachOrdered(entry -> sortedMap.put(entry.getKey(), entry.getValue()));
-    activities = sortedMap;
+     this.numberOfActivities = numberOfActivities;
 }
+
+ 
 
  public int getNumberOfActivities() {
      return numberOfActivities;
@@ -224,7 +171,7 @@ public List<Activity> getActivitiesByProject(String projectName) {
 }
 
 public void countNumberOfActivities() {
-    List<Activity> allActivities = getAllActivities();
+    List<Activity> allActivities = getActivityList();
     int num = allActivities.size();
     setNumberOfActivities(num);
 }
@@ -267,6 +214,63 @@ public double getCurrentSpentHours(String pojectName, String activityName){
             .orElse(0.0); // Return 0 if not found 
 }
 
+
+/*
+public void setActivity(String id, Activity activity){
+    activities.put(id, activity);
+}
+
+public void setActivity(Activity activity){
+    activities.put(activity.getActivityName(), activity);
+}
+
+public Activity getActivity(String id){
+    return activities.get(id);
+}
+
+public Map<String, Activity> getActivities() {
+	    return activities;
+}
+public void getlistOfProjects(){
+    for (Map.Entry<String, Activity> entry : activities.entrySet()) {
+        String projectName = entry.getKey();
+        System.out.println("Project Name: " + projectName);
+    }
+}
+
+public double geteBudgetedHours(String id) {
+	 return activities.get(id).getBudgetedHours();
+}
+
+
+public void setBudgetedHours(String id, double hours){
+	 activities.get(id).setBudgetedHours(hours);
+}
+
+public void setCurrentSpentHours(String id, double hours){
+	 activities.get(id).setCurrentSpentHours(hours);
+}
+
+public double getCurrentSpentHours(String id){
+	    return activities.get(id).getCurrentSpentHours(); 
+}
+public void removeActivity(String id){
+   activities.remove(id);
+}
+
+public void removeAllActivities(){
+   activities.clear();
+}
+
+
+
+public void sortActivitiesByDate() {
+   Map<String, Activity> sortedMap = new LinkedHashMap<>();
+   activities.entrySet().stream()
+           .sorted(Map.Entry.comparingByValue(Comparator.comparing(Activity::getStartDate)))
+           .forEachOrdered(entry -> sortedMap.put(entry.getKey(), entry.getValue()));
+   activities = sortedMap;
+}
 
  /*public void countNumberOfActivities() {
 	    int num = 0;

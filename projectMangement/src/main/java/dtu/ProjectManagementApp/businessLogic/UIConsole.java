@@ -1,9 +1,7 @@
 package dtu.ProjectManagementApp.businessLogic;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class UIConsole {
@@ -193,6 +191,20 @@ public class UIConsole {
         }
     }
 
+    public void displayAllProjectsForEmployee(String employeeId){
+        List<Project> projects = blController.getEmployee(employeeId).getProjectList(); // Get the list of projects for a specific employee
+        System.out.printf("%-12s %-15s%n",
+                "Project ID", "Name");
+        System.out.printf("%-12s %-15s%n",
+                "-----------", "---- ");
+        for (Project project : projects) {
+            System.out.printf("%-12s %-15s%n",
+                    project.getProjectId(),
+                    project.getProjectName());
+        }
+
+    }
+
 
     public int displayChoicesForEmployee(Scanner sc) {
         System.out.println("Please choose an option:");
@@ -210,14 +222,12 @@ public class UIConsole {
     public void executeChoiceForEmployee(int choice, Scanner sc) throws ParseException {
         switch (choice) {
             case 1: 
-                System.out.print("List of my projects: ");
-                // Display the list of projects for the logged-in employee
-                //blController.getEmployeeProjects(SystemStorage.getLoggedInEmployee().getEmployeeId());
+                //System.out.print("List of my projects: ");
+                
                 break;
             case 2:
                 // Display the list of activities for the logged-in employee
-                System.out.print("List of my activities: ");
-                //blController.getEmployeeActivities(SystemStorage.getLoggedInEmployee().getEmployeeId());
+                displayAllActivitiesForEmployee(SystemStorage.getLoggedInEmployee().getEmployeeId()); 
                 break;
             case 3:
                 // retgister used hours for an activity
@@ -284,15 +294,16 @@ public class UIConsole {
                 readNewActivity(sc);
                 break;
             case 4: // Display the number of activities assigned to an employee
-                // Assign an employee to a project
                 System.out.print("Please enter employee ID: ");
                 String employeeId = sc.nextLine();
-                blController.getEmployee(employeeId).getActivities();
-                for (Map.Entry<String, Activity> entry : blController.getEmployee(employeeId).getActivities().entrySet()) {
-                    System.out.println("Activity ID: " + entry.getKey() + ", Activity Name: " + entry.getValue().getActivityName());
+                Employee employee = blController.getEmployee(employeeId); // Get the employee by ID
+                if (employee != null) {
+                    employee.countNumberOfActivities(); // Count the number of activities assigned to the employee
+                    int numberOfActivities = employee.getNumberOfActivities(); // Get the number of activities assigned to the employee
+                    System.out.println("Number of activities assigned to employee " + employee.getName() + ": " + numberOfActivities);
+                } else {
+                    System.out.println("Employee with ID " + employeeId + " does not exist.");
                 }
-                //System.out.print("Number of activity assigned to "+ employees.get(employeeId).getName() + ": ");
-                //System.out.println(getNumberOfNotCompletedActivities(employees,employeeId ));
                 break;
             case 5:
                 assignEmployeeToActivity(sc); // Assign an employee to an activity
@@ -356,7 +367,7 @@ public class UIConsole {
 
 
 
-    public void displayActivites(String employeeId, Map<String, Employee> employees) {
+    /*public void displayActivites(String employeeId, Map<String, Employee> employees) {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
         String startDateStr;
         String endDateStr;
@@ -385,7 +396,7 @@ public class UIConsole {
                     activity.getBudgetedHours(),
                     activity.getActivityStatus());
         }
-    }
+    }*/
 
 
 }

@@ -15,6 +15,24 @@ public class SystemStorage {
         employees.add(new Employee("test2", "project", "manager",false, true)); // Create a test user
         employees.add(new Employee("test3", "admin", "admin", true, false)); // Create a test user
         employees.add(new Employee("test4", "normal", "employee2")); // Create a test user
+
+        projects.add(new Project("1", "P1")); // Create a test project
+        projects.add(new Project("2", "P2")); // Create a test project
+        projects.add(new Project("3", "P3")); // Create a test project
+       
+        SystemStorage.getProjectByName("P1").addActivity(new Activity(1,"desing"));
+        SystemStorage.getProjectByName("P1").addActivity(new Activity(2,"analysis"));
+        SystemStorage.getProjectByName("P2").addActivity(new Activity(3,"implementation"));
+
+        SystemStorage.getEmployee("manager").setProject(SystemStorage.getProjectByName("P1"));
+        SystemStorage.getEmployee("admin").setProject(SystemStorage.getProjectByName("P2"));
+        
+        SystemStorage.getEmployee("admin").setActivityList(new Activity(1,"desing"));
+        SystemStorage.getEmployee("admin").setActivityList(new Activity(2,"analysis"));
+        SystemStorage.getEmployee("admin").setActivityList(new Activity(3,"implementation"));
+        SystemStorage.getEmployee("employee").setActivityList(new Activity(1,"desing"));
+        SystemStorage.getEmployee("employee2").setActivityList(new Activity(3,"implementation"));
+
     }
 
 

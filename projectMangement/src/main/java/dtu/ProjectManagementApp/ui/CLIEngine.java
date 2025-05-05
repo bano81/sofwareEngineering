@@ -13,6 +13,7 @@ import dtu.ProjectManagementApp.businessLogic.Employee;
 import dtu.ProjectManagementApp.businessLogic.Project;
 
 public class CLIEngine {
+    /* 
     private List<Project> projects = new ArrayList<>(); // List to store projects
 
     public List<Project> getProjectList() {
@@ -263,6 +264,7 @@ public class CLIEngine {
                 System.out.println("Invalid choice. Please try again.");
         }
     }
+        */
 
 }
 
