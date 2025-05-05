@@ -2,6 +2,7 @@ package dtu.ProjectManagementApp.businessLogic;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Activity {
    private String activityName;
@@ -11,7 +12,7 @@ public class Activity {
    private double currentSpentHours;
    private Date startDate;
    private Date endDate;
-   private List<String> assignedEmployeeIDs;
+   private List<String> assignedEmployeeIDs = new ArrayList<>();
 
    LocalDate today = LocalDate.now();
    private int activityStartYear;
@@ -54,10 +55,7 @@ public class Activity {
     public void assignProject(Project project) {
         this.activityAssignedProject = project;
     }
-    
-    public void assignEmployeeToActivity(String employeeId) {
-        assignedEmployeeIDs.add(employeeId); // Add the employee ID to the list of assigned employees
-    }
+
     public void removeProject() {
         this.activityAssignedProject = null;
     }

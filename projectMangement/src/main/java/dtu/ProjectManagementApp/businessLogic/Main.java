@@ -14,7 +14,7 @@ public class Main {
     System.out.println("Welcome to the Project Management System!");
 
     systemStorage.initiateTestUsers(blController); // JUST FOR TESTING PURPOSES, DELETE LATER
-    System.out.println("ID: admin, manager, employee, employee2"); // JUST FOR TESTING PURPOSES, DELETE LATER
+    System.out.println("ID: employee, employee2"); // JUST FOR TESTING PURPOSES, DELETE LATER
 
      // Login process
      uiConsole.displayLogin(sc);   // test ID: admin, manager, employee
