@@ -4,14 +4,24 @@ import java.util.List;
 import java.util.Map;
 
 public class BLController {
+    private SystemStorage systemStorage;
+
+    public BLController() {
+        this.systemStorage = new SystemStorage();
+    }
+
+    public BLController(SystemStorage systemStorage) {
+        this.systemStorage = systemStorage;
+    }
+
 
     public boolean login(String employeeId) throws IllegalStateException {
         if (!employeeExists(employeeId)) { // Check if the employee exists
             throw new IllegalStateException("Employee with ID " + employeeId + " does not exist."); // Employee does not exist
-        } else if (SystemStorage.getLoggedInEmployee() != null) { // Check if an employee is already logged in
+        } else if (systemStorage.getLoggedInEmployee() != null) { // Check if an employee is already logged in
             throw new IllegalStateException("An employee is already logged in."); // An employee is already logged in
         } else {
-            SystemStorage.setLoggedInEmployee(SystemStorage.getEmployee(employeeId)); // Set the logged-in employee
+            systemStorage.setLoggedInEmployee(systemStorage.getEmployee(employeeId)); // Set the logged-in employee
             return true; // Login successful
         }
     }
@@ -19,20 +29,20 @@ public class BLController {
     public void logout() {
         Employee loggedInEmployee = getLoggedInEmployee(); // Get the currently logged-in employee
         if (loggedInEmployee != null) {
-            SystemStorage.removeLoggedInEmployee();
+            systemStorage.removeLoggedInEmployee();
         } else {
             throw new IllegalStateException("No employee is currently logged in.");
         }
     }
 
     public boolean employeeExists(String employeeId) {
-        return SystemStorage.getEmployees().stream().
+        return systemStorage.getEmployees().stream().
                 anyMatch(employee -> employee.getEmployeeId().equals(employeeId));
     }
 
     public boolean employeeExists(String employeeId, String name, String surname) {
         boolean employeeExists = false; // Flag to check if the employee exists
-        for (Employee employee : SystemStorage.getEmployees()) {
+        for (Employee employee : systemStorage.getEmployees()) {
             if (employee.getEmployeeId().equals(employeeId)) { // Check if the employee ID already exists
                 employeeExists = true; // Employee ID already exists
                 break;
@@ -47,7 +57,7 @@ public class BLController {
     }
 
     public Employee getLoggedInEmployee() {
-        Employee loggedInEmployee = SystemStorage.getLoggedInEmployee();
+        Employee loggedInEmployee = systemStorage.getLoggedInEmployee();
         if (loggedInEmployee == null) {
             throw new IllegalStateException("No employee is currently logged in.");
         }
@@ -57,7 +67,7 @@ public class BLController {
     public boolean createEmployee(String firstName, String surName, String employeeId) {
         boolean employeeExists = employeeExists(employeeId); // Check if the employee already exists
         if (!employeeExists) {
-            SystemStorage.addEmployee(new Employee(firstName, surName, employeeId)); // Create a new employee
+            systemStorage.addEmployee(new Employee(firstName, surName, employeeId)); // Create a new employee
             return true; // Employee created successfully
         }
         return false; // Employee already exists
@@ -65,12 +75,12 @@ public class BLController {
 
     public int getLoggedInEmployeeRole() {
         int role; // 0 = admin, 1 = manager, 2 = employee, 3 = no role
-        if (SystemStorage.getLoggedInEmployee().isAdmin()) {
+        if (systemStorage.getLoggedInEmployee().isAdmin()) {
             role = 0; // Admin role
-        } else if (SystemStorage.getLoggedInEmployee().isProjectManager()) {
+        } else if (systemStorage.getLoggedInEmployee().isProjectManager()) {
             role = 1; // Project Manager role
-        } else if (SystemStorage.getLoggedInEmployee().isEmployee() && !SystemStorage.getLoggedInEmployee().isProjectManager() 
-                   && !SystemStorage.getLoggedInEmployee().isAdmin()) {
+        } else if (systemStorage.getLoggedInEmployee().isEmployee() && !systemStorage.getLoggedInEmployee().isProjectManager()
+                   && !systemStorage.getLoggedInEmployee().isAdmin()) {
             role = 2; // Employee role
         } else {
             role = 3; // No role assigned           
@@ -80,14 +90,14 @@ public class BLController {
     }
 
     public List<Employee> getEmployees() {
-        return SystemStorage.getEmployees(); // Return the list of employees
+        return systemStorage.getEmployees(); // Return the list of employees
     }
 
     public Employee getEmployee(String employeeId) {
-        if (!SystemStorage.employeeExists(employeeId)) {
+        if (!systemStorage.employeeExists(employeeId)) {
             throw new IllegalArgumentException("Employee with ID " + employeeId + " does not exist.");
         } 
-        return SystemStorage.getEmployee(employeeId);
+        return systemStorage.getEmployee(employeeId);
     }
 
     void assignEmployeeToActivity(String projectName, String activityName, String employeeId) {
@@ -101,12 +111,12 @@ public class BLController {
                     activity.assignEmployee(employee); // Assign the employee to the activity
                     employee.setActivity(activity); // Set the activity for the employee
                 }); // Assign the employee to the activity*/
-        Project project = SystemStorage.getProjectByName(projectName); // Get the project by name
+        Project project = systemStorage.getProjectByName(projectName); // Get the project by name
         if (project != null) {
             Activity activity = project.getActivity(activityName); // Get the activity by name
             if (activity != null) {
-                SystemStorage.getEmployee(employeeId).setProject(project);
-                SystemStorage.getEmployee(employeeId).setActivityList(activity);  // Set the activity for the employee
+                systemStorage.getEmployee(employeeId).setProject(project);
+                systemStorage.getEmployee(employeeId).setActivityList(activity);  // Set the activity for the employee
             } else {
                 throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectName + ".");
             }
@@ -128,32 +138,32 @@ public class BLController {
 
     public void createProject(String projectName) {
         Project project = new Project(projectName);
-        if (!SystemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
+        if (!systemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
             throw new IllegalArgumentException("Insufficient permissions to create a project"); // Throw an exception if not an admin
         }
-        if (SystemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
+        if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }
-        SystemStorage.addProject(project); // Add the project to the system storage
+        systemStorage.addProject(project); // Add the project to the system storage
     }
 
     public void createProject(String projectId, String projectName) {
         Project project = new Project(projectId, projectName);
-        if (!SystemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
+        if (!systemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
             throw new IllegalArgumentException("Insufficient permissions to create a project"); // Throw an exception if not an admin
         }
-        if (SystemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
+        if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }
-        SystemStorage.addProject(project); // Add the project to the system storage
+        systemStorage.addProject(project); // Add the project to the system storage
     }
 
     public List<Project> getProjects() {
-        return SystemStorage.getProjects(); // Return the list of projects
+        return systemStorage.getProjects(); // Return the list of projects
     }
 
     public void createNewActivity(String projectName, int activityId, String activityName) {
-        SystemStorage.getProjects().stream()
+        systemStorage.getProjects().stream()
                 .filter(project -> project.getProjectName().equals(projectName))
                 .findFirst()
                 .ifPresent(project -> {
@@ -165,12 +175,12 @@ public class BLController {
         Project project = new Project(projectName); // Create a new project
         Activity activity = new Activity(activityId, activityName); // Create a new activity
         project.addActivity(activity); // Add the activity to the project
-        SystemStorage.addProject(project); // Add the project to the system storage
-        SystemStorage.getEmployee(employeeId).setProject(project);
+        systemStorage.addProject(project); // Add the project to the system storage
+        systemStorage.getEmployee(employeeId).setProject(project);
     }
 
     public List<Activity> getActivities() {
-        return SystemStorage.getProjects().stream()
+        return systemStorage.getProjects().stream()
                 .flatMap(project -> project.getActivities().stream())
                 .toList(); // Return the list of all activities
         /*List<Project> projects = SystemStorage.getProjects(); // Get the list of projects
@@ -182,7 +192,7 @@ public class BLController {
     }
 
     public List<Activity> getActivitiesByProject(String projectName) {
-        return SystemStorage.getProjects().stream()
+        return systemStorage.getProjects().stream()
                 .filter(project -> project.getProjectName().equals(projectName))
                 .flatMap(project -> project.getActivities().stream())
                 .toList(); // Return the list of activities for the specified project
@@ -196,12 +206,12 @@ public class BLController {
     }*/
 
     public List<Activity> getActivitiesByEmployee(String employeeId) {
-        Employee employee = SystemStorage.getEmployee(employeeId); // Get the employee by ID
+        Employee employee = systemStorage.getEmployee(employeeId); // Get the employee by ID
         return employee.getActivityList();//  getAllActivities(); // Return the list of activities for the specified employee
     }
 
     public int getNumberOfActivitiesByEmployee(String employeeId) {
-        Employee employee = SystemStorage.getEmployee(employeeId); // Get the employee by ID
+        Employee employee = systemStorage.getEmployee(employeeId); // Get the employee by ID
         employee.countNumberOfActivities(); // Count the number of activities for the employee
         return employee.getNumberOfActivities();// Return the total number of activities for the specified employee
     }

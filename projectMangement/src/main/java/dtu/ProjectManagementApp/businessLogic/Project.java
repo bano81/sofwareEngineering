@@ -11,15 +11,13 @@ public class Project {
     private String projectName;
     private Date deadline;
     private String projectManagerId;
-    private List<Activity> activities = new ArrayList<>(); // Initialize the list to avoid NullPointerException
+    private List<Activity> activities = new ArrayList<>();// Initialize the list to avoid NullPointerException
 
     public Project(String projectName) {
-        this.projectId = generateProjectId();
         this.projectName = projectName;
     }
 
     public Project(String projectName, Date deadline) {
-        this.projectId = generateProjectId();
         this.projectName = projectName;
         this.deadline = deadline;
     }
@@ -96,12 +94,13 @@ public class Project {
         return true;
     }
 
-    public String generateProjectId() {
-        return String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + SystemStorage.getProjects().size() + 1);
+    public String generateProjectId(SystemStorage systemStorage) {
+        return String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + systemStorage.getProjects().size() + 1);
     }
 
     public List<Activity> getActivities() {
         return activities;
     }
 }
+
 

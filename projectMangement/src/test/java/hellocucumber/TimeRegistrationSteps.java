@@ -14,21 +14,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TimeRegistrationSteps {
     private Exception e;
     private String employeeId;
-
-    BLController blController = new BLController();
+    private SystemStorage systemStorage = TestContext.getSystemStorage();
+    private BLController blController = new BLController(systemStorage);
 
     @Before
-    public void setup() {
-        // Initialize SystemStorage and other necessary components
-        SystemStorage.resetLoginState(); // Clear any existing data in SystemStorage
+    public void resetLoginState() {
+        // Reset login state before each scenario
+        systemStorage.resetLoginState();
     }
 
     @Given("The employee with ID {string} is logged in")
     public void theEmployeeWithIDIsLoggedIn(String employeeId) {
         //throw new io.cucumber.java.PendingException();
-        SystemStorage.addEmployee(new Employee("john", "doe", employeeId));
+        systemStorage.addEmployee(new Employee("john", "doe", employeeId));
         blController.login(employeeId);
-        assertEquals(employeeId, SystemStorage.getLoggedInEmployee().getEmployeeId());
+        assertEquals(employeeId, systemStorage.getLoggedInEmployee().getEmployeeId());
 
     }
 

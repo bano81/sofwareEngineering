@@ -13,14 +13,14 @@ public class LoginLogoutSteps {
 
     private Exception e;
     private String employeeId;
-
-    BLController blController = new BLController();
+    private SystemStorage systemStorage = TestContext.getSystemStorage();
+    private BLController blController = new BLController(systemStorage);
     
 
     @Given("An employee with ID {string} exists")
     public void anEmployeeWithIDExists(String employeeId) {
 
-        SystemStorage.addEmployee(new Employee("John", "Doe", employeeId));
+        systemStorage.addEmployee(new Employee("John", "Doe", employeeId));
         assertTrue(blController.employeeExists(employeeId));
     }
 
@@ -36,12 +36,12 @@ public class LoginLogoutSteps {
 
     @Then("The employee with ID {string} should be logged in")
     public void theEmployeeWithIDShouldBeLoggedIn(String employeeId) {
-        assertEquals(employeeId,SystemStorage.getLoggedInEmployee().getEmployeeId());
+        assertEquals(employeeId,systemStorage.getLoggedInEmployee().getEmployeeId());
     }
 
     @Then("The employee with ID {string} should not be logged in")
     public void theEmployeeWithIDShouldNotBeLoggedIn(String employeeId) {
-        assertNotEquals(employeeId,SystemStorage.getLoggedInEmployee().getEmployeeId());
+        assertNotEquals(employeeId,systemStorage.getLoggedInEmployee().getEmployeeId());
     }
 
     @Given("No employee with ID {string} exists")
