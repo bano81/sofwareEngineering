@@ -9,8 +9,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class EmployeeSteps {
-    
-    private BLController blController = new BLController();
+
+    private SystemStorage systemStorage = TestContext.getSystemStorage();
+    private BLController blController = new BLController(systemStorage);
 
     @When("the user creates an employee with name {string}, surname {string} and ID {string}")
     public void theUserCreatesAnEmployeeWithNameSurname(String firstName, String surName, String employeeId) {

@@ -5,8 +5,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UIConsole {
-    BLController blController = new BLController(); // Create an instance of BLController
+     // Create an instance of BLController
     //SystemStorage systemStorage = new SystemStorage(); // Create an instance of SystemStorage
+
+    private BLController blController;
+
+    public UIConsole(BLController blController) {
+        this.blController = blController;
+    }
 
 
     public void displayMessage(int messageNumber, boolean state) {
@@ -31,7 +37,7 @@ public class UIConsole {
             System.out.println("Please enter your employee ID to log in:");
             String employeeId = sc.nextLine();
             if (blController.login(employeeId)) {
-                System.out.println("Login successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
+                System.out.println("Login successful! Welcome, " + blController.getLoggedInEmployee().getName() + " " + blController.getLoggedInEmployee().getSurname() + ".");
                 loggedIn = true; // Exits loop if logged in true
             } else {
                 System.out.println("Invalid employee ID. Please try again.");
@@ -109,13 +115,13 @@ public class UIConsole {
                 System.out.print("Please enter activity end date (yyyy-MM-dd): ");
                 String endDateStr = sc.nextLine();
                 Date endDate = sdf.parse(endDateStr);
-                System.out.print("Please enter activity budgted hours: ");
-                double activityBudgtedhour = sc.nextDouble();*/
+                System.out.print("Please enter activity budgeted hours: ");
+                double activityBudgetedhour = sc.nextDouble();*/
 
                 
                 //int statusChoice = sc.nextInt();
                 //addNewActivityToProject(employees, employeeId, activityId, activityName, startDate, endDate,
-                //		activityBudgtedhour, activityStatus); // Create a new activity
+                //		activityBudgetedhour, activityStatus); // Create a new activity
     }
 
     public void assignEmployeeToActivity(Scanner sc) {
@@ -234,11 +240,11 @@ public class UIConsole {
         switch (choice) {
             case 1: 
                 //System.out.print("List of my projects: ");
-                displayAllProjectsForEmployee(SystemStorage.getLoggedInEmployee().getEmployeeId());
+                displayAllProjectsForEmployee(blController.getLoggedInEmployee().getEmployeeId());
                 break;
             case 2:
                 // Display the list of activities for the logged-in employee
-                displayAllActivitiesForEmployee(SystemStorage.getLoggedInEmployee().getEmployeeId()); 
+                displayAllActivitiesForEmployee(blController.getLoggedInEmployee().getEmployeeId());
                 break;
             case 3:
                 // retgister used hours for an activity
@@ -246,9 +252,9 @@ public class UIConsole {
                 String projectName = sc.nextLine();
                 System.out.print("Please enter activity ID: ");
                 String activityId = sc.nextLine();
-                System.out.print("Please enter activity budgted hours: ");
-                double activityBudgtedhour = sc.nextDouble();
-                //blController.registerUsedHours(projectName, activityId, activityBudgtedhour); // Register used hours for an activity
+                System.out.print("Please enter activity budgeted hours: ");
+                double activityBudgetedhour = sc.nextDouble();
+                //blController.registerUsedHours(projectName, activityId, activityBudgetedhour); // Register used hours for an activity
                 System.out.println("Used hours registered successfully.");
                 break;
             case 4:
