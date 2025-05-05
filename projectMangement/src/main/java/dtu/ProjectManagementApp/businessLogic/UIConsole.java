@@ -88,6 +88,17 @@ public class UIConsole {
                 int activityId = Integer.parseInt(activityIdStr); // Convert activity ID to integer
                 System.out.print("Please enter employee ID: ");
                 blController.createNewActivity(projectName, activityId, activityName);
+
+                System.out.print("Please enter activity start week and year (w-yyyy or w/yyyy): ");
+                sc.useDelimiter("[-/\\s]+"); // Matches -, /, or whitespace
+                int week = sc.nextInt(); // Read the week
+                int year = sc.nextInt(); // Read the year
+                sc.nextLine(); // Consume the newline character left by nextInt()
+
+                //LocalDate inputDate = blController.getActivities().get(activityId).getDateFromWeek(2025, 19);
+                //boolean state = blController.getProject(projectName).; // Check if the time registration is valid
+                //System.out.println("Date for week " + week + "/" + year + ": " + state);
+
                 //String employeeId = sc.nextLine();
                 //blController.createNewActivity(projectName, activityId, activityName, employeeId); // Create a new activity
                 

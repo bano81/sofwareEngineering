@@ -1,4 +1,5 @@
 package dtu.ProjectManagementApp.businessLogic;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,12 @@ public class Activity {
    private Date startDate;
    private Date endDate;
    private List<Employee> assignedEmployees;
+
+   LocalDate today = LocalDate.now();
+   private int activityStartYear;
+   private int activityEndYear;
+   private int activityStartWeekNumber;
+   private int activityEndWeekNumber;
 
    public Activity(String activityName) {
        this.activityName = activityName;
@@ -133,7 +140,31 @@ public class Activity {
     }
     public boolean isCancelled() {
         return ativityStatus.equals("Cancelled");
-    }   
+    }
+
+    // Get a date (Monday of the week) from week number and year
+    /*public LocalDate getDateFromWeek(int year, int week) {
+        return LocalDate.of(year, 1, 1)
+            .with(WeekFields.ISO.weekBasedYear(), year)
+            .with(WeekFields.ISO.weekOfWeekBasedYear(), week)
+            .with(WeekFields.ISO.dayOfWeek(), 1); // Monday
+    }  */
+      
+
+    public boolean isTimeDateValid(int year, int week) {
+        LocalDate inputDate = LocalDate.now();  //getDateFromWeek(year, week);   
+        if (inputDate.isAfter(today) || inputDate.isEqual(today)) {
+            return true; // Future or current week is valid for reporting
+        } else {
+            return false; // Past week is not valid for reporting
+        }
+    }
+
+
+    
+    
+
+    
     
 
 

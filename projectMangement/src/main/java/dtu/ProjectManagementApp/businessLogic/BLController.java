@@ -152,6 +152,10 @@ public class BLController {
         return SystemStorage.getProjects(); // Return the list of projects
     }
 
+    public Project getProject(String projectName) {
+        return SystemStorage.getProject(projectName); // Return the project by ID
+    }
+
     public void createNewActivity(String projectName, int activityId, String activityName) {
         SystemStorage.getProjects().stream()
                 .filter(project -> project.getProjectName().equals(projectName))
