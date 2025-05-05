@@ -3,7 +3,6 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-
 public class Activity {
    private int activityId;
    private String activityName;
@@ -14,7 +13,7 @@ public class Activity {
    private double currentSpentHours;
    private Date startDate;
    private Date endDate;
-   private List<Employee> assignedEmployees;
+   private List<String> assignedEmployeeIDs;
 
    LocalDate today = LocalDate.now();
    private int activityStartYear;
@@ -53,14 +52,18 @@ public class Activity {
     this.budgetedHours = budgetedHours;
    }
 
-   public void assignEmployee(Employee employee) {
-       assignedEmployees.add(employee);
+   public void assignEmployee(String employeeId) {
+       assignedEmployeeIDs.add(employeeId);
    }
-    public void removeEmployee(Employee employee) {
-         assignedEmployees.remove(employee);
+    public void removeEmployee(String employeeId) {
+         assignedEmployeeIDs.remove(employeeId);
     }
     public void assignProject(Project project) {
         this.activityAssignedProject = project;
+    }
+    
+    public void assignEmployeeToActivity(String employeeId) {
+        assignedEmployeeIDs.add(employeeId); // Add the employee ID to the list of assigned employees
     }
     public void removeProject() {
         this.activityAssignedProject = null;
@@ -110,11 +113,11 @@ public class Activity {
     public Project getActivityAssignedProject() {
         return activityAssignedProject;
     }
-    public List<Employee> getAssignedEmployees() {
-        return assignedEmployees;
+    public List<String> getAssignedEmployees() {
+        return assignedEmployeeIDs;
     }
-    public void setAssignedEmployees(List<Employee> assignedEmployees) {
-        this.assignedEmployees = assignedEmployees;
+    public void setAssignedEmployees(List<String> assignedEmployeeIDs) {
+        this.assignedEmployeeIDs = assignedEmployeeIDs;
     }
     public void setActivityAssignedProject(Project activityAssignedProject) {
         this.activityAssignedProject = activityAssignedProject;

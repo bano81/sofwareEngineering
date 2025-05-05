@@ -12,6 +12,7 @@ public class Project {
     private Date deadline;
     private String projectManagerId;
     private List<Activity> activities = new ArrayList<>();// Initialize the list to avoid NullPointerException
+    private List<Employee> assignedEmployees = new ArrayList<>();// Initialize the list to avoid NullPointerException
 
     public Project(String projectName) {
         this.projectName = projectName;
@@ -79,7 +80,15 @@ public class Project {
         }
         return null;
     }
-
+    
+    public boolean activityExists(int activityID) {
+        for (Activity activity : activities) {
+            if (activity.getActivityId() ==activityID) {
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean isOverdue() {
         Date currentDate = new Date();
         return deadline.before(currentDate);
@@ -93,6 +102,33 @@ public class Project {
         }
         return true;
     }
+
+    public void addEmployee(Employee employee) {
+        this.assignedEmployees.add(employee);
+    }
+
+    public Employee getEmployee(String employeeId) {
+        for (Employee employee : assignedEmployees) {
+            if (employee.getEmployeeId().equals(employeeId)) {
+                return employee;
+            }
+        }
+        return null;
+    }
+
+    public List<Employee> getAssignedEmployees() {
+        return this.assignedEmployees;
+    }
+
+    public boolean isEmployeeAssigned(String employeeId) {
+        for (Employee employee : assignedEmployees) {
+            if (employee.getEmployeeId().equals(employeeId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 
     public String generateProjectId(SystemStorage systemStorage) {
         return String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + systemStorage.getProjects().size() + 1);

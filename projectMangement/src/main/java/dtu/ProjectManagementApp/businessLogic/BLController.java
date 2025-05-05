@@ -73,22 +73,6 @@ public class BLController {
         return false; // Employee already exists
     }
 
-    public int getLoggedInEmployeeRole() {
-        int role; // 0 = admin, 1 = manager, 2 = employee, 3 = no role
-        if (systemStorage.getLoggedInEmployee().isAdmin()) {
-            role = 0; // Admin role
-        } else if (systemStorage.getLoggedInEmployee().isProjectManager()) {
-            role = 1; // Project Manager role
-        } else if (systemStorage.getLoggedInEmployee().isEmployee() && !systemStorage.getLoggedInEmployee().isProjectManager()
-                   && !systemStorage.getLoggedInEmployee().isAdmin()) {
-            role = 2; // Employee role
-        } else {
-            role = 3; // No role assigned           
-        }
-
-        return role; // Return the role of the logged-in user
-    }
-
     public List<Employee> getEmployees() {
         return systemStorage.getEmployees(); // Return the list of employees
     }
@@ -100,28 +84,14 @@ public class BLController {
         return systemStorage.getEmployee(employeeId);
     }
 
-    void assignEmployeeToActivity(String projectName, String activityName, String employeeId) {
-        /*SystemStorage.getProjects().stream()
-                .filter(project -> project.getProjectName().equals(projectName))
-                .flatMap(project -> project.getActivities().stream())
-                .filter(activity -> activity.getActivityName().equals(activityName))
-                .findFirst()
-                .ifPresent(activity -> {
-                    Employee employee = SystemStorage.getEmployee(employeeId); // Get the employee by ID
-                    activity.assignEmployee(employee); // Assign the employee to the activity
-                    employee.setActivity(activity); // Set the activity for the employee
-                }); // Assign the employee to the activity*/
-        Project project = systemStorage.getProjectByName(projectName); // Get the project by name
+    public void assignEmployeeToProject(String projectID, String employeeId) {
+        Project project = systemStorage.getProject(projectID);// Get the project by name
         if (project != null) {
-            Activity activity = project.getActivity(activityName); // Get the activity by name
-            if (activity != null) {
-                systemStorage.getEmployee(employeeId).setProject(project);
-                systemStorage.getEmployee(employeeId).setActivityList(activity);  // Set the activity for the employee
-            } else {
-                throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectName + ".");
-            }
+            Employee employee = systemStorage.getEmployee(employeeId); // Get the employee by ID
+            project.addEmployee(systemStorage.getEmployee(employeeId)); // Assign the employee to the project
+            employee.setProject(systemStorage.getProject(projectID)); // Set the project for the employee
         } else {
-            throw new IllegalArgumentException("Project with name " + projectName + " does not exist.");
+            throw new IllegalArgumentException("Project with name " + projectID + " does not exist.");
         }
     }
 
@@ -138,9 +108,6 @@ public class BLController {
 
     public void createProject(String projectName) {
         Project project = new Project(projectName);
-        if (!systemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
-            throw new IllegalArgumentException("Insufficient permissions to create a project"); // Throw an exception if not an admin
-        }
         if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }
@@ -149,9 +116,6 @@ public class BLController {
 
     public void createProject(String projectId, String projectName) {
         Project project = new Project(projectId, projectName);
-        if (!systemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
-            throw new IllegalArgumentException("Insufficient permissions to create a project"); // Throw an exception if not an admin
-        }
         if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }

@@ -5,15 +5,11 @@ Feature: Time Registration
     when a user registers spent hours the system should store the time registration with activity, date, hours and description.
     The user should not have to remember different activity id's and project id's, the system should show me a list of activities and projects to choose from.
 
-  Feature: Time Registration
-    As a developer I want to ensure the time registration functionality works correctly
-    So that users can accurately record their work hours without data corruption or errors
-
   Scenario: Successfully register time for an activity
     Given The employee with ID "valid_employee1" is logged in
-    And a project "Website Redesign" with ID "2025001" exists
-    And the employee with ID "valid_employee1" is assigned to project "2025001"
-    And an activity "Frontend Development" with ID "A001" belongs to project "2025001"
+    And a project "Website Redesign" with ID "25001" exists
+    And the employee with ID "valid_employee1" is assigned to project "25001"
+    And an activity "Frontend Development" with ID "A001" belongs to project "25001"
     And the employee with ID "valid_employee1" is assigned to activity "A001"
     When a user registers time with activityId "A001", date "2025-05-15", hours "7.5", and description "Implemented navigation bar and fixed layout issues"
     Then the time registration should be saved to SystemStorage
@@ -22,20 +18,20 @@ Feature: Time Registration
 
   Scenario: Reject time registration with negative hours
     Given The employee with ID "valid_employee1" is logged in
-    And a project "Website Redesign" with ID "2025001" exists
-    And the employee with ID "valid_employee1" is assigned to project "2025001"
-    And an activity "Frontend Development" with ID "A001" belongs to project "2025001"
+    And a project "Website Redesign" with ID "25001" exists
+    And the employee with ID "valid_employee1" is assigned to project "25001"
+    And an activity "Frontend Development" with ID "A001" belongs to project "25001"
     And the employee with ID "valid_employee1" is assigned to activity "A001"
     When a user registers time with activityId "A001", date "2025-05-15", hours "-3", and description "Implemented navigation bar and fixed layout issues"
     Then the time registration should not be saved to SystemStorage
-    And  the system should display an error message "Error: Hours must be positive"
+    And the system should display an error message "Error: Hours must be positive"
 
 
   Scenario: Reject time registration for non-existent project
     Given The employee with ID "valid_employee1" is logged in
-    And a project "Website Redesign" with ID "2025001" exists
-    And the employee with ID "valid_employee1" is assigned to project "2025001"
-    And an activity "Frontend Development" with ID "A001" belongs to project "2025001"
+    And a project "Website Redesign" with ID "25001" exists
+    And the employee with ID "valid_employee1" is assigned to project "25001"
+    And an activity "Frontend Development" with ID "A001" belongs to project "25001"
     And the employee with ID "valid_employee1" is assigned to activity "A001"
     When a user registers time with activityId "A001", date "2025-05-15", hours "7.5", and description "Implemented navigation bar and fixed layout issues"
     Then the time registration should not be saved to SystemStorage
@@ -44,9 +40,9 @@ Feature: Time Registration
 
   Scenario: Reject time registration for non-existent activity
     Given The employee with ID "valid_employee1" is logged in
-    And a project "Website Redesign" with ID "2025001" exists
-    And the employee with ID "valid_employee1" is assigned to project "2025001"
-    And an activity "Frontend Development" with ID "A001" belongs to project "2025001"
+    And a project "Website Redesign" with ID "25001" exists
+    And the employee with ID "valid_employee1" is assigned to project "25001"
+    And an activity "Frontend Development" with ID "A001" belongs to project "25001"
     And the employee with ID "valid_employee1" is assigned to activity "A001"
     When a user registers time with activityId "A002", date "2025-05-15", hours "7.5", and description "Implemented navigation bar and fixed layout issues"
     Then the time registration should not be saved to SystemStorage

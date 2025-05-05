@@ -13,7 +13,7 @@ public class Main {
     Scanner sc = new Scanner(System.in); // Create a scanner for user input
     System.out.println("Welcome to the Project Management System!");
 
-     systemStorage.initiateTestUsers(blController); // JUST FOR TESTING PURPOSES, DELETE LATER
+    // systemStorage.initiateTestUsers(blController); // JUST FOR TESTING PURPOSES, DELETE LATER
     System.out.println("ID: admin, manager, employee, employee2"); // JUST FOR TESTING PURPOSES, DELETE LATER
 
      // Login process

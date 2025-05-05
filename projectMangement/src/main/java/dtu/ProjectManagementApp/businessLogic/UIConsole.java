@@ -117,7 +117,7 @@ public class UIConsole {
         while (choice.equalsIgnoreCase("y")) {    
             System.out.print("Please enter employee ID: ");
             String employeeId = sc.nextLine();
-            blController.assignEmployeeToActivity(projectName, activityName, employeeId); // Assign an employee to an activity
+            blController.getProject(projectName).getActivity(activityName).assignEmployeeToActivity(employeeId); // Assign an employee to an activity
             System.out.println("");
             System.out.print("Do you want to assign another employee to an activity? (y/n): ");
             choice = sc.nextLine();

@@ -1,8 +1,8 @@
 Feature: Create and manage employees
 
 	Scenario: Create employee
-		Given an admin user exists
-		And an admin user is logged in
+		Given a user with ID "bano" exists
+		And the user with ID "bano" is logged in
 		When the user creates an employee with name "Hubert", surname "Baumeister" and ID "huba"
 		Then a user with id "huba" is added to the list of employees
 		And I logout
@@ -12,15 +12,7 @@ Feature: Create and manage employees
 # 		When an employee is created with name "Noah", surname "Johnsen" and a used ID "bano"
 # 		Then the system will return an error message.
 
-#	Scenario: Adding activity to existing employee
-#		Given an admin user exists
-#		And the admin user is logged in
-#		And an employee with ID "huba" exists
-#		And a project named "NewProject" exists
-#		And an activity named "NewActivity" exists in project "NewProject"
-#		When the admin adds the activity "NewActivity" from project "NewProject" to the employee with ID "huba"
-#		Then the employee with ID "huba" should have the activity "NewActivity" from project "NewProject" assigned
-#		And I logout
+
 
 # 	Scenario: Adding activity to existing employee
 # 		When an employee with ID "huba" add activity with ID "ana1", name "analysis", start date "2025-04-21", end date "2025-04-23", budget hours 3 and status "In progross"

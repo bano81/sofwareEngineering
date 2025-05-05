@@ -2,14 +2,18 @@ package hellocucumber;
 
 import dtu.ProjectManagementApp.businessLogic.BLController;
 import dtu.ProjectManagementApp.businessLogic.Employee;
+import dtu.ProjectManagementApp.businessLogic.Project;
+import dtu.ProjectManagementApp.businessLogic.Activity;
 import dtu.ProjectManagementApp.businessLogic.SystemStorage;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.jupiter.api.Assertions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TimeRegistrationSteps {
     private Exception e;
@@ -34,18 +38,21 @@ public class TimeRegistrationSteps {
 
 
     @And("a project {string} with ID {string} exists")
-    public void aProjectWithIDExists(String arg0, String arg1) {
-
+    public void aProjectWithIDExists(String projectName, String projectId) {
+        systemStorage.addProject(new Project(projectId, projectName));
+        assertTrue(systemStorage.projectIDExists(projectId));
     }
 
     @And("the employee with ID {string} is assigned to project {string}")
-    public void theEmployeeWithIDIsAssignedToProject(String arg0, String arg1) {
-        throw new io.cucumber.java.PendingException();
+    public void theEmployeeWithIDIsAssignedToProject(String employeeID, String projectID) {
+        systemStorage.getProject(projectID).addEmployee(systemStorage.getEmployee(employeeID));
+        assertTrue(systemStorage.getProject(projectID).isEmployeeAssigned(employeeID));
     }
 
     @And("an activity {string} with ID {string} belongs to project {string}")
-    public void anActivityWithIDBelongsToProject(String arg0, String arg1, String arg2) {
-        throw new io.cucumber.java.PendingException();
+    public void anActivityWithIDBelongsToProject(String activityName, int activityID, String projectID) {
+        systemStorage.getProject(projectID).addActivity(new Activity(activityID, activityName));
+        assertTrue(systemStorage.getProject(projectID).activityExists(activityID));
     }
 
     @And("the employee with ID {string} is assigned to activity {string}")

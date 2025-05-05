@@ -34,12 +34,6 @@ public class Employee {
      this.employeeId = employeeId; // Set employee ID directly
  }
 
- public Employee(String name, String surname,String employeeId, boolean isAdmin, boolean isProjectManager) {
-    this.name = name;
-    this.surname = surname;
-    this.employeeId = employeeId; // Set employee ID directly
-}
-
  public Employee(String name, String surname) {
      this.name = name;
      this.surname = surname;

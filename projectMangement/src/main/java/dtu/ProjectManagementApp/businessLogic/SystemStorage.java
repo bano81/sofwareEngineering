@@ -15,34 +15,34 @@ public class SystemStorage {
     }
 
 
-    public void initiateTestUsers(BLController blController) {
+    // public void initiateTestUsers(BLController blController) {
 
-        //test user
-        employees.add(new Employee("test", "normal", "employee")); // Create a test user
-        employees.add(new Employee("test2", "project", "manager",false, true)); // Create a test user
-        employees.add(new Employee("test3", "admin", "admin", true, false)); // Create a test user
-        employees.add(new Employee("test4", "normal", "employee2")); // Create a test user
+    //     //test user
+    //     employees.add(new Employee("test", "normal", "employee")); // Create a test user
+    //     employees.add(new Employee("test2", "project", "manager",false, true)); // Create a test user
+    //     employees.add(new Employee("test3", "admin", "admin", true, false)); // Create a test user
+    //     employees.add(new Employee("test4", "normal", "employee2")); // Create a test user
         
-        projects.add(new Project("1", "P1")); // Create a test project
-        projects.add(new Project("2", "P2")); // Create a test project
-        projects.add(new Project("3", "P3")); // Create a test project
+    //     projects.add(new Project("1", "P1")); // Create a test project
+    //     projects.add(new Project("2", "P2")); // Create a test project
+    //     projects.add(new Project("3", "P3")); // Create a test project
         
-        getProjectByName("P1").addActivity(new Activity(1,"design"));
-        getProjectByName("P1").addActivity(new Activity(2,"analysis"));
-        getProjectByName("P2").addActivity(new Activity(3,"implementation"));
+    //     getProjectByName("P1").addActivity(new Activity(1,"design"));
+    //     getProjectByName("P1").addActivity(new Activity(2,"analysis"));
+    //     getProjectByName("P2").addActivity(new Activity(3,"implementation"));
 
-        getEmployee("manager").setProject(getProjectByName("P1"));
-        getEmployee("admin").setProject(getProjectByName("P2"));
+    //     getEmployee("manager").setProject(getProjectByName("P1"));
+    //     getEmployee("admin").setProject(getProjectByName("P2"));
         
-        blController.assignEmployeeToActivity("P1", "design", "employee"); // Assign employee to activity
-        blController.assignEmployeeToActivity("P1", "analysis", "employee2"); // Assign employee to activity
-        /*SystemStorage.getEmployee("admin").setActivityList(new Activity(1,"desing"));
-        SystemStorage.getEmployee("admin").setActivityList(new Activity(2,"analysis"));
-        SystemStorage.getEmployee("admin").setActivityList(new Activity(3,"implementation"));
-        SystemStorage.getEmployee("employee").setActivityList(new Activity(1,"desing"));
-        SystemStorage.getEmployee("employee2").setActivityList(new Activity(3,"implementation"));*/
+    //     blController.assignEmployeeToActivity(getProjectByName("P1"), "design", "employee"); // Assign employee to activity
+    //     blController.assignEmployeeToActivity(getProjectByName("P1"), "analysis", "employee2"); // Assign employee to activity
+    //     /*SystemStorage.getEmployee("admin").setActivityList(new Activity(1,"desing"));
+    //     SystemStorage.getEmployee("admin").setActivityList(new Activity(2,"analysis"));
+    //     SystemStorage.getEmployee("admin").setActivityList(new Activity(3,"implementation"));
+    //     SystemStorage.getEmployee("employee").setActivityList(new Activity(1,"desing"));
+    //     SystemStorage.getEmployee("employee2").setActivityList(new Activity(3,"implementation"));*/
 
-    }
+    // }
 
 
     public void addEmployee(Employee employee) {
@@ -89,6 +89,11 @@ public class SystemStorage {
                 .filter(project -> project.getProjectName().equals(projectName))
                 .findFirst()
                 .orElse(null);
+    }
+    public boolean projectIDExists(String projectId) {
+        // Check if the project ID already exists in the list of projects
+        return projects.stream()
+                .anyMatch(project -> project.getProjectId().equals(projectId));        
     }
     
 
