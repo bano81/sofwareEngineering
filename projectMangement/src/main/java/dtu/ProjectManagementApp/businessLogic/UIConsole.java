@@ -52,22 +52,6 @@ public class UIConsole {
         return choice; // Return the choice made by the user
     }
 
-    public void readNewEmployee(Scanner sc) {
-        System.out.print("Please enter first name: ");
-        String name = sc.nextLine();
-        System.out.print("Please enter surname: ");
-        String surname = sc.nextLine();
-        System.out.print("Please enter employee ID: ");
-        String emplyeeId = sc.nextLine();
-        boolean employeeExists =  blController.createEmployee(name, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
-        if (!employeeExists) {
-            System.out.println("Error: Employee with the same ID or name already exists.");
-        }   else {
-            //blController.createEmployee(name, surname, emplyeeId); // Create a new employee
-            System.out.println("Employee created successfully.");
-        }
-    }
-
     public void readNewActivity(Scanner sc){
                 System.out.print("Please enter project name: ");
                 String projectName = sc.nextLine();
@@ -192,22 +176,6 @@ public class UIConsole {
         }
     }
 
-    public void displayAllProjectsForEmployee(String employeeId){
-        List<Project> projects = blController.getEmployee(employeeId).getProjectList(); // Get the list of projects for a specific employee
-        System.out.printf("%-12s %-15s%n",
-                "Project ID", "Name");
-        System.out.printf("%-12s %-15s%n",
-                "-----------", "---- ");
-        for (Project project : projects) {
-            System.out.printf("%-12s %-15s%n",
-                    project.getProjectId(),
-                    project.getProjectName());
-        }
-
-    }
-
-
-   
     public int displayChoicesForManager(Scanner sc) {
         System.out.println("Please choose an option:");
         System.out.println("\t1. Create a new employee");
@@ -224,6 +192,22 @@ public class UIConsole {
         int choice = sc.nextInt();
         sc.nextLine(); // Consume the newline character left by nextInt()
         return choice;
+    }
+
+    public void readNewEmployee(Scanner sc) {
+        System.out.print("Please enter first name: ");
+        String name = sc.nextLine();
+        System.out.print("Please enter surname: ");
+        String surname = sc.nextLine();
+        System.out.print("Please enter employee ID: ");
+        String emplyeeId = sc.nextLine();
+        boolean employeeExists =  blController.createEmployee(name, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
+        if (!employeeExists) {
+            System.out.println("Error: Employee with the same ID or name already exists.");
+        }   else {
+            //blController.createEmployee(name, surname, emplyeeId); // Create a new employee
+            System.out.println("Employee created successfully.");
+        }
     }
 
     public void executeChoiceForManager(int choice, Scanner sc) throws ParseException {
@@ -274,6 +258,19 @@ public class UIConsole {
     }
 
 
+    /*public void displayAllProjectsForEmployee(String employeeId){
+        List<Project> projects = blController.getEmployee(employeeId).getProjectList(); // Get the list of projects for a specific employee
+        System.out.printf("%-12s %-15s%n",
+                "Project ID", "Name");
+        System.out.printf("%-12s %-15s%n",
+                "-----------", "---- ");
+        for (Project project : projects) {
+            System.out.printf("%-12s %-15s%n",
+                    project.getProjectId(),
+                    project.getProjectName());
+        }
+
+    }*/
 
 
     /*public void displayActivites(String employeeId, Map<String, Employee> employees) {

@@ -73,6 +73,22 @@ public class BLController {
         return false; // Employee already exists
     }
 
+    /*public int getLoggedInEmployeeRole() {
+        int role; // 0 = admin, 1 = manager, 2 = employee, 3 = no role
+        if (systemStorage.getLoggedInEmployee().isAdmin()) {
+            role = 0; // Admin role
+        } else if (systemStorage.getLoggedInEmployee().isProjectManager()) {
+            role = 1; // Project Manager role
+        } else if (systemStorage.getLoggedInEmployee().isEmployee() && !systemStorage.getLoggedInEmployee().isProjectManager()
+                   && !systemStorage.getLoggedInEmployee().isAdmin()) {
+            role = 2; // Employee role
+        } else {
+            role = 3; // No role assigned           
+        }
+
+        return role; // Return the role of the logged-in user
+    }*/
+
     public List<Employee> getEmployees() {
         return systemStorage.getEmployees(); // Return the list of employees
     }
@@ -108,6 +124,9 @@ public class BLController {
 
     public void createProject(String projectName) {
         Project project = new Project(projectName);
+        if (!systemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
+            throw new IllegalArgumentException("Insufficient permissions to create a project"); // Throw an exception if not an admin
+        }
         if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }
@@ -116,6 +135,9 @@ public class BLController {
 
     public void createProject(String projectId, String projectName) {
         Project project = new Project(projectId, projectName);
+        /*if (!systemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
+            throw new IllegalArgumentException("Insufficient permissions to create a project"); // Throw an exception if not an admin
+        }*/
         if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }
