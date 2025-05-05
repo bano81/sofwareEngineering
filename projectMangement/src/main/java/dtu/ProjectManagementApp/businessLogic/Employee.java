@@ -1,9 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class Employee {
  private String employeeId;
@@ -25,8 +22,6 @@ public class Employee {
 
  private int numberOfActivities; // Number of activities assigned to the employee
  private final int maxActivities = 20; // Maximum number of activities allowed for an employee
- private boolean isAdmin = false;
- private boolean isProjectManager = false; // Flag to check if the employee is a project manager
  private boolean isEmployee = true; // Flag to check if the employee is a regular employee
  
  public Employee() {
@@ -43,8 +38,6 @@ public class Employee {
     this.name = name;
     this.surname = surname;
     this.employeeId = employeeId; // Set employee ID directly
-    this.isAdmin = isAdmin; // Set admin status
-    this.isProjectManager = isProjectManager; // Set project manager status
 }
 
  public Employee(String name, String surname) {
@@ -111,8 +104,6 @@ public class Employee {
      this.numberOfActivities = numberOfActivities;
 }
 
- 
-
  public int getNumberOfActivities() {
      return numberOfActivities;
  }
@@ -121,27 +112,12 @@ public class Employee {
      return maxActivities;
  }
 
- public void setAdmin(boolean isAdmin) {
-     this.isAdmin = isAdmin;
- }
- public boolean isAdmin() {
-     return isAdmin;
- }
-
- public void setProjectManager(boolean isProjectManager) {
-     this.isProjectManager = isProjectManager;
- }
- public boolean isProjectManager() {
-     return isProjectManager;
- }
-
  public boolean isEmployee() {
      return isEmployee;
  }
  public void setEmployee(boolean isEmployee) {
      this.isEmployee = isEmployee;
  }
-
 
  // Method to add a project name to the list of projects assigned to the employee
  public void setProject(Project project) {
