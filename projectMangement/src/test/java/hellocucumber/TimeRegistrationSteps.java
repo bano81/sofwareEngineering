@@ -50,9 +50,9 @@ public class TimeRegistrationSteps {
     }
 
     @And("an activity {string} with ID {string} belongs to project {string}")
-    public void anActivityWithIDBelongsToProject(String activityName, int activityID, String projectID) {
-        systemStorage.getProject(projectID).addActivity(new Activity(activityID, activityName));
-        assertTrue(systemStorage.getProject(projectID).activityExists(activityID));
+    public void anActivityWithIDBelongsToProject(String activityName, String projectID) {
+        systemStorage.getProject(projectID).addActivity(new Activity(activityName));
+        assertTrue(systemStorage.getProject(projectID).activityExists(activityName));
     }
 
     @And("the employee with ID {string} is assigned to activity {string}")

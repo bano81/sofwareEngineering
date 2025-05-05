@@ -118,18 +118,18 @@ public class BLController {
         return systemStorage.getProject(projectName); // Return the project by ID
     }
 
-    public void createNewActivity(String projectName, int activityId, String activityName) {
+    public void createNewActivity(String projectName, String activityName) {
         systemStorage.getProjects().stream()
                 .filter(project -> project.getProjectName().equals(projectName))
                 .findFirst()
                 .ifPresent(project -> {
-                    project.addActivity(new Activity(activityId, activityName)); // Add the activity to the project  
+                    project.addActivity(new Activity(activityName)); // Add the activity to the project  
                 });
     }
 
-    public void createNewActivity(String projectName, int activityId, String activityName, String employeeId) {
+    public void createNewActivity(String projectName, String activityName, String employeeId) {
         Project project = new Project(projectName); // Create a new project
-        Activity activity = new Activity(activityId, activityName); // Create a new activity
+        Activity activity = new Activity(activityName); // Create a new activity
         project.addActivity(activity); // Add the activity to the project
         systemStorage.addProject(project); // Add the project to the system storage
     }

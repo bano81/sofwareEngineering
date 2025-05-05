@@ -81,9 +81,9 @@ public class Project {
         return null;
     }
     
-    public boolean activityExists(int activityID) {
+    public boolean activityExists(String activityName) {
         for (Activity activity : activities) {
-            if (activity.getActivityId() ==activityID) {
+            if (activity.getActivityName() == activityName) {
                 return true;
             }
         }

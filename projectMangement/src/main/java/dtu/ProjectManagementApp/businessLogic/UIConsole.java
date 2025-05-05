@@ -73,11 +73,8 @@ public class UIConsole {
                 String projectName = sc.nextLine();
                 System.out.print("Please enter activity name: ");
                 String activityName = sc.nextLine();
-                System.out.print("Please enter activity ID: ");
-                String activityIdStr = sc.nextLine();
-                int activityId = Integer.parseInt(activityIdStr); // Convert activity ID to integer
                 System.out.print("Please enter employee ID: ");
-                blController.createNewActivity(projectName, activityId, activityName);
+                blController.createNewActivity(projectName, activityName);
 
                 System.out.print("Please enter activity start week and year (w-yyyy or w/yyyy): ");
                 sc.useDelimiter("[-/\\s]+"); // Matches -, /, or whitespace
@@ -142,7 +139,6 @@ public class UIConsole {
                "-----------", "----", "----------", "--------", "---------------");
         for (Activity activity : activities) {
             System.out.printf("%-12d %-15s %-15s %-15s %-16.1f%n",
-                    activity.getActivityId(),
                     activity.getActivityName(),
                     activity.getStartDate(),
                     activity.getEndDate(),

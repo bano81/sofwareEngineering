@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 public class Activity {
-   private int activityId;
    private String activityName;
    private Project activityAssignedProject;
    private String ativityStatus;
@@ -22,11 +21,6 @@ public class Activity {
 
    public Activity(String activityName) {
        this.activityName = activityName;
-   }
-
-   public Activity(int activityId, String activityName) {
-    this.activityName = activityName;
-    this.activityId = activityId;
    }
 
    public Activity(String activityName, String activityStatus, Date startDate, Date endDate) {
@@ -84,12 +78,6 @@ public class Activity {
     }
     public void setActivityName(String name) {
         this.activityName = name;
-    }
-    public void setActivityId(int id) {
-        this.activityId = id;
-    }
-    public int getActivityId() {
-        return activityId;
     }
     public String getActivityName() {
         return activityName;

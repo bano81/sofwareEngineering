@@ -25,9 +25,9 @@ public class SystemStorage {
         projects.add(new Project("2", "P2")); // Create a test project
         projects.add(new Project("3", "P3")); // Create a test project
         
-        getProjectByName("P1").addActivity(new Activity(1,"design"));
-        getProjectByName("P1").addActivity(new Activity(2,"analysis"));
-        getProjectByName("P2").addActivity(new Activity(3,"implementation"));
+        getProjectByName("P1").addActivity(new Activity("design"));
+        getProjectByName("P1").addActivity(new Activity("analysis"));
+        getProjectByName("P2").addActivity(new Activity("implementation"));
 
         /*SystemStorage.getEmployee("admin").setActivityList(new Activity(1,"desing"));
         SystemStorage.getEmployee("admin").setActivityList(new Activity(2,"analysis"));
