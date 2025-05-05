@@ -23,11 +23,24 @@ public class ActivitySteps {
         systemStorage.addEmployee(new Employee("test", "test", userId)); // Simulate user creation
     }
 
-    @Given("the user {string} is loogged in")
+    @Given("the user with ID {string} is logged in")
+    public void theUserWithIDIsLoggedIn(String userId) {
+        blController.login(userId); // Simulate user login
+    }
 
     @Given("a project named {string} with ID {string} exists")
     public void aProjectNamedExists(String projectName, String ID) {
         systemStorage.getProjects().add(new Project(ID,projectName)); // Simulate project creation
+    }
+
+    @When("an activity named {string} is created for the project with ID {string}")
+    public void anActivityNamedIsCreatedForTheProjectWithID(String activityName, String projectId) {
+        systemStorage.getProject(projectId).addActivity(new Activity(activityName)); // Simulate activity creation
+    }
+
+    @Then("the list of activities in the project with ID {string} should include {string}")
+    public void theListOfActivitiesInTheProjectWithIDShouldInclude(String projectId, String activityName) {
+        assertTrue(systemStorage.getProject(projectId).getActivities().stream().anyMatch(a -> a.getActivityName().equals(activityName))); // Check if the activity is in the project
     }
 
     @Given("an activity named {string} exists in project with ID {string}")

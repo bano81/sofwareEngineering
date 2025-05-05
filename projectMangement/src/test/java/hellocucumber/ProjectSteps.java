@@ -49,12 +49,6 @@ public class ProjectSteps {
 		blController.login(userId); // Simulate user login	
 	}
 
-
-	@Then("the list of activities in the project with id {string} should include {string}")
-	public void theListOfActivitiesInTheProjectWithIdShouldInclude(String projectId, String activityName) {
-		assertTrue(systemStorage.getProject(projectId).getActivities().stream().anyMatch(a -> a.getActivityName().equals(activityName))); // Check if the activity is in the project
-	}
-
 	@Then("the project {string} is created with id {string}")
 	public void theProjectIsCreatedWithId(String projectName, String projectId) {
 		assertTrue(systemStorage.getProject(projectId).getProjectName().equals(projectName)); // Check if the project name matches the expected name
