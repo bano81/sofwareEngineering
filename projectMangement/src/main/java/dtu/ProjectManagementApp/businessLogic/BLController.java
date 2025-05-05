@@ -73,22 +73,6 @@ public class BLController {
         return false; // Employee already exists
     }
 
-    /*public int getLoggedInEmployeeRole() {
-        int role; // 0 = admin, 1 = manager, 2 = employee, 3 = no role
-        if (systemStorage.getLoggedInEmployee().isAdmin()) {
-            role = 0; // Admin role
-        } else if (systemStorage.getLoggedInEmployee().isProjectManager()) {
-            role = 1; // Project Manager role
-        } else if (systemStorage.getLoggedInEmployee().isEmployee() && !systemStorage.getLoggedInEmployee().isProjectManager()
-                   && !systemStorage.getLoggedInEmployee().isAdmin()) {
-            role = 2; // Employee role
-        } else {
-            role = 3; // No role assigned           
-        }
-
-        return role; // Return the role of the logged-in user
-    }*/
-
     public List<Employee> getEmployees() {
         return systemStorage.getEmployees(); // Return the list of employees
     }
@@ -105,28 +89,13 @@ public class BLController {
         if (project != null) {
             Employee employee = systemStorage.getEmployee(employeeId); // Get the employee by ID
             project.addEmployee(systemStorage.getEmployee(employeeId)); // Assign the employee to the project
-            employee.setProject(systemStorage.getProject(projectID)); // Set the project for the employee
         } else {
             throw new IllegalArgumentException("Project with name " + projectID + " does not exist.");
         }
     }
 
-    /*public boolean createEmployee(String firstName, String surName, String employeeId){
-        if(!SystemStorage.getLoggedInEmployee().isAdmin() && !SystemStorage.getLoggedInEmployee().isProjectManager()) { // Check if the logged-in employee is an admin or project manager
-            return false; // Check if the logged-in employee is an admin
-        } else if (employeeExists(employeeId, firstName, surName)) { // Check if the employee ID already exists
-            return false; // Employee ID already exists
-        } else {
-            SystemStorage.addEmployee(new Employee(firstName, surName, employeeId)); // Create a new employee
-            return true; // Employee created successfully
-        }
-    } */
-
     public void createProject(String projectName) {
         Project project = new Project(projectName);
-        if (!systemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
-            throw new IllegalArgumentException("Insufficient permissions to create a project"); // Throw an exception if not an admin
-        }
         if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }
@@ -135,9 +104,6 @@ public class BLController {
 
     public void createProject(String projectId, String projectName) {
         Project project = new Project(projectId, projectName);
-        /*if (!systemStorage.getLoggedInEmployee().isAdmin()) { // Check if the logged-in employee is an admin
-            throw new IllegalArgumentException("Insufficient permissions to create a project"); // Throw an exception if not an admin
-        }*/
         if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }
@@ -166,20 +132,14 @@ public class BLController {
         Activity activity = new Activity(activityId, activityName); // Create a new activity
         project.addActivity(activity); // Add the activity to the project
         systemStorage.addProject(project); // Add the project to the system storage
-        systemStorage.getEmployee(employeeId).setProject(project);
     }
 
     public List<Activity> getActivities() {
         return systemStorage.getProjects().stream()
                 .flatMap(project -> project.getActivities().stream())
                 .toList(); // Return the list of all activities
-        /*List<Project> projects = SystemStorage.getProjects(); // Get the list of projects
-        List<Activity> activities = new ArrayList<>(); // Create a new list to store activities
-        for (Project project : projects) { // Iterate through each project
-            activities.addAll(project.getActivities()); // Add the activities of the project to the list
-        }
-        return activities; // Return the list of all activities*/
     }
+    
 
     public List<Activity> getActivitiesByProject(String projectName) {
         return systemStorage.getProjects().stream()
@@ -188,55 +148,34 @@ public class BLController {
                 .toList(); // Return the list of activities for the specified project
     }
 
-    /*public List<Activity> getActivitiesByEmployee(String employeeId) {
-        return SystemStorage.getEmployees().stream()
-                .filter(employee -> employee.getEmployeeId().equals(employeeId))
-                .flatMap(employee -> employee.getAllActivities().stream())
-                .toList(); // Return the list of activities for the specified employee
-    }*/
 
-    public List<Activity> getActivitiesByEmployee(String employeeId) {
-        Employee employee = systemStorage.getEmployee(employeeId); // Get the employee by ID
-        return employee.getActivityList();//  getAllActivities(); // Return the list of activities for the specified employee
-    }
-
-    public int getNumberOfActivitiesByEmployee(String employeeId) {
-        Employee employee = systemStorage.getEmployee(employeeId); // Get the employee by ID
-        employee.countNumberOfActivities(); // Count the number of activities for the employee
-        return employee.getNumberOfActivities();// Return the total number of activities for the specified employee
-    }
-
-
-
+    
     public int getNumberOfNotCompletedActivities(Map<String, Employee> employees, String employeeId) {
-		employees.get(employeeId).countNumberOfActivities();
+		countNumberOfActivities(employeeId);
 		return employees.get(employeeId).getNumberOfActivities();
 	}
 
+    public int countNumberOfActivities(String employeeId){
+        int sum = 0; // Initialize the sum to 0
+        for (Project project : systemStorage.getProjects()) { // Iterate through all projects
+            for (Activity activity : project.getActivities()) { // Iterate through all activities in the project
+                if (activity.getAssignedEmployees().contains(employeeId)){
+                    sum += 1;
+                }
+            }
+        }
+        return sum; // Return the total number of activities
+    }
 
 
-
-        
-    /*// addNewActivityToProject adds an activity to the employee's list of activities. It does not assign the activity to a project.
-	public void addNewActivityToProject( Map<String, Employee> employees, String employeeId, String activityId, 
-			String activityName, Date startDate, Date endDate, double activityBudgtedhour, String activityStatus) {
-        employees.get(employeeId).setActivity(activityId, new Activity(activityName, startDate, endDate, activityBudgtedhour));
-        employees.get(employeeId).getActivity(activityId).setActivityStatus(activityStatus);
-        employees.get(employeeId).sortActivitiesByDate();
-    }*/
-
-    
-
-    /*public void createEmployee(String firstName, String surName, String employeeId) {
-        SystemStorage.addEmployee(firstName, surName, employeeId);
-    }*/
-
-    
-
-    
-
-    
-
-    
-    
+    /* TIME REGISTRATION */
+   // public void registerTime(String activityID, String dateString, double hours, String description) {
+   //     Activity activity = systemStorage.getActivityByID(activityID); // Get the activity by ID
+   //     if (activity != null) {
+   //         TimeRegistration timeRegistration = new TimeRegistration(dateString, hours, description); // Create a new time registration
+   //         activity.addTimeRegistration(timeRegistration); // Add the time registration to the activity
+   //     } else {
+   //         throw new IllegalArgumentException("Activity with ID " + activityID + " does not exist."); // Throw an exception if the activity does not exist
+   //     }
+   // 
 }

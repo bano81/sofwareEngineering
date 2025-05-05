@@ -57,14 +57,14 @@ public class TimeRegistrationSteps {
 
     @And("the employee with ID {string} is assigned to activity {string}")
     public void theEmployeeWithIDIsAssignedToActivity(String arg0, String arg1) {
-        throw new io.cucumber.java.PendingException();
+        
     }
 
-    @When("a user registers time with activityId {string}, date {string}, hours {string}, and description {string}")
-    public void aUserRegistersTimeWithActivityIdDateHoursAndDescription(String arg0, String arg1, String arg2, String arg3) {
-        throw new io.cucumber.java.PendingException();
+    // @When("a user registers time with activityId {string}, date {string}, hours {string}, and description {string}")
+    // public void aUserRegistersTimeWithActivityIdDateHoursAndDescription(String activityID, String dateString, String hourSpent, String description) {
+    //     blController.registerTime()
 
-    }
+    // }
 
     @Then("the time registration should be saved to SystemStorage")
     public void theTimeRegistrationShouldBeSavedToSystemStorage() {

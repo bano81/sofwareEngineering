@@ -52,6 +52,22 @@ public class UIConsole {
         return choice; // Return the choice made by the user
     }
 
+    public void readNewEmployee(Scanner sc) {
+        System.out.print("Please enter first name: ");
+        String name = sc.nextLine();
+        System.out.print("Please enter surname: ");
+        String surname = sc.nextLine();
+        System.out.print("Please enter employee ID: ");
+        String emplyeeId = sc.nextLine();
+        boolean employeeExists =  blController.createEmployee(name, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
+        if (!employeeExists) {
+            System.out.println("Error: Employee with the same ID or name already exists.");
+        }   else {
+            //blController.createEmployee(name, surname, emplyeeId); // Create a new employee
+            System.out.println("Employee created successfully.");
+        }
+    }
+
     public void readNewActivity(Scanner sc){
                 System.out.print("Please enter project name: ");
                 String projectName = sc.nextLine();
@@ -134,21 +150,21 @@ public class UIConsole {
         }
     }
 
-    public void displayAllActivitiesForEmployee(String employeeId){
-        List<Activity> activities = blController.getActivitiesByEmployee(employeeId); // Get the list of activities for a specific employee
-        System.out.printf("%-12s %-15s %-15s %-15s %-16s %n",
-                "Activity ID", "Name", "Start Date", "End Date", "Budgeted Hours");
-        System.out.printf("%-12s %-15s %-15s %-15s %-16s %n",
-                "-----------", "----", "----------", "--------", "---------------");
-        for (Activity activity : activities) {
-            System.out.printf("%-12d %-15s %-15s %-15s %-16.1f %n",
-                    activity.getActivityId(),
-                    activity.getActivityName(),
-                    activity.getStartDate(),
-                    activity.getEndDate(),
-                    activity.getBudgetedHours());
-        }
-    }
+    // public void displayAllActivitiesForEmployee(String employeeId){
+    //     List<Activity> activities = blController.getActivitiesByEmployee(employeeId); // Get the list of activities for a specific employee
+    //     System.out.printf("%-12s %-15s %-15s %-15s %-16s %n",
+    //             "Activity ID", "Name", "Start Date", "End Date", "Budgeted Hours");
+    //     System.out.printf("%-12s %-15s %-15s %-15s %-16s %n",
+    //             "-----------", "----", "----------", "--------", "---------------");
+    //     for (Activity activity : activities) {
+    //         System.out.printf("%-12d %-15s %-15s %-15s %-16.1f %n",
+    //                 activity.getActivityId(),
+    //                 activity.getActivityName(),
+    //                 activity.getStartDate(),
+    //                 activity.getEndDate(),
+    //                 activity.getBudgetedHours());
+    //     }
+    // }
 
     public void displayAllEmployees(){
         List<Employee> employees = blController.getEmployees(); // Get the list of employees
@@ -176,6 +192,22 @@ public class UIConsole {
         }
     }
 
+    // public void displayAllProjectsForEmployee(String employeeId){
+    //     List<Project> projects = blController.getEmployee(employeeId).getProjectList(); // Get the list of projects for a specific employee
+    //     System.out.printf("%-12s %-15s%n",
+    //             "Project ID", "Name");
+    //     System.out.printf("%-12s %-15s%n",
+    //             "-----------", "---- ");
+    //     for (Project project : projects) {
+    //         System.out.printf("%-12s %-15s%n",
+    //                 project.getProjectId(),
+    //                 project.getProjectName());
+    //     }
+
+    // }
+
+
+   
     public int displayChoicesForManager(Scanner sc) {
         System.out.println("Please choose an option:");
         System.out.println("\t1. Create a new employee");
@@ -194,22 +226,6 @@ public class UIConsole {
         return choice;
     }
 
-    public void readNewEmployee(Scanner sc) {
-        System.out.print("Please enter first name: ");
-        String name = sc.nextLine();
-        System.out.print("Please enter surname: ");
-        String surname = sc.nextLine();
-        System.out.print("Please enter employee ID: ");
-        String emplyeeId = sc.nextLine();
-        boolean employeeExists =  blController.createEmployee(name, surname, emplyeeId); //systemStorage.employeeExists(emplyeeId, name, surname); // Check if the employee already exists
-        if (!employeeExists) {
-            System.out.println("Error: Employee with the same ID or name already exists.");
-        }   else {
-            //blController.createEmployee(name, surname, emplyeeId); // Create a new employee
-            System.out.println("Employee created successfully.");
-        }
-    }
-
     public void executeChoiceForManager(int choice, Scanner sc) throws ParseException {
         switch (choice) {
             case 1:
@@ -226,7 +242,7 @@ public class UIConsole {
                 String employeeId = sc.nextLine();
                 Employee employee = blController.getEmployee(employeeId); // Get the employee by ID
                 if (employee != null) {
-                    employee.countNumberOfActivities(); // Count the number of activities assigned to the employee
+                    blController.countNumberOfActivities(employee.getEmployeeId()); // Count the number of activities assigned to the employee
                     int numberOfActivities = employee.getNumberOfActivities(); // Get the number of activities assigned to the employee
                     System.out.println("Number of activities assigned to employee " + employee.getName() + ": " + numberOfActivities);
                 } else {
@@ -245,7 +261,7 @@ public class UIConsole {
             case 8:
                 System.out.print("Please enter employee ID: ");
                 employeeId = sc.nextLine();
-                displayAllActivitiesForEmployee(employeeId); // Display all activities for a specific employee
+                // displayAllActivitiesForEmployee(employeeId); // Display all activities for a specific employee
                 //displayActivites(employeeId, employees); // Display all activities for a specific employee
                 break;
             case 0:
@@ -258,19 +274,6 @@ public class UIConsole {
     }
 
 
-    /*public void displayAllProjectsForEmployee(String employeeId){
-        List<Project> projects = blController.getEmployee(employeeId).getProjectList(); // Get the list of projects for a specific employee
-        System.out.printf("%-12s %-15s%n",
-                "Project ID", "Name");
-        System.out.printf("%-12s %-15s%n",
-                "-----------", "---- ");
-        for (Project project : projects) {
-            System.out.printf("%-12s %-15s%n",
-                    project.getProjectId(),
-                    project.getProjectName());
-        }
-
-    }*/
 
 
     /*public void displayActivites(String employeeId, Map<String, Employee> employees) {

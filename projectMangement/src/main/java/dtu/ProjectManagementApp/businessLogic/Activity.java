@@ -8,7 +8,6 @@ public class Activity {
    private String activityName;
    private Project activityAssignedProject;
    private String ativityStatus;
-   //private Activity activityType;
    private double budgetedHours;
    private double currentSpentHours;
    private Date startDate;
