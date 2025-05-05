@@ -46,25 +46,9 @@ public class UIConsole {
     }
 
     public int start(Scanner sc) throws ParseException {
-        int choice=2;        
-        if (blController.getLoggedInEmployeeRole() == 0) {
-            //System.out.println("Login as Admin successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
-            choice = displayChoicesForManager(sc);
-            System.out.println("");
-            executeChoiceForManager(choice, sc);
-        } else if (blController.getLoggedInEmployeeRole() == 1) {
-            //System.out.println("Login as Manager successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
-            choice = displayChoicesForManager(sc);
-            System.out.println("");
-            executeChoiceForManager(choice, sc);
-        } else if (blController.getLoggedInEmployeeRole() == 2) {
-            //System.out.println("Login as Employee successful! Welcome, " + SystemStorage.getLoggedInEmployee().getName() + " " + SystemStorage.getLoggedInEmployee().getSurname() + ".");
-            choice = displayChoicesForEmployee(sc);
-            System.out.println("");
-            executeChoiceForEmployee(choice, sc);
-        } else {
-            System.out.println("Invalid employee ID. Please try again.");
-        }
+        int choice= displayChoicesForManager(sc); 
+        System.out.println("");   
+        executeChoiceForManager(choice, sc);
         return choice; // Return the choice made by the user
     }
 
@@ -223,64 +207,7 @@ public class UIConsole {
     }
 
 
-    public int displayChoicesForEmployee(Scanner sc) {
-        System.out.println("Please choose an option:");
-        System.out.println("\t1. Display my projects");
-        System.out.println("\t2. Display my activities");
-        System.out.println("\t3. Register used hours for an activity");
-        System.out.println("\t4. Choose a project manager");
-        System.out.println("\t0. Exit");
-        System.out.print("# ");
-        int choice = sc.nextInt();
-        sc.nextLine(); // Consume the newline character left by nextInt()
-        return choice;
-    }
-
-    public void executeChoiceForEmployee(int choice, Scanner sc) throws ParseException {
-        switch (choice) {
-            case 1: 
-                //System.out.print("List of my projects: ");
-                displayAllProjectsForEmployee(blController.getLoggedInEmployee().getEmployeeId());
-                break;
-            case 2:
-                // Display the list of activities for the logged-in employee
-                displayAllActivitiesForEmployee(blController.getLoggedInEmployee().getEmployeeId());
-                break;
-            case 3:
-                // retgister used hours for an activity
-                System.out.print("Please enter project name: ");
-                String projectName = sc.nextLine();
-                System.out.print("Please enter activity ID: ");
-                String activityId = sc.nextLine();
-                System.out.print("Please enter activity budgeted hours: ");
-                double activityBudgetedhour = sc.nextDouble();
-                //blController.registerUsedHours(projectName, activityId, activityBudgetedhour); // Register used hours for an activity
-                System.out.println("Used hours registered successfully.");
-                break;
-            case 4:
-                // Choose a project manager
-                System.out.print("Please enter project ID: ");
-                String projectId = sc.nextLine();
-                // check if project exists
-                /*blController.getProject(projectId); // Check if the project exists
-                if (project == null) {    
-                    System.out.println("Project with ID " + projectId + " does not exist.");
-                    break;    
-                }*/
-                // Display the list of employees who are project managers
-                System.out.print("Please enter project employee ID: ");
-                String projectManagerId = sc.nextLine();    
-                blController.getEmployee(projectManagerId).isProjectManager();
-                //blController.chooseProjectManager(projectManagerId); // Choose a project manager
-                System.out.println("Project manager chosen successfully.");
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
-                break;
-        }
-
-    }
-
+   
     public int displayChoicesForManager(Scanner sc) {
         System.out.println("Please choose an option:");
         System.out.println("\t1. Create a new employee");
@@ -346,41 +273,6 @@ public class UIConsole {
         }
     }
 
-    public void executeChoiceForAdmin(int choice, Scanner sc) throws ParseException {
-        switch (choice) {
-            case 1:
-                
-                break;
-            case 2:
-                
-                break;
-            case 3:
-                
-                break;
-            case 4:
-                
-                break;
-            case 5:
-                // Assign an employee to an activity
-                break;
-            case 6:
-                // Display all employees
-                break;
-            case 7:
-                /*for (Project project : projects) {
-                    System.out.println("Project ID: " + project.getProjectId() + ", Project Name: " + project.getProjectName());
-                } // Display all projects*/
-                break;
-            case 8:
-                
-                break;
-            case 0:
-                
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
-        }
-    }
 
 
 
