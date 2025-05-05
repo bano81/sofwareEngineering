@@ -163,7 +163,7 @@ public class BLController {
     }
 
     public Project getProject(String projectName) {
-        return SystemStorage.getProject(projectName); // Return the project by ID
+        return systemStorage.getProject(projectName); // Return the project by ID
     }
 
     public void createNewActivity(String projectName, int activityId, String activityName) {
