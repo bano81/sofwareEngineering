@@ -223,7 +223,7 @@ public class UIConsole {
         switch (choice) {
             case 1: 
                 //System.out.print("List of my projects: ");
-                
+                displayAllProjectsForEmployee(SystemStorage.getLoggedInEmployee().getEmployeeId());
                 break;
             case 2:
                 // Display the list of activities for the logged-in employee
