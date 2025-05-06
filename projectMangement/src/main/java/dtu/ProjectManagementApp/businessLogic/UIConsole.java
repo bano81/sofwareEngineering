@@ -82,7 +82,10 @@ public class UIConsole {
             clearConsole();
             System.out.println("-- Time & Activities (User: " + username + ") --");
             System.out.println("My Assigned Activities:");
-            // TODO: Fetch and display assigned activities
+            List<Activity> activities = systemStorage.getActivitiesForUser(username); // Fetch activities from SystemStorage
+            for (Activity activity : activities) {
+                System.out.println("- [" + activity.getActivityName() + "] ");
+            }
             System.out.println("Options:");
             System.out.println("1. Register Time");
             System.out.println("2. View/Edit My Registered Time");
@@ -190,24 +193,145 @@ public class UIConsole {
         System.out.print("Enter project name: ");
         String projectName = sc.nextLine();
 
-        try {
             blController.createProject(projectName);
             System.out.println("Project created successfully!");
-            // wait for 2 seconds before returning to the menu
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restore interrupted status
-            }
-            
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            delay();
+    }
+
+    private void delay() {
+        try {
+            Thread.sleep(1000); // 1 seconds delay
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore interrupted status
         }
     }
 
     private void manageProject(String projectId, Scanner sc) {
-        // TODO: Implement project management logic
-        System.out.println("Managing project: " + projectId);
+        Project project = systemStorage.getProject(projectId); // Fetch project from SystemStorage
+        if (project == null) {
+            System.out.println("Project not found.");
+            return;
+        }
+    
+        int choice;
+        do {
+            clearConsole();
+            System.out.println("-- Manage Project [" + project.getProjectId() + "] " + project.getProjectName() + " --");
+            String projectManager = project.getProjectManagerId() != null ? project.getProjectManagerId() : "<None>";
+            System.out.println("PM: " + projectManager);
+            System.out.println("Activities:");
+            for (Activity activity : project.getActivities()) {
+                String staff = activity.getAssignedEmployees().isEmpty() 
+                    ? "<None>" 
+                    : String.join(", ", activity.getAssignedEmployees());
+                System.out.println(activity.getActivityName() + " (Details) Staff: " + staff);
+            }
+            System.out.println("---");
+            System.out.println("Manage Project Options:");
+            System.out.println("  1. Add Activity");
+            System.out.println("  2. Edit Activity Details (Budget, Dates)");
+            System.out.println("  3. Staff Activity (Add/Remove Employee)");
+            System.out.println("  4. Assign/Change Project Manager");
+            System.out.println("  5. Rename Project");
+            System.out.println("  0. Back to Project Management Menu");
+            System.out.print("Choose option: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // Consume newline
+            handleManageProjectChoice(choice, project, sc);
+        } while (choice != 0);
+    }
+
+    private void handleManageProjectChoice(int choice, Project project, Scanner sc) {
+        switch (choice) {
+            case 1 -> addActivityToProject(project, sc);
+            case 2 -> editActivityDetails(project, sc);
+            case 3 -> staffActivity(project, sc);
+            case 4 -> assignProjectManager(project, sc);
+            case 5 -> renameProject(project, sc);
+            case 0 -> System.out.println("Returning to Project Management Menu.");
+            default -> System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+    private void addActivityToProject(Project project, Scanner sc) {
+        System.out.print("Enter Activity Name: ");
+        String activityName = sc.nextLine();
+        System.out.print("Enter Activity Start Week (YY-WW): ");
+        String startWeek = sc.nextLine();
+        System.out.print("Enter Activity End Week (YY-WW): ");
+        String endWeek = sc.nextLine();
+        System.out.print("Enter Budgeted Hours: ");
+        double budgetedHours = sc.nextDouble();
+        sc.nextLine(); // Consume newline
+        project.addActivity(new Activity(activityName, startWeek, endWeek, budgetedHours));
+        System.out.println("Activity added successfully!");
+        delay();
+    }
+
+    private void editActivityDetails(Project project, Scanner sc) {
+        System.out.print("Enter Activity Name to Edit: ");
+        String activityName = sc.nextLine();
+        Activity activity = project.getActivity(activityName);
+        if (activity == null) {
+            System.out.println("Activity not found.");
+            return;
+        }
+        
+        System.out.println("Current Details:");
+        System.out.println("Name: " + activity.getActivityName());
+        System.out.println("Start Week: " + activity.getStartDate());
+        System.out.println("End Week: " + activity.getEndDate());
+        System.out.println("Budgeted Hours: " + activity.getBudgetedHours());
+
+        // Prompt user for new details
+        System.out.print("Enter New Name (leave blank to keep current): ");
+        String newName = sc.nextLine();
+        if (!newName.isBlank()) {
+            activity.setActivityName(newName);
+        }
+
+        System.out.print("Enter New Start Week (YY-WW, leave blank to keep current): ");
+        String newStartWeek = sc.nextLine();
+        if (!newStartWeek.isBlank()) {
+            activity.setStartDate(newStartWeek);
+        }
+
+        System.out.print("Enter New End Week (YY-WW, leave blank to keep current): ");
+        String newEndWeek = sc.nextLine();
+        if (!newEndWeek.isBlank()) {
+            activity.setEndDate(newEndWeek);
+        }
+
+        System.out.print("Enter New Budgeted Hours (leave blank to keep current): ");
+        String newBudgetedHours = sc.nextLine();
+        if (!newBudgetedHours.isBlank()) {
+            activity.setBudgetedHours(Double.parseDouble(newBudgetedHours));
+        }
+
+        System.out.println("Activity details updated successfully!");
+        delay();
+    }
+
+    private void staffActivity(Project project, Scanner sc) {
+        // TODO: Implement logic to staff activity
+    }
+
+    private void assignProjectManager(Project project, Scanner sc) {
+        System.out.print("Enter Employee ID to Assign as Project Manager: ");
+        String employeeId = sc.nextLine();
+        if (systemStorage.employeeExists(employeeId)) {
+            project.setProjectManager(employeeId);
+            System.out.println("Project Manager assigned successfully!");
+        } else {
+            System.out.println("Employee not found.");
+        }
+    }
+
+    private void renameProject(Project project, Scanner sc) {
+        System.out.print("Enter New Project Name: ");
+        String newName = sc.nextLine();
+        project.setProjectName(newName);
+        System.out.println("Project renamed successfully!");
     }
 
     private void employeeAvailabilityMenu(Scanner sc) {

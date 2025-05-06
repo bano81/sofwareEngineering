@@ -9,29 +9,31 @@ import java.util.List;
 public class Project {
     private String projectId;
     private String projectName;
-    private Date deadline;
+    private String deadline;
     private String projectManagerId;
-    private List<Activity> activities = new ArrayList<>();// Initialize the list to avoid NullPointerException
-    private List<Employee> assignedEmployees = new ArrayList<>();// Initialize the list to avoid NullPointerException
+    private List<Activity> activities = new ArrayList<>();
+    private List<Employee> assignedEmployees = new ArrayList<>();
 
     public Project(String projectName) {
         this.projectName = projectName;
+        this.projectId = generateProjectId();
     }
 
-    public Project(String projectName, Date deadline) {
+    public Project(String projectName, String deadline) {
         this.projectName = projectName;
+        this.projectId = generateProjectId();
         this.deadline = deadline;
     }
-    public Project(String projectId, String projectName, Date deadline) {
+    public Project(String projectId, String projectName, String deadline) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.deadline = deadline;
     }
 
-    public Project(String projectId, String projectName) {
-        this.projectId = projectId;
-        this.projectName = projectName;
-    }
+    // public Project(String projectId, String projectName) {
+    //     this.projectId = projectId;
+    //     this.projectName = projectName;
+    // }
 
     public String getProjectName() {
         return projectName;
@@ -48,11 +50,11 @@ public class Project {
         this.projectId = projectId;
     }
 
-    public Date getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
 
@@ -89,19 +91,19 @@ public class Project {
         }
         return false;
     }
-    public boolean isOverdue() {
-        Date currentDate = new Date();
-        return deadline.before(currentDate);
-    }
+    // public boolean isOverdue() {
+    //     Date currentDate = new Date();
+    //     return deadline.before(currentDate);
+    // }
 
-    public boolean isCompleted() {
-        for (Activity activity : activities) {
-            if (!activity.isCompleted()) {
-                return false;
-            }
-        }
-        return true;
-    }
+    // public boolean isCompleted() {
+    //     for (Activity activity : activities) {
+    //         if (!activity.isCompleted()) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 
     public void addEmployee(Employee employee) {
         this.assignedEmployees.add(employee);
@@ -130,8 +132,10 @@ public class Project {
     }
     
 
-    public String generateProjectId(SystemStorage systemStorage) {
-        return String.valueOf((Calendar.getInstance().get(Calendar.YEAR) % 100) * 1000 + systemStorage.getProjects().size() + 1);
+    public String generateProjectId() {
+        int year = Calendar.getInstance().get(Calendar.YEAR) % 100;
+        int nextNumber = (int) (Math.random() * 9000) + 1000; // Generate a random 4-digit number
+        return String.valueOf(year * 1000 + nextNumber);
     }
 
     public List<Activity> getActivities() {

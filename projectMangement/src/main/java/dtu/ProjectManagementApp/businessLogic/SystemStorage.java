@@ -16,27 +16,18 @@ public class SystemStorage {
 
 
     public void initiateTestUsers(BLController blController) {
-
-        //test user
-        employees.add(new Employee("test", "normal", "employee")); // Create a test user
-        employees.add(new Employee("test4", "normal", "employee2")); // Create a test user
+        employees.add(new Employee("Hubert", "Baumeister", "huba")); 
+        employees.add(new Employee("Silas", "Kejser", "sike")); 
         
-        projects.add(new Project("1", "P1")); // Create a test project
-        projects.add(new Project("2", "P2")); // Create a test project
-        projects.add(new Project("3", "P3")); // Create a test project
+        projects.add(new Project("Project1","25-05"));
+        projects.add(new Project("Project2","25-06"));
+        projects.add(new Project("Project3","25-07"));
         
-        getProjectByName("P1").addActivity(new Activity("design"));
-        getProjectByName("P1").addActivity(new Activity("analysis"));
-        getProjectByName("P2").addActivity(new Activity("implementation"));
-
-        /*SystemStorage.getEmployee("admin").setActivityList(new Activity(1,"desing"));
-        SystemStorage.getEmployee("admin").setActivityList(new Activity(2,"analysis"));
-        SystemStorage.getEmployee("admin").setActivityList(new Activity(3,"implementation"));
-        SystemStorage.getEmployee("employee").setActivityList(new Activity(1,"desing"));
-        SystemStorage.getEmployee("employee2").setActivityList(new Activity(3,"implementation"));*/
-
+        Project project1 = getProjectByName("Project1");
+        project1.addActivity(new Activity("design", "25-01", "25-02", 20));
+        project1.addActivity(new Activity("analysis", "25-02", "25-03", 20));
+        project1.addActivity(new Activity("implementation", "25-03", "25-05", 20));
     }
-
 
     public void addEmployee(Employee employee) {
         employees.add(employee); // Create a new employee and add it to the list
@@ -115,9 +106,18 @@ public class SystemStorage {
     }
 
 
-    /*  activity stuff*/
-    //public Activity getActivityByID(String activityID){
-//
-    //}
+   // ####################### Activities #######################
 
+    public List<Activity> getActivitiesForUser(String username) {
+        List<Activity> userActivities = new ArrayList<>();
+        for (Project project : projects) {
+            for (Activity activity : project.getActivities()) {
+                // Directly compare the username with the list of assigned employee IDs
+                if (activity.getAssignedEmployees().stream().anyMatch(employeeId -> employeeId.equals(username))) {
+                    userActivities.add(activity);
+                }
+            }
+        }
+        return userActivities;
+    }
 }

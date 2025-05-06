@@ -27,10 +27,9 @@ public class ActivitySteps {
     public void theUserWithIDIsLoggedIn(String userId) {
         blController.login(userId); // Simulate user login
     }
-
-    @Given("a project named {string} with ID {string} exists")
-    public void aProjectNamedExists(String projectName, String ID) {
-        systemStorage.getProjects().add(new Project(ID,projectName)); // Simulate project creation
+    @Given("a project named {string} with id {string} and deadline {string} exists")
+    public void aProjectNamedExists(String projectName, String ID, String deadline) {
+        systemStorage.getProjects().add(new Project(ID,projectName,deadline)); // Simulate project creation
     }
 
     @When("an activity named {string} is created for the project with ID {string}")
