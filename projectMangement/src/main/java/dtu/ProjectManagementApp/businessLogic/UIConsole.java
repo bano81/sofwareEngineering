@@ -224,7 +224,7 @@ public class UIConsole {
                 String staff = activity.getAssignedEmployees().isEmpty() 
                     ? "<None>" 
                     : String.join(", ", activity.getAssignedEmployees());
-                System.out.println(activity.getActivityName() + " Start:" + activity.getStartDate() + " End " + activity.getEndDate() + " Budgeted hours: " + activity.getBudgetedHours() +" Staff: " + staff);
+                System.out.println(activity.getActivityName() + " Start: " + activity.getStartDate() + " End: " + activity.getEndDate() + " Budgeted hours: " + activity.getBudgetedHours() +" Staff: " + staff);
             }
             System.out.println("---");
             System.out.println("Manage Project Options:");
@@ -277,49 +277,81 @@ public class UIConsole {
             return;
         }
         
-        System.out.println("Current Details:");
-        System.out.println("Name: " + activity.getActivityName());
-        System.out.println("Start Week: " + activity.getStartDate());
-        System.out.println("End Week: " + activity.getEndDate());
-        System.out.println("Budgeted Hours: " + activity.getBudgetedHours());
+        int choice;
+        do {
+            clearConsole();
+            System.out.println("-- Edit Activity [" + activity.getActivityName() + "] --");
+            System.out.println("1. Edit Name");
+            System.out.println("2. Edit Start Week");
+            System.out.println("3. Edit End Week");
+            System.out.println("4. Edit Budgeted Hours");
+            System.out.println("5. Add Employee to Activity");
+            System.out.println("0. Back to Manage Project Menu");
+            System.out.print("Choose option: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // Consume newline
 
-        // Prompt user for new details
-        System.out.print("Enter New Name (leave blank to keep current): ");
-        String newName = sc.nextLine();
-        if (!newName.isBlank()) {
-            activity.setActivityName(newName);
-        }
-
-        System.out.print("Enter New Start Week (YY-WW, leave blank to keep current): ");
-        String newStartWeek = sc.nextLine();
-        if (!newStartWeek.isBlank()) {
-            activity.setStartDate(newStartWeek);
-        }
-
-        System.out.print("Enter New End Week (YY-WW, leave blank to keep current): ");
-        String newEndWeek = sc.nextLine();
-        if (!newEndWeek.isBlank()) {
-            activity.setEndDate(newEndWeek);
-        }
-
-        System.out.print("Enter New Budgeted Hours (leave blank to keep current): ");
-        String newBudgetedHours = sc.nextLine();
-        if (!newBudgetedHours.isBlank()) {
-            activity.setBudgetedHours(Double.parseDouble(newBudgetedHours));
-        }
-
-        System.out.print("Add new Employee to Activity by ID (leave blank to skip): ");
-        String employeeId = sc.nextLine();
-        if (!employeeId.isBlank()) {
-            if (systemStorage.employeeExists(employeeId)) {
-                activity.assignEmployee(employeeId);
-            } else {
-                System.out.println("Employee not found.");
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("Enter New Name (leave blank to keep current): ");
+                    String newName = sc.nextLine();
+                    if (!newName.isBlank()) {
+                        activity.setActivityName(newName);
+                        System.out.println("Activity name updated successfully!");
+                    } else {
+                        System.out.println("No changes made to the activity name.");
+                    }
+                }
+                case 2 -> {
+                    System.out.print("Enter New Start Week (YY-WW, leave blank to keep current): ");
+                    String newStartWeek = sc.nextLine();
+                    if (!newStartWeek.isBlank()) {
+                        activity.setStartDate(newStartWeek);
+                        System.out.println("Start week updated successfully!");
+                    } else {
+                        System.out.println("No changes made to the start week.");
+                    }
+                }
+                case 3 -> {
+                    System.out.print("Enter New End Week (YY-WW, leave blank to keep current): ");
+                    String newEndWeek = sc.nextLine();
+                    if (!newEndWeek.isBlank()) {
+                        activity.setEndDate(newEndWeek);
+                        System.out.println("End week updated successfully!");
+                    } else {
+                        System.out.println("No changes made to the end week.");
+                    }
+                }
+                case 4 -> {
+                    System.out.print("Enter New Budgeted Hours (leave blank to keep current): ");
+                    String newBudgetedHours = sc.nextLine();
+                    if (!newBudgetedHours.isBlank()) {
+                        activity.setBudgetedHours(Double.parseDouble(newBudgetedHours));
+                        System.out.println("Budgeted hours updated successfully!");
+                    } else {
+                        System.out.println("No changes made to the budgeted hours.");
+                    }
+                }
+                case 5 -> {
+                    System.out.print("Add new Employee to Activity by ID (leave blank to skip): ");
+                    String employeeId = sc.nextLine();
+                    if (!employeeId.isBlank()) {
+                        if (systemStorage.employeeExists(employeeId)) {
+                            activity.assignEmployee(employeeId);
+                            System.out.println("Employee added to activity successfully!");
+                        } else {
+                            System.out.println("Employee not found.");
+                        }
+                    } else {
+                        System.out.println("No employee added to the activity.");
+                    }
+                }
+                case 0 -> System.out.println("Returning to Manage Project Menu.");
+                default -> System.out.println("Invalid choice. Please try again.");
             }
-        }
 
-        System.out.println("Activity details updated successfully!");
-        delay();
+            delay(); // Optional delay for better user experience
+        } while (choice != 0);
     }
 
     private void staffActivity(Project project, Scanner sc) {
