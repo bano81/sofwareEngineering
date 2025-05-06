@@ -24,16 +24,14 @@ public class Project {
         this.projectId = generateProjectId();
         this.deadline = deadline;
     }
+
+    //for testing
     public Project(String projectId, String projectName, String deadline) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.deadline = deadline;
     }
 
-    // public Project(String projectId, String projectName) {
-    //     this.projectId = projectId;
-    //     this.projectName = projectName;
-    // }
 
     public String getProjectName() {
         return projectName;
@@ -77,6 +75,14 @@ public class Project {
     public Activity getActivity(String activityName) {
         for (Activity activity : activities) {
             if (activity.getActivityName().equals(activityName)) {
+                return activity;
+            }
+        }
+        return null;
+    }
+    public Activity getActivityById(String activityId) {
+        for (Activity activity : activities) {
+            if (activity.getActivityId().equals(activityId)) {
                 return activity;
             }
         }
@@ -141,6 +147,8 @@ public class Project {
     public List<Activity> getActivities() {
         return activities;
     }
+
+
 }
 
 

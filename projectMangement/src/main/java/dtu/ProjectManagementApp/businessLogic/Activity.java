@@ -1,13 +1,11 @@
 package dtu.ProjectManagementApp.businessLogic;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Activity {
    private String activityName;
    private Project activityAssignedProject;
-   private String ativityStatus;
+   private String activityStatus;
    private double budgetedHours;
    private double currentSpentHours;
    private String startWeek;                    // format: YY-WW (e.g. 25-01)
@@ -28,7 +26,7 @@ public class Activity {
 
    public Activity(String activityName, String activityStatus, String startWeek, String endWeek) {
     this.activityName = activityName;
-    this.ativityStatus = activityStatus;
+    this.activityStatus = activityStatus;
     this.startWeek = startWeek;
     this.endWeek = endWeek;
     this.activityId = generateActivityId(); // Generate a unique ID for the activity
@@ -36,7 +34,7 @@ public class Activity {
 
    public Activity(String activityName, String ativityStatus, String startWeek, String endWeek, double budgetedHours) {
     this.activityName = activityName;
-    this.ativityStatus = ativityStatus;
+    this.activityStatus = ativityStatus;
     this.startWeek = startWeek;
     this.endWeek = endWeek;
     this.budgetedHours = budgetedHours;
@@ -49,6 +47,12 @@ public class Activity {
     this.endWeek = endWeek;
     this.budgetedHours = budgetedHours;
     this.activityId = generateActivityId();
+   }
+
+   // test constructor
+   public Activity(String activityId, String activityName){
+       this.activityId = activityId;
+         this.activityName = activityName;
    }
 
    public String generateActivityId() {
@@ -74,9 +78,6 @@ public class Activity {
     public void setCurrentSpentHours(double hours) {
         this.currentSpentHours = hours;
     }
-    public void setActivityStatus(String status) {
-        this.ativityStatus = status;
-    }
     public void setStartDate(String date) {
         this.startWeek = date;
     }
@@ -90,7 +91,7 @@ public class Activity {
         return activityName;
     }
     public String getActivityStatus() {
-        return ativityStatus;
+        return activityStatus;
     }
     public double getBudgetedHours() {
         return budgetedHours;
@@ -116,8 +117,12 @@ public class Activity {
     public void setActivityAssignedProject(Project activityAssignedProject) {
         this.activityAssignedProject = activityAssignedProject;
     }
-    public void setAtivityStatus(String ativityStatus) {
-        this.ativityStatus = ativityStatus;
+    public void setActivityStatus(String activityStatus) {
+        this.activityStatus = activityStatus;
+    }
+
+    public String getActivityId() {
+       return activityId;
     }
     // public boolean isOverdue() {
     //     Date currentDate = new Date();

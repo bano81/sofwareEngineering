@@ -58,7 +58,7 @@ public class SystemStorage {
 // ####################### Projects #######################
     public void addProject(Project project) {
         projects.add(project);
-        project.setProjectId(generateProjectId());
+        //project.setProjectId(generateProjectId());  //DELETE?
     }
 
     public Project getProject(String projectID) {
@@ -99,11 +99,12 @@ public class SystemStorage {
         employeeLoggedIn = null;
     }
 
-    public String generateProjectId() {
-        int year = Calendar.getInstance().get(Calendar.YEAR) % 100;
-        int nextNumber = projects.size() + 1;
-        return String.valueOf(year * 1000 + nextNumber);
-    }
+    //shoudl prly be deleted
+    //public String generateProjectId() {
+    //    int year = Calendar.getInstance().get(Calendar.YEAR) % 100;
+    //    int nextNumber = projects.size() + 1;
+    //    return String.valueOf(year * 1000 + nextNumber);
+    //}
 
 
    // ####################### Activities #######################

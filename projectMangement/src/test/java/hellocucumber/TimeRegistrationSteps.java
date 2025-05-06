@@ -20,6 +20,7 @@ public class TimeRegistrationSteps {
     private String employeeId;
     private SystemStorage systemStorage = TestContext.getSystemStorage();
     private BLController blController = new BLController(systemStorage);
+    private String projectID;
 
     @Before
     public void resetLoginState() {
@@ -35,36 +36,35 @@ public class TimeRegistrationSteps {
         assertEquals(employeeId, systemStorage.getLoggedInEmployee().getEmployeeId());
 
     }
-
-
-    @And("a project {string} with ID {string} exists")
-    public void aProjectWithIDExists(String projectName, String projectId) {
-        systemStorage.addProject(new Project(projectId, projectName));
-        assertTrue(systemStorage.projectIDExists(projectId));
+    @And("a project {string} with ID {string} and deadline {string} exists")
+    public void aProjectWithIDExists(String projectName, String projectID, String projectDeadLine) {
+        this.projectID = projectID;
+        systemStorage.getProjects().add(new Project(projectID, projectName, projectDeadLine));
+        assertTrue(systemStorage.getProjects().contains(systemStorage.getProject(projectID)));
     }
+    @And("an activity {string} with ID {string} exists")
+    public void anActivityWithIDExists(String activityName, String activityId) {
+        systemStorage.getProject(projectID).addActivity(new Activity(activityId, activityName));
+        assertTrue(systemStorage.getProject(projectID).getActivities().contains(systemStorage.getProject(projectID).getActivityById(activityId)));
 
-    @And("the employee with ID {string} is assigned to project {string}")
-    public void theEmployeeWithIDIsAssignedToProject(String employeeID, String projectID) {
-        systemStorage.getProject(projectID).addEmployee(systemStorage.getEmployee(employeeID));
-        assertTrue(systemStorage.getProject(projectID).isEmployeeAssigned(employeeID));
     }
-
     @And("an activity {string} with ID {string} belongs to project {string}")
-    public void anActivityWithIDBelongsToProject(String activityName, String projectID) {
-        systemStorage.getProject(projectID).addActivity(new Activity(activityName));
-        assertTrue(systemStorage.getProject(projectID).activityExists(activityName));
+    public void anActivityWithIDBelongsToProject(String name, String ID, String projectID) {
+        assertTrue(systemStorage.getProject(projectID).getActivities().contains(systemStorage.getProject(projectID).getActivityById(ID)));
     }
 
-    @And("the employee with ID {string} is assigned to activity {string}")
-    public void theEmployeeWithIDIsAssignedToActivity(String arg0, String arg1) {
-        
+    @And("the employee with ID {string} is assigned to activity with {string}")
+    public void theEmployeeWithIDIsAssignedToActivity(String employeeId, String activityID) {
+       // systemStorage.addEmployee(new Employee("john", "doe", employeeId));
+       // systemStorage.getProject(projectID).getActivityById(activityID).assignEmployee(employeeId);
+       // assertTrue(systemStorage.getProject(projectID).getActivityById(activityID).isEmployeeAssigned(employeeId));
     }
 
-    // @When("a user registers time with activityId {string}, date {string}, hours {string}, and description {string}")
-    // public void aUserRegistersTimeWithActivityIdDateHoursAndDescription(String activityID, String dateString, String hourSpent, String description) {
-    //     blController.registerTime()
+    @When("a user registers time spent on activity with Id {string}, on date {string}, hours spent {string}, and description {string}")
+    public void aUserRegistersTimeSpentOnActivityWithIdOnDateHoursSpentAndDescription(String arg0, String arg1, String arg2, String arg3) {
+        throw new io.cucumber.java.PendingException();
+    }
 
-    // }
 
     @Then("the time registration should be saved to SystemStorage")
     public void theTimeRegistrationShouldBeSavedToSystemStorage() {
@@ -95,6 +95,7 @@ public class TimeRegistrationSteps {
     public void aUserTriesToRegisterTimeWithActivityIdDateHoursAndDescription(String arg0, String arg1, String arg2, String arg3) {
         throw new io.cucumber.java.PendingException();
     }
+
 
 
 }
