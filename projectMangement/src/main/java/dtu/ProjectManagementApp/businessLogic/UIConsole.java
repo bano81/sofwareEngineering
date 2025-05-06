@@ -224,7 +224,7 @@ public class UIConsole {
                 String staff = activity.getAssignedEmployees().isEmpty() 
                     ? "<None>" 
                     : String.join(", ", activity.getAssignedEmployees());
-                System.out.println(activity.getActivityName() + " (Details) Staff: " + staff);
+                System.out.println(activity.getActivityName() + " Start:" + activity.getStartDate() + " End " + activity.getEndDate() + " Budgeted hours: " + activity.getBudgetedHours() +" Staff: " + staff);
             }
             System.out.println("---");
             System.out.println("Manage Project Options:");
@@ -306,6 +306,16 @@ public class UIConsole {
         String newBudgetedHours = sc.nextLine();
         if (!newBudgetedHours.isBlank()) {
             activity.setBudgetedHours(Double.parseDouble(newBudgetedHours));
+        }
+
+        System.out.print("Add new Employee to Activity by ID (leave blank to skip): ");
+        String employeeId = sc.nextLine();
+        if (!employeeId.isBlank()) {
+            if (systemStorage.employeeExists(employeeId)) {
+                activity.assignEmployee(employeeId);
+            } else {
+                System.out.println("Employee not found.");
+            }
         }
 
         System.out.println("Activity details updated successfully!");
