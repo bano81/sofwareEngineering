@@ -8,6 +8,7 @@ public class SystemStorage {
 
     private final List<Employee> employees = new ArrayList<>();
     private final List<Project> projects = new ArrayList<>();
+    private final List<TimeRegistration> timeRegistrations = new ArrayList<>();
     private Employee employeeLoggedIn = null; // Variable to store the logged-in employee
 
 
@@ -120,5 +121,13 @@ public class SystemStorage {
             }
         }
         return userActivities;
+    }
+
+    /* TIME REGISTRATION*/
+    public void addTimeRegistration(TimeRegistration timeRegistration) {
+        timeRegistrations.add(timeRegistration);
+    }
+    public List<TimeRegistration> getTimeRegistrations() {
+        return timeRegistrations;
     }
 }

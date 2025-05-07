@@ -1,5 +1,9 @@
 package dtu.ProjectManagementApp.businessLogic;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -166,16 +170,43 @@ public class BLController {
         }
         return sum; // Return the total number of activities
     }
-
-
     /* TIME REGISTRATION */
-   // public void registerTime(String activityID, String dateString, double hours, String description) {
-   //     Activity activity = systemStorage.getActivityByID(activityID); // Get the activity by ID
-   //     if (activity != null) {
-   //         TimeRegistration timeRegistration = new TimeRegistration(dateString, hours, description); // Create a new time registration
-   //         activity.addTimeRegistration(timeRegistration); // Add the time registration to the activity
-   //     } else {
-   //         throw new IllegalArgumentException("Activity with ID " + activityID + " does not exist."); // Throw an exception if the activity does not exist
-   //     }
-   // 
+    public void registerTime(String activityId, String dateString, String hoursSpent, String description) {
+        Employee employee = systemStorage.getLoggedInEmployee();
+        if (employee == null) {
+            throw new IllegalStateException("No user is logged in");
+        }
+
+        Project project = systemStorage.getProjects().stream()
+                .filter(p -> p.getActivities().stream()
+                        .anyMatch(a -> a.getActivityId().equals(activityId)))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Project with activity ID " + activityId + " does not exist"));
+
+        Activity activity = project.getActivityById(activityId);
+
+        // Check if employee is assigned to activity
+        if (!activity.getAssignedEmployees().contains(employee.getEmployeeId())) {
+            throw new IllegalArgumentException("You are not assigned to this activity");
+        }
+
+        // Parse date and hours
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate dateOfRegistration = LocalDate.parse(dateString, formatter);
+            double hours = Double.parseDouble(hoursSpent);
+
+            // Create and add time registration
+            TimeRegistration timeReg = new TimeRegistration(
+                    employee, project, activity, dateOfRegistration, hours, description);
+            systemStorage.addTimeRegistration(timeReg);
+
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format. Use yyyy-MM-dd");
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid hours format");
+        }
+
+    }
+
 }

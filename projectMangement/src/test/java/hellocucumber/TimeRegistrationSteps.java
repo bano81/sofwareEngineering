@@ -12,8 +12,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TimeRegistrationSteps {
     private Exception e;
@@ -21,6 +20,8 @@ public class TimeRegistrationSteps {
     private SystemStorage systemStorage = TestContext.getSystemStorage();
     private BLController blController = new BLController(systemStorage);
     private String projectID;
+    private String timeRegistrationId;
+    private int timeRegistrationCount;
 
     @Before
     public void resetLoginState() {
@@ -55,46 +56,47 @@ public class TimeRegistrationSteps {
 
     @And("the employee with ID {string} is assigned to activity with {string}")
     public void theEmployeeWithIDIsAssignedToActivity(String employeeId, String activityID) {
-       // systemStorage.addEmployee(new Employee("john", "doe", employeeId));
-       // systemStorage.getProject(projectID).getActivityById(activityID).assignEmployee(employeeId);
-       // assertTrue(systemStorage.getProject(projectID).getActivityById(activityID).isEmployeeAssigned(employeeId));
+        systemStorage.addEmployee(new Employee("john", "doe", employeeId));
+        systemStorage.getProject(projectID).getActivityById(activityID).assignEmployee(employeeId);
+        assertTrue(systemStorage.getProject(projectID).getActivityById(activityID).getAssignedEmployees().contains(employeeId));
     }
 
     @When("a user registers time spent on activity with Id {string}, on date {string}, hours spent {string}, and description {string}")
-    public void aUserRegistersTimeSpentOnActivityWithIdOnDateHoursSpentAndDescription(String arg0, String arg1, String arg2, String arg3) {
-        throw new io.cucumber.java.PendingException();
+    public void aUserRegistersTimeSpentOnActivityWithIdOnDateHoursSpentAndDescription(String activityId, String dateString, String hoursSpent, String description) {
+        timeRegistrationCount = systemStorage.getTimeRegistrations().size();
+        try {
+            blController.registerTime(activityId, dateString, hoursSpent, description);
+        } catch (Exception e) {
+            this.e = e;
+        }
     }
 
 
     @Then("the time registration should be saved to SystemStorage")
     public void theTimeRegistrationShouldBeSavedToSystemStorage() {
-        throw new io.cucumber.java.PendingException();
+        assertTrue(systemStorage.getTimeRegistrations().size() > timeRegistrationCount);
+
     }
 
-    @And("the system should display a success message {string}")
-    public void theSystemShouldDisplayASuccessMessage(String arg0) {
-        throw new io.cucumber.java.PendingException();
-    }
 
     @Then("the time registration should not be saved to SystemStorage")
     public void theTimeRegistrationShouldNotBeSavedToSystemStorage() {
-        throw new io.cucumber.java.PendingException();
+        assertFalse(systemStorage.getTimeRegistrations().size() > timeRegistrationCount);
     }
 
     @And("the system should display an error message {string}")
-    public void theSystemShouldDisplayAnErrorMessage(String arg0) {
-        throw new io.cucumber.java.PendingException();
+    public void theSystemShouldDisplayAnErrorMessage(String expectedErrorMessage) {
+        assertNotNull(e, "No exception was thrown");
+        assertTrue(e instanceof Exception, "expected an exception of type Exception");
+        assertEquals(expectedErrorMessage, e.getMessage(), "Error message doesn't match expected message");
     }
 
     @Given("No user is logged in")
     public void noUserIsLoggedIn() {
-        throw new io.cucumber.java.PendingException();
+
+        assertNull(systemStorage.getLoggedInEmployee());
     }
 
-    @When("a user tries to register time with activityId {string}, date {string}, hours {string}, and description {string}")
-    public void aUserTriesToRegisterTimeWithActivityIdDateHoursAndDescription(String arg0, String arg1, String arg2, String arg3) {
-        throw new io.cucumber.java.PendingException();
-    }
 
 
 
