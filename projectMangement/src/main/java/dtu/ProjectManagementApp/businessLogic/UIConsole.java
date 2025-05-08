@@ -84,7 +84,7 @@ public class UIConsole {
             System.out.println("My Assigned Activities:");
             List<Activity> activities = systemStorage.getActivitiesForUser(systemStorage.getLoggedInEmployee().getEmployeeId()); // Fetch activities from SystemStorage
             for (Activity activity : activities) {
-                System.out.println("- [" + activity.getActivityId() + "] "+ activity.getActivityName() + " Start: " + activity.getStartDate() + " End: " + activity.getEndDate() + " Budgeted hours: " + activity.getBudgetedHours()+ " Current hours spent: " + activity.getCurrentSpentHours());
+                System.out.println("- [" + activity.getActivityId() + "] "+ activity.getActivityName() + " Start: " + activity.getStartDate() + " End: " + activity.getEndDate() + " Budgeted hours: " + activity.getBudgetedHours()+ " Current hours spent: " + activity.getCurrentSpentHours(systemStorage.getTimeRegistrations()));
             }
             System.out.println("Options:");
             System.out.println("1. Register Time");
@@ -113,7 +113,7 @@ public class UIConsole {
     }
 
     private void registerTime(Scanner sc) {
-        int choice = 2;  // Start with option to enter data
+        int choice;  // Start with option to enter data
 
         while (true) {  // Continue only if user wants to try again
             clearConsole();
@@ -150,19 +150,16 @@ public class UIConsole {
                         System.out.println("Error: " + e.getMessage());
                         System.out.println("Press Enter to try again...");
                         sc.nextLine();
-                        choice = 2;
                     }
                 } else if (choice == 0) {
                     break;
                 } else if (choice != 2) {
                     System.out.println("Invalid option. Press Enter to try again...");
                     sc.nextLine();
-                    choice = 2;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid number (0-2). Press Enter to try again...");
                 sc.nextLine();
-                choice = 2;
             }
         }
     }

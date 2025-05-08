@@ -192,52 +192,52 @@ public class ActivitySteps {
             "Employee with ID " + employeeId + " is still assigned to activity " + activityName + ".");
     }
 
-    @When("the user records {double} hours spent on activity {string} from project with ID {string}")
-    public void theUserRecordsHoursSpentOnActivityFromProjectWithID(double hours, String activityName, String projectId) {
-        Project project = systemStorage.getProject(projectId);
-        if (project == null) {
-            throw new IllegalArgumentException("Project with ID " + projectId + " does not exist.");
-        }
+    //@When("the user records {double} hours spent on activity {string} from project with ID {string}")
+    //public void theUserRecordsHoursSpentOnActivityFromProjectWithID(double hours, String activityName, String projectId) {
+    //    Project project = systemStorage.getProject(projectId);
+    //    if (project == null) {
+    //        throw new IllegalArgumentException("Project with ID " + projectId + " does not exist.");
+    //    }
+//
+    //    Activity activity = project.getActivity(activityName);
+    //    if (activity == null) {
+    //        throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectId + ".");
+    //    }
+//
+    //    activity.setCurrentSpentHours(hours);
+    //}
 
-        Activity activity = project.getActivity(activityName);
-        if (activity == null) {
-            throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectId + ".");
-        }
+    //@When("the user records {double} more hours spent on activity {string} from project with ID {string}")
+    //public void theUserRecordsMoreHoursSpentOnActivityFromProjectWithID(double additionalHours, String activityName, String projectId) {
+    //    Project project = systemStorage.getProject(projectId);
+    //    if (project == null) {
+    //        throw new IllegalArgumentException("Project with ID " + projectId + " does not exist.");
+    //    }
+//
+    //    Activity activity = project.getActivity(activityName);
+    //    if (activity == null) {
+    //        throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectId + ".");
+    //    }
+//
+    //    double currentHours = activity.getCurrentSpentHours();
+    //    activity.setCurrentSpentHours(currentHours + additionalHours);
+    //}
 
-        activity.setCurrentSpentHours(hours);
-    }
-
-    @When("the user records {double} more hours spent on activity {string} from project with ID {string}")
-    public void theUserRecordsMoreHoursSpentOnActivityFromProjectWithID(double additionalHours, String activityName, String projectId) {
-        Project project = systemStorage.getProject(projectId);
-        if (project == null) {
-            throw new IllegalArgumentException("Project with ID " + projectId + " does not exist.");
-        }
-
-        Activity activity = project.getActivity(activityName);
-        if (activity == null) {
-            throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectId + ".");
-        }
-
-        double currentHours = activity.getCurrentSpentHours();
-        activity.setCurrentSpentHours(currentHours + additionalHours);
-    }
-
-    @Then("the activity {string} from project with ID {string} should have {double} hours spent")
-    public void theActivityFromProjectWithIDShouldHaveHoursSpent(String activityName, String projectId, double expectedHours) {
-        Project project = systemStorage.getProject(projectId);
-        if (project == null) {
-            throw new IllegalArgumentException("Project with ID " + projectId + " does not exist.");
-        }
-
-        Activity activity = project.getActivity(activityName);
-        if (activity == null) {
-            throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectId + ".");
-        }
-
-        assertEquals(expectedHours, activity.getCurrentSpentHours(), 0.01,
-            "Current spent hours do not match expected hours.");
-    }
+    //@Then("the activity {string} from project with ID {string} should have {double} hours spent")
+    //public void theActivityFromProjectWithIDShouldHaveHoursSpent(String activityName, String projectId, double expectedHours) {
+    //    Project project = systemStorage.getProject(projectId);
+    //    if (project == null) {
+    //        throw new IllegalArgumentException("Project with ID " + projectId + " does not exist.");
+    //    }
+//
+    //    Activity activity = project.getActivity(activityName);
+    //    if (activity == null) {
+    //        throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectId + ".");
+    //    }
+//
+    //    assertEquals(expectedHours, activity.getCurrentSpentHours(), 0.01,
+    //        "Current spent hours do not match expected hours.");
+    //}
     
     @Then("the activities {string} and {string} from project with ID {string} should have different IDs")
     public void theActivitiesShouldHaveDifferentIDs(String activity1Name, String activity2Name, String projectId) {

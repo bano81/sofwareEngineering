@@ -7,7 +7,7 @@ public class Activity {
 //    private Project activityAssignedProject;
 //    private String activityStatus;
    private double budgetedHours;
-   private double currentSpentHours;
+  // private double currentSpentHours;
    private String startWeek;                    // format: YY-WW (e.g. 25-01)
    private String endWeek;                      // format: YY-WW (e.g. 25-05)
    private List<String> assignedEmployeeIDs = new ArrayList<>();
@@ -72,9 +72,9 @@ public class Activity {
     public void setBudgetedHours(double hours) {
         this.budgetedHours = hours;
     }
-    public void setCurrentSpentHours(double hours) {
-        this.currentSpentHours = hours;
-    }
+    //public void setCurrentSpentHours(double hours) {
+    //    this.currentSpentHours = hours;
+    //}
     public void setStartDate(String date) {
         this.startWeek = date;
     }
@@ -93,8 +93,17 @@ public class Activity {
     public double getBudgetedHours() {
         return budgetedHours;
     }
-    public double getCurrentSpentHours() {
-        return currentSpentHours;
+    //public double getCurrentSpentHours() {
+    //    return currentSpentHours;
+    //}
+    public double getCurrentSpentHours(List<TimeRegistration> allTimeRegistrations) {
+        double totalHours = 0;
+        for (TimeRegistration tr : allTimeRegistrations) {
+            if (tr.getActivity() != null && tr.getActivity().getActivityId().equals(this.activityId)) {
+                totalHours += tr.getHoursSpent();
+            }
+        }
+        return totalHours;
     }
     public String getStartDate() {
         return startWeek;
