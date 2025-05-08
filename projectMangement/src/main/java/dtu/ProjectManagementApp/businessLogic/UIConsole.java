@@ -82,9 +82,9 @@ public class UIConsole {
             clearConsole();
             System.out.println("-- Time & Activities (User: " + username + ") --");
             System.out.println("My Assigned Activities:");
-            List<Activity> activities = systemStorage.getActivitiesForUser(username); // Fetch activities from SystemStorage
+            List<Activity> activities = systemStorage.getActivitiesForUser(systemStorage.getLoggedInEmployee().getEmployeeId()); // Fetch activities from SystemStorage
             for (Activity activity : activities) {
-                System.out.println("- [" + activity.getActivityName() + "] ");
+                System.out.println("- [" + activity.getActivityId() + "] "+ activity.getActivityName() + " Start: " + activity.getStartDate() + " End: " + activity.getEndDate() + " Budgeted hours: " + activity.getBudgetedHours()+ " Current hours spent: " + activity.getCurrentSpentHours());
             }
             System.out.println("Options:");
             System.out.println("1. Register Time");
@@ -92,9 +92,13 @@ public class UIConsole {
             System.out.println("3. Register Future Fixed Activity Time (Vacation, etc.)");
             System.out.println("0. Back to Main Menu");
             System.out.print("# ");
-            choice = sc.nextInt();
-            sc.nextLine(); // Consume newline
-            handleTimeAndActivitiesChoice(choice, sc);
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+                handleTimeAndActivitiesChoice(choice, sc);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid menu option (0-3).");
+                choice = -1; // Invalid choice to continue loop
+            }
         } while (choice != 0);
     }
 
@@ -109,18 +113,58 @@ public class UIConsole {
     }
 
     private void registerTime(Scanner sc) {
-        clearConsole();
-        System.out.print("Select Activity (Number/ID): ");
-        String activityId = sc.nextLine();
-        System.out.print("Enter Date (YYYY-MM-DD, default Today): ");
-        String date = sc.nextLine();
-        System.out.print("Enter Hours (0.5 increments): ");
-        String hours = sc.nextLine();
-        System.out.print("Enter description of work done: ");
-        String description = sc.nextLine();
-        sc.nextLine(); // Consume newline
-        blController.registerTime(activityId, date, hours, description );
-        System.out.println("Time registered successfully!");
+        int choice = 2;  // Start with option to enter data
+
+        while (true) {  // Continue only if user wants to try again
+            clearConsole();
+
+            System.out.print("Select Activity (Number/ID): ");
+            String activityId = sc.nextLine();
+
+            System.out.print("Enter Date (YYYY-MM-DD, default Today): ");
+            String date = sc.nextLine();
+            if (date.isEmpty()) {
+                date = java.time.LocalDate.now().toString();
+            }
+
+            System.out.print("Enter Hours (0.5 increments): ");
+            String hours = sc.nextLine();
+
+            System.out.print("Enter description of work done: ");
+            String description = sc.nextLine();
+
+            System.out.println("Options:");
+            System.out.println("1. Confirm Registration");
+            System.out.println("2. Try Again");
+            System.out.println("0. Go back to My View");
+            System.out.print("# ");
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+
+                if (choice == 1) {
+                    try {
+                        blController.registerTime(activityId, date, hours, description);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                        System.out.println("Press Enter to try again...");
+                        sc.nextLine();
+                        choice = 2;
+                    }
+                } else if (choice == 0) {
+                    break;
+                } else if (choice != 2) {
+                    System.out.println("Invalid option. Press Enter to try again...");
+                    sc.nextLine();
+                    choice = 2;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number (0-2). Press Enter to try again...");
+                sc.nextLine();
+                choice = 2;
+            }
+        }
     }
 
     private void editRegisteredTime(Scanner sc) {
