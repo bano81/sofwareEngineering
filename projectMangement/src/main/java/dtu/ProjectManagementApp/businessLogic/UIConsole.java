@@ -115,9 +115,11 @@ public class UIConsole {
         System.out.print("Enter Date (YYYY-MM-DD, default Today): ");
         String date = sc.nextLine();
         System.out.print("Enter Hours (0.5 increments): ");
-        double hours = sc.nextDouble();
+        String hours = sc.nextLine();
+        System.out.print("Enter description of work done: ");
+        String description = sc.nextLine();
         sc.nextLine(); // Consume newline
-        // TODO: Implement logic to register time
+        blController.registerTime(activityId, date, hours, description );
         System.out.println("Time registered successfully!");
     }
 

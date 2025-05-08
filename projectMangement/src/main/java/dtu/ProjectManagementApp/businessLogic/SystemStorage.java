@@ -20,14 +20,27 @@ public class SystemStorage {
         employees.add(new Employee("Hubert", "Baumeister", "huba")); 
         employees.add(new Employee("Silas", "Kejser", "sike")); 
         
-        projects.add(new Project("Project1","25-05"));
-        projects.add(new Project("Project2","25-06"));
-        projects.add(new Project("Project3","25-07"));
-        
-        Project project1 = getProjectByName("Project1");
-        project1.addActivity(new Activity("design", "25-01", "25-02", 20));
-        project1.addActivity(new Activity("analysis", "25-02", "25-03", 20));
-        project1.addActivity(new Activity("implementation", "25-03", "25-05", 20));
+        Project project1 = new Project("Project1","25-05");
+        Project project2 = new Project("Project2","25-06");
+        Project project3 = new Project("Project3","25-07");
+        projects.add(project1);
+        projects.add(project2);
+        projects.add(project3);
+
+        Activity activity1 = new Activity("design", "25-01", "25-02", 20);
+        Activity activity2 = new Activity("analysis", "25-02", "25-03", 20);
+        Activity activity3 = new Activity("implementation", "25-03", "25-05", 20);
+
+        project1.addActivity(activity1);
+        project1.addActivity(activity2);
+        project1.addActivity(activity3);
+
+
+        blController.assignEmployeeToProject(project1.getProjectId(), "huba");
+        blController.assignEmployeeToProject(project2.getProjectId(), "huba");
+
+        blController.assignEmployeeToActivity(activity1.getActivityId(), "huba");
+        blController.assignEmployeeToActivity(activity2.getActivityId(), "huba");
     }
 
     public void addEmployee(Employee employee) {

@@ -209,4 +209,26 @@ public class BLController {
 
     }
 
+
+
+    public void assignEmployeeToActivity(String activityId, String huba) {
+        Project project = systemStorage.getProjects().stream()
+                .filter(p -> p.getActivities().stream()
+                        .anyMatch(a -> a.getActivityId().equals(activityId)))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Project with activity ID " + activityId + " does not exist"));
+
+
+        if (project != null) {
+            Activity activity = project.getActivityById(activityId); // Get the activity by ID
+            if (activity != null) {
+                activity.assignEmployee(huba); // Assign the employee to the activity
+            } else {
+                throw new IllegalArgumentException("Activity with ID " + activityId + " does not exist.");
+            }
+        } else {
+            throw new IllegalArgumentException("Project with does not exist.");
+        }
+
+    }
 }

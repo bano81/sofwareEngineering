@@ -38,15 +38,15 @@ public class TimeRegistrationSteps {
 
     }
     @And("a project {string} with ID {string} and deadline {string} exists")
-    public void aProjectWithIDExists(String projectName, String projectID, String projectDeadLine) {
-        this.projectID = projectID;
+    public void aProjectWithIDExists(String projectName, String projectId, String projectDeadLine) {
+        this.projectID = projectId;
         systemStorage.getProjects().add(new Project(projectID, projectName, projectDeadLine));
         assertTrue(systemStorage.getProjects().contains(systemStorage.getProject(projectID)));
     }
-    @And("an activity {string} with ID {string} exists")
-    public void anActivityWithIDExists(String activityName, String activityId) {
-        systemStorage.getProject(projectID).addActivity(new Activity(activityId, activityName));
-        assertTrue(systemStorage.getProject(projectID).getActivities().contains(systemStorage.getProject(projectID).getActivityById(activityId)));
+    @And("an activity {string} with ID {string}, in project with id {string} exists")
+    public void anActivityWithIDExists(String activityName, String activityId, String projectId) {
+        systemStorage.getProject(projectId).addActivity(new Activity(activityId, activityName));
+        assertTrue(systemStorage.getProject(projectId).getActivities().contains(systemStorage.getProject(projectId).getActivityById(activityId)));
 
     }
     @And("an activity {string} with ID {string} belongs to project {string}")
