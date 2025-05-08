@@ -136,6 +136,14 @@ public class SystemStorage {
         return userActivities;
     }
 
+    public int getActivityCount() {
+        int totalActivities = 0;
+        for (Project project : projects) {
+            totalActivities += project.getActivities().size();
+        }
+        return totalActivities;
+    }
+
     /* TIME REGISTRATION*/
     public void addTimeRegistration(TimeRegistration timeRegistration) {
         timeRegistrations.add(timeRegistration);

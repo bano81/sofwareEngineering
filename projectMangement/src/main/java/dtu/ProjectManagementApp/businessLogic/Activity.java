@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Activity {
    private String activityName;
-   private Project activityAssignedProject;
-   private String activityStatus;
+//    private Project activityAssignedProject;
+//    private String activityStatus;
    private double budgetedHours;
    private double currentSpentHours;
    private String startWeek;                    // format: YY-WW (e.g. 25-01)
@@ -24,22 +24,22 @@ public class Activity {
        this.activityId = generateActivityId();
    }
 
-   public Activity(String activityName, String activityStatus, String startWeek, String endWeek) {
-    this.activityName = activityName;
-    this.activityStatus = activityStatus;
-    this.startWeek = startWeek;
-    this.endWeek = endWeek;
-    this.activityId = generateActivityId(); // Generate a unique ID for the activity
-   }
+//    public Activity(String activityName, String activityStatus, String startWeek, String endWeek) {
+//     this.activityName = activityName;
+//     this.activityStatus = activityStatus;
+//     this.startWeek = startWeek;
+//     this.endWeek = endWeek;
+//     this.activityId = generateActivityId(); // Generate a unique ID for the activity
+//    }
 
-   public Activity(String activityName, String ativityStatus, String startWeek, String endWeek, double budgetedHours) {
-    this.activityName = activityName;
-    this.activityStatus = ativityStatus;
-    this.startWeek = startWeek;
-    this.endWeek = endWeek;
-    this.budgetedHours = budgetedHours;
-    this.activityId = generateActivityId();
-   }
+//    public Activity(String activityName, String ativityStatus, String startWeek, String endWeek, double budgetedHours) {
+//     this.activityName = activityName;
+//     this.activityStatus = ativityStatus;
+//     this.startWeek = startWeek;
+//     this.endWeek = endWeek;
+//     this.budgetedHours = budgetedHours;
+//     this.activityId = generateActivityId();
+//    }
 
    public Activity(String activityName, String startWeek, String endWeek, double budgetedHours) {
     this.activityName = activityName;
@@ -56,7 +56,7 @@ public class Activity {
    }
 
    public String generateActivityId() {
-       return String.valueOf(System.currentTimeMillis()); // TODO: Implement better ID generation
+       return String.valueOf(System.currentTimeMillis()); // TODO: Implement better ID generation?
    }
 
    public void assignEmployee(String employeeId) {
@@ -65,13 +65,10 @@ public class Activity {
     public void removeEmployee(String employeeId) {
          assignedEmployeeIDs.remove(employeeId);
     }
-    public void assignProject(Project project) {
-        this.activityAssignedProject = project;
-    }
 
-    public void removeProject() {
-        this.activityAssignedProject = null;
-    }
+    // public void removeProject() {
+    //     this.activityAssignedProject = null;
+    // }
     public void setBudgetedHours(double hours) {
         this.budgetedHours = hours;
     }
@@ -90,9 +87,9 @@ public class Activity {
     public String getActivityName() {
         return activityName;
     }
-    public String getActivityStatus() {
-        return activityStatus;
-    }
+    // public String getActivityStatus() {
+    //     return activityStatus;
+    // }
     public double getBudgetedHours() {
         return budgetedHours;
     }
@@ -105,21 +102,21 @@ public class Activity {
     public String getEndDate() {
         return endWeek;
     }
-    public Project getActivityAssignedProject() {
-        return activityAssignedProject;
-    }
+    // public Project getActivityAssignedProject() {
+    //     return activityAssignedProject;
+    // }
     public List<String> getAssignedEmployees() {
         return assignedEmployeeIDs;
     }
-    public void setAssignedEmployees(List<String> assignedEmployeeIDs) {
-        this.assignedEmployeeIDs = assignedEmployeeIDs;
-    }
-    public void setActivityAssignedProject(Project activityAssignedProject) {
-        this.activityAssignedProject = activityAssignedProject;
-    }
-    public void setActivityStatus(String activityStatus) {
-        this.activityStatus = activityStatus;
-    }
+    // public void setAssignedEmployees(List<String> assignedEmployeeIDs) {
+    //     this.assignedEmployeeIDs = assignedEmployeeIDs;
+    // }
+    // public void setActivityAssignedProject(Project activityAssignedProject) {
+    //     this.activityAssignedProject = activityAssignedProject;
+    // }
+    // public void setActivityStatus(String activityStatus) {
+    //     this.activityStatus = activityStatus;
+    // }
 
     public String getActivityId() {
        return activityId;
