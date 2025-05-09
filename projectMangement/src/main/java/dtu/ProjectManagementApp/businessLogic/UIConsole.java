@@ -216,12 +216,7 @@ public class UIConsole {
         do {
             clearConsole();
             System.out.println("-- Project Management --");
-            System.out.println("Projects:");
-            List<Project> projects = systemStorage.getProjects(); // Fetch projects from SystemStorage
-            for (Project project : projects) {
-                String projectManager = project.getProjectManagerId() != null ? project.getProjectManagerId() : "<None>";
-                System.out.println("- [" + project.getProjectId() + "] " + project.getProjectName() + " (PM: " + projectManager + ")");
-            }
+            displayAllProjects();
             System.out.println("Options:");
             System.out.println("1. Create New Project");
             System.out.println("2. Manage Project");
@@ -540,6 +535,7 @@ public class UIConsole {
 	private void generateReportsMenu(Scanner sc) {
         clearConsole();
         System.out.println("-- Reports --");
+        displayAllProjects();
         System.out.println("Options:");
         System.out.println("1. Project Status Report (Budgeted Time / Registered Time)");
         System.out.println("2. Project Remaining Work Estimate Report");
@@ -556,7 +552,11 @@ public class UIConsole {
             case 1 -> {
                 System.out.print("Enter Project ID: ");
                 String projectId = sc.nextLine();
+                try {
                 generateProjectStatusReport(projectId);
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
             }
             case 2 -> System.out.println("Generating Project Remaining Work Estimate Report..."); // TODO: Implement logic
             case 0 -> System.out.println("Returning to Main Menu.");
@@ -577,18 +577,33 @@ public class UIConsole {
         System.out.println("Project Status Report for " + project.getProjectName() + ":");
         System.out.println("Project Manager: " + project.getProjectManagerId());
         System.out.println();
-        System.out.println("Time Status for each Activity:");
+        System.out.println("Time Status per Activity:");
+        System.out.printf("%n%-20s %-20s %-20s%n", "Activity", "Budgeted Hours", "Registered Hours");
+        System.out.printf("%-20s %-20s %-20s%n", "--------", "--------------", "----------------");
         for (Activity activity : project.getActivities()) {
-            System.out.println(activity.getActivityName() + ": Budgeted " + activity.getBudgetedHours() + " Hours / Registered " + activity.getCurrentSpentHours(systemStorage.getTimeRegistrations()) + " Hours");
+            System.out.printf("%-20s %-20.2f %-20.2f%n",
+                    activity.getActivityName(),
+                    activity.getBudgetedHours(),
+                    activity.getCurrentSpentHours(systemStorage.getTimeRegistrations()));
 
             // Calculate totals:
             totalBudgetedHours += activity.getBudgetedHours();
             totalRegisteredHours += activity.getCurrentSpentHours(systemStorage.getTimeRegistrations());
         }
         System.out.println();
-        System.out.println("Total Budgeted Time for " + project.getProjectName() + ": " + totalBudgetedHours + " Hours");
-        System.out.println("Total Registered Time for " + project.getProjectName() + ": " + totalRegisteredHours + " Hours");
+        System.out.println("Time Status Total:");
+        System.out.println("Budgeted Time for " + project.getProjectName() + ": " + totalBudgetedHours + " Hours");
+        System.out.println("Registered Time for " + project.getProjectName() + ": " + totalRegisteredHours + " Hours");
         System.out.println();
+    }
+
+    private void displayAllProjects() {
+        System.out.println("Projects:");
+        List<Project> projects = systemStorage.getProjects(); // Fetch projects from SystemStorage
+        for (Project project : projects) {
+            String projectManager = project.getProjectManagerId() != null ? project.getProjectManagerId() : "<None>";
+            System.out.println("- [" + project.getProjectId() + "] " + project.getProjectName() + " (PM: " + projectManager + ")");
+        }
     }
 
     private void clearConsole() {
