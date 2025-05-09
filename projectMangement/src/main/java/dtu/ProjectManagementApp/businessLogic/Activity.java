@@ -1,6 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Activity {
    private String activityName;
@@ -65,6 +65,15 @@ public class Activity {
     public void removeEmployee(String employeeId) {
          assignedEmployeeIDs.remove(employeeId);
     }
+    
+    public boolean isEmployeeAssigned(String employeeId) {
+    	for(String ID: assignedEmployeeIDs) {
+    		if(ID.equalsIgnoreCase(employeeId)) {
+    			return true;
+    		}
+    	}
+		return false;
+	}
 
     // public void removeProject() {
     //     this.activityAssignedProject = null;
@@ -149,6 +158,8 @@ public class Activity {
     // public boolean isCancelled() {
     //     return ativityStatus.equals("Cancelled");
     // }
+
+	
 
     // Get a date (Monday of the week) from week number and year
     /*public LocalDate getDateFromWeek(int year, int week) {

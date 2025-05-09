@@ -2,7 +2,6 @@ package dtu.ProjectManagementApp.businessLogic;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
@@ -146,6 +145,41 @@ public class Project {
 
     public List<Activity> getActivities() {
         return activities;
+    }
+    
+    public List<String> getListOfActivityIdByEmployee(String employeeId) {
+        List<String> activityIds = new ArrayList<>();
+        for (Activity activity : activities) {
+            if (activity.isEmployeeAssigned(employeeId)) {
+                activityIds.add(activity.getActivityId());
+            }
+        }        
+        return activityIds;
+    }
+    
+    public int getNumberOfWeekActivityForEmployee(String employeeID, String weekNumber) {
+        int count = 0;
+        int inputYear = Integer.parseInt(weekNumber.substring(0, 2));
+        int inputWeek = Integer.parseInt(weekNumber.substring(3));
+        
+        for (Activity activity : activities) {
+            if (activity.isEmployeeAssigned(employeeID)) {
+                String[] startParts = activity.getStartDate().split("-");
+                int startYear = Integer.parseInt(startParts[0]);
+                int startWeek = Integer.parseInt(startParts[1]);
+                
+                String[] endParts = activity.getEndDate().split("-");
+                int endYear = Integer.parseInt(endParts[0]);
+                int endWeek = Integer.parseInt(endParts[1]);
+                
+                if ((inputYear > startYear || (inputYear == startYear && inputWeek >= startWeek)) &&
+                    (inputYear < endYear || (inputYear == endYear && inputWeek <= endWeek))) {
+                    count++;
+                }
+            }
+        }
+        
+        return count;
     }
 
 
