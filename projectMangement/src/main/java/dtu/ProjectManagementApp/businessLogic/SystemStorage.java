@@ -16,7 +16,7 @@ public class SystemStorage {
     }
 
 
-    public void initiateTestUsers(BLController blController) {
+    public void initiateTestUsers(ProjectManagementAppBL blController) {
         employees.add(new Employee("Hubert", "Baumeister", "huba")); 
         employees.add(new Employee("Silas", "Kejser", "sike")); 
         

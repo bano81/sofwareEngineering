@@ -1,6 +1,5 @@
 package hellocucumber;
 
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,7 +14,7 @@ import java.util.Map;
 
 import dtu.ProjectManagementApp.businessLogic.SystemStorage;
 import dtu.ProjectManagementApp.businessLogic.Activity;
-import dtu.ProjectManagementApp.businessLogic.BLController;
+import dtu.ProjectManagementApp.businessLogic.ProjectManagementAppBL;
 import dtu.ProjectManagementApp.businessLogic.Employee;
 import dtu.ProjectManagementApp.businessLogic.Project;
 
@@ -24,7 +23,7 @@ public class ActivitySteps {
 
     Exception e;
     private SystemStorage systemStorage = TestContext.getSystemStorage();
-    private BLController blController = new BLController(systemStorage);
+    private ProjectManagementAppBL blController = new ProjectManagementAppBL(systemStorage);
 
     @Given("a user with ID {string} exists")
     public void aUserWithIDExists(String userId) {

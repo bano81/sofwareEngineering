@@ -2,7 +2,7 @@ package hellocucumber;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import dtu.ProjectManagementApp.businessLogic.BLController;
+import dtu.ProjectManagementApp.businessLogic.ProjectManagementAppBL;
 import dtu.ProjectManagementApp.businessLogic.SystemStorage;
 import dtu.ProjectManagementApp.businessLogic.Employee;
 import io.cucumber.java.en.Given;
@@ -14,7 +14,7 @@ public class LoginLogoutSteps {
     private Exception e;
     private String employeeId;
     private SystemStorage systemStorage = TestContext.getSystemStorage();
-    private BLController blController = new BLController(systemStorage);
+    private ProjectManagementAppBL blController = new ProjectManagementAppBL(systemStorage);
     
 
     @Given("An employee with ID {string} exists")

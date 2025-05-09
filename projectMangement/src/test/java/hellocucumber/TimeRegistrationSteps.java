@@ -1,6 +1,6 @@
 package hellocucumber;
 
-import dtu.ProjectManagementApp.businessLogic.BLController;
+import dtu.ProjectManagementApp.businessLogic.ProjectManagementAppBL;
 import dtu.ProjectManagementApp.businessLogic.Employee;
 import dtu.ProjectManagementApp.businessLogic.Project;
 import dtu.ProjectManagementApp.businessLogic.Activity;
@@ -10,7 +10,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.jupiter.api.Assertions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +17,7 @@ public class TimeRegistrationSteps {
     private Exception e;
     private String employeeId;
     private SystemStorage systemStorage = TestContext.getSystemStorage();
-    private BLController blController = new BLController(systemStorage);
+    private ProjectManagementAppBL blController = new ProjectManagementAppBL(systemStorage);
     private String projectID;
     private String timeRegistrationId;
     private int timeRegistrationCount;

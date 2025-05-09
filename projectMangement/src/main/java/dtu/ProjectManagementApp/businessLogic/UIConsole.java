@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UIConsole {
-    private final BLController blController;
+    private final ProjectManagementAppBL blController;
     private final SystemStorage systemStorage;
 
-    public UIConsole(BLController blController, SystemStorage systemStorage) {
+    public UIConsole(ProjectManagementAppBL blController, SystemStorage systemStorage) {
         this.blController = blController;
         this.systemStorage = systemStorage;
     }
