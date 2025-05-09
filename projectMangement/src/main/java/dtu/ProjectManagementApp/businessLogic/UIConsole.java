@@ -72,7 +72,7 @@ public class UIConsole {
             case 1 -> timeAndActivitiesMenu(username, sc);
             case 2 -> projectManagementMenu(sc);
             case 3 -> employeeAvailabilityMenu(sc);
-            case 4 -> generateReportsMenu(sc);
+            case 4 -> generateProjectStatusReport(sc);
             case 5 -> createNewEmployee(sc);
             case 0 -> System.out.println("Exiting the program.");
             default -> System.out.println("Invalid choice. Please try again.");
@@ -113,7 +113,7 @@ public class UIConsole {
                 handleTimeAndActivitiesChoice(choice, sc);
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid menu option (0-3).");
-                choice = -1; // Invalid choice to continue loop
+                choice = -1; // Invalid choice to continue the loop
             }
         } while (choice != 0);
     }
@@ -129,9 +129,9 @@ public class UIConsole {
     }
 
     private void registerTime(Scanner sc) {
-        int choice;  // Start with option to enter data
+        int choice;  // Start with an option to enter data
 
-        while (true) {  // Continue only if user wants to try again
+        while (true) {  // Continue only if the user wants to try again
             clearConsole();
             System.out.println("Available Activities:");
             List<Activity> activities = systemStorage.getActivitiesForUser(systemStorage.getLoggedInEmployee().getEmployeeId()); // Fetch activities from SystemStorage
@@ -311,7 +311,7 @@ public class UIConsole {
 
     private void delay() {
         try {
-            Thread.sleep(1000); // 1 seconds delay
+            Thread.sleep(1000); // 1-second delay
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt(); // Restore interrupted status
         }
@@ -595,70 +595,72 @@ public class UIConsole {
 		}
 	}
 
-	
-
-	private void generateReportsMenu(Scanner sc) {
+	private void generateProjectStatusReport(Scanner sc) {
         clearConsole();
-        System.out.println("-- Reports --");
+        System.out.println("-- Generate Report --");
         displayAllProjects();
-        System.out.println("Options:");
-        System.out.println("1. Project Status Report (Budgeted Time / Registered Time)");
-        System.out.println("2. Project Remaining Work Estimate Report");
-        System.out.println("0. Back to Main Menu");
-        System.out.print("# ");
-        int choice = sc.nextInt();
-        sc.nextLine(); // Consume newline
-        handleGenerateReports(choice, sc);
-        // TODO: Implement report generation logic
-    }
+        System.out.print("Enter Project ID: ");
+        String projectId = sc.nextLine();
+        try {
+            Project project = systemStorage.getProject(projectId); // Fetch project from SystemStorage
+            if (project == null) {
+                System.out.println("Project not found.");
+                return;
+            }
+            double totalBudgetedHours = 0;
+            double totalRegisteredHours = 0;
 
-    private void handleGenerateReports(int choice, Scanner sc) {
-        switch (choice) {
-            case 1 -> {
-                System.out.print("Enter Project ID: ");
-                String projectId = sc.nextLine();
-                try {
-                generateProjectStatusReport(projectId);
-                } catch (Exception e) {
-                    System.out.println("Error: " + e.getMessage());
+            System.out.println();
+            System.out.println("--Status Report for " + project.getProjectName() + "--");
+            System.out.println("Project ID: " + project.getProjectId());
+            System.out.println("Project Manager: " + project.getProjectManagerId());
+            System.out.println("Project Deadline: " + project.getDeadline());
+            System.out.println();
+            System.out.println("Time Status per Activity:");
+            System.out.printf("%n%-20s %-20s %-20s%n", "Activity", "Budgeted Hours", "Registered Hours");
+            System.out.printf("%-20s %-20s %-20s%n", "--------", "--------------", "----------------");
+            for (Activity activity : project.getActivities()) {
+                System.out.printf("%-20s %14.2f %16.2f%n",
+                        activity.getActivityName(),
+                        activity.getBudgetedHours(),
+                        activity.getCurrentSpentHours(systemStorage.getTimeRegistrationsForActivity(activity)));
+
+                // Calculate totals:
+                totalBudgetedHours += activity.getBudgetedHours();
+                totalRegisteredHours += activity.getCurrentSpentHours(systemStorage.getTimeRegistrationsForActivity(activity));
+            }
+            System.out.println();
+            System.out.println("Time Status Total:");
+            System.out.println(totalBudgetedHours + " Hours Budgeted Time");
+            System.out.println(totalRegisteredHours + " Hours Registered Time");
+            System.out.println();
+
+            System.out.println("Latest Time Registrations for Activities (up to 5):");
+            System.out.println();
+            System.out.printf("    %-6s %6s   %-45s%n", "User", "Hours", "Description");
+            System.out.printf("    %-6s %6s   %-45s%n", "----", "-----", "-----------");
+            for (Activity activity : project.getActivities()) {
+                System.out.println(activity.getActivityName() + ":");
+                List<TimeRegistration> registrations = systemStorage.getTimeRegistrationsForActivity(activity);
+                if (registrations.isEmpty()) {
+                    System.out.println("   <none>");
+                } else {
+                    registrations.sort((r1, r2) -> r2.getDate().compareTo(r1.getDate())); // Sort by date (newest first)
+                    for (int i = 0; i < Math.min(5, registrations.size()); i++) {
+                        TimeRegistration reg = registrations.get(i);
+                        System.out.printf("    %-6s %6.2f   %-45s%n",
+                                reg.getEmployee().getEmployeeId(),
+                                reg.getHoursSpent(),
+                                reg.getDescription());
+                    }
                 }
             }
-            case 2 -> System.out.println("Generating Project Remaining Work Estimate Report..."); // TODO: Implement logic
-            case 0 -> System.out.println("Returning to Main Menu.");
-            default -> System.out.println("Invalid choice. Please try again.");
+            System.out.println();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
-    }
-
-    private void generateProjectStatusReport(String projectId) {
-        Project project = systemStorage.getProject(projectId); // Fetch project from SystemStorage
-        if (project == null) {
-            System.out.println("Project not found.");
-            return;
-        }
-        double totalBudgetedHours = 0;
-        double totalRegisteredHours = 0;
-
-        System.out.println();
-        System.out.println("Project Status Report for " + project.getProjectName() + ":");
-        System.out.println("Project Manager: " + project.getProjectManagerId());
-        System.out.println();
-        System.out.println("Time Status per Activity:");
-        System.out.printf("%n%-20s %-20s %-20s%n", "Activity", "Budgeted Hours", "Registered Hours");
-        System.out.printf("%-20s %-20s %-20s%n", "--------", "--------------", "----------------");
-        for (Activity activity : project.getActivities()) {
-            System.out.printf("%-20s %-20.2f %-20.2f%n",
-                    activity.getActivityName(),
-                    activity.getBudgetedHours(),
-                    activity.getCurrentSpentHours(systemStorage.getTimeRegistrations()));
-
-            // Calculate totals:
-            totalBudgetedHours += activity.getBudgetedHours();
-            totalRegisteredHours += activity.getCurrentSpentHours(systemStorage.getTimeRegistrations());
-        }
-        System.out.println();
-        System.out.println("Time Status Total:");
-        System.out.println("Budgeted Time for " + project.getProjectName() + ": " + totalBudgetedHours + " Hours");
-        System.out.println("Registered Time for " + project.getProjectName() + ": " + totalRegisteredHours + " Hours");
+        System.out.print("Press Enter to Return to the Main Menu...");
+        sc.nextLine();
         System.out.println();
     }
 

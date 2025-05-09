@@ -43,6 +43,8 @@ public class SystemStorage {
         blController.assignEmployeeToActivity(activity2.getActivityId(), "huba");
 
         getTimeRegistrations().add(new TimeRegistration(getEmployee("huba"), project1, activity1, LocalDate.now(), 5, "something"));
+        getTimeRegistrations().add(new TimeRegistration(getEmployee("huba"), project1, activity1, LocalDate.now(), 10, "something more"));
+        getTimeRegistrations().add(new TimeRegistration(getEmployee("huba"), project1, activity2, LocalDate.now(), 7, "something else"));
     }
 
     public void addEmployee(Employee employee) {
@@ -175,5 +177,18 @@ public class SystemStorage {
 
     public void removeTimeRegistration(TimeRegistration timeRegistration) {
         timeRegistrations.remove(timeRegistration);
+    }
+
+    public List<TimeRegistration> getTimeRegistrationsForActivity(Activity activity) {
+        List<TimeRegistration> activityTimeRegistrations = new ArrayList<>();
+        if (activity == null) {
+            return activityTimeRegistrations; // Return empty list if activity is null
+        }
+        for (TimeRegistration timeRegistration : timeRegistrations) {
+            if (timeRegistration.getActivity().equals(activity)) {
+                activityTimeRegistrations.add(timeRegistration);
+            }
+        }
+        return activityTimeRegistrations;
     }
 }
