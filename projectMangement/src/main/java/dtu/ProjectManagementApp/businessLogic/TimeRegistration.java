@@ -12,20 +12,20 @@ public class TimeRegistration {
     private String description;
 
     public TimeRegistration(Employee employee, Project project, Activity activity, LocalDate localDate, double hoursSpent, String description) {
-        if (employee == null) {
-            throw new IllegalArgumentException("Employee cannot be null");
-        }
-        if (project == null) {
-            throw new IllegalArgumentException("Project cannot be null");
-        }
-        if (activity == null) {
-            throw new IllegalArgumentException("Activity cannot be null");
-        }
-        if (localDate == null) {
-            throw new IllegalArgumentException("Date cannot be null");
-        }
-        if (hoursSpent <= 0) {
-            throw new IllegalArgumentException("Invalid hours format");
+        //if (employee == null) {
+        //    throw new IllegalArgumentException("Employee cannot be null");
+        //}
+        //if (project == null) {
+        //    throw new IllegalArgumentException("Project cannot be null");
+        //}
+        //if (activity == null) {
+        //    throw new IllegalArgumentException("Activity cannot be null");
+        //}
+        //if (localDate == null) {
+        //    throw new IllegalArgumentException("Date cannot be null");
+        //}
+        if (hoursSpent <= 0 || hoursSpent > 24) {
+            throw new IllegalArgumentException("Invalid hours format, must be between 0 and 24");
         }
         this.timeRegistrationId = generateTimeRegistrationId();
         this.employee = employee;
@@ -58,7 +58,6 @@ public class TimeRegistration {
     }
 
     public LocalDate getDate() {
-
         return localDate;
     }
 
@@ -70,4 +69,18 @@ public class TimeRegistration {
         return description;
     }
 
+    // Setters
+    public void setHoursSpent(double hours) {
+        if (hours <= 0 || hours > 24) {
+            throw new IllegalArgumentException("Invalid hours format, must be between 0 and 24");
+        }
+        this.hoursSpent = hours;
+    }
+
+    public void setDescription(String newDescription) {
+        if (newDescription == null || newDescription.isEmpty()) {
+            throw new IllegalArgumentException("Description cannot be null or empty");
+        }
+        this.description = newDescription;
+    }
 }

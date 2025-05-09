@@ -1,5 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -180,17 +181,65 @@ public class UIConsole {
     }
 
     private void editRegisteredTime(Scanner sc) {
-        clearConsole();
-        System.out.print("View for Date (YYYY-MM-DD): ");
-        String date = sc.nextLine();
-        System.out.print("Select ActivityID to Edit, or 0 to go Back: ");
-        String activityId = sc.nextLine();
-        if (!activityId.equals("0")) {
-            System.out.print("Enter new Hours: ");
-            double hours = sc.nextDouble();
-            sc.nextLine(); // Consume newline
-            // TODO: Implement logic to edit registered time
-            System.out.println("Time updated successfully!");
+        while (true) {
+            clearConsole();
+            System.out.println("Your past 10 time registrations:");
+            List<TimeRegistration> timeRegistrations = systemStorage.getTimeRegistrationsForUser(systemStorage.getLoggedInEmployee().getEmployeeId());
+            Collections.reverse(timeRegistrations);
+            int counter = 0;
+            for (TimeRegistration tr : timeRegistrations) {
+                if (counter <= 10) {
+                    System.out.println("- [" + tr.getTimeRegistrationId() + "] " + tr.getActivity().getActivityName() + " Date: " + tr.getDate() + " Hours: " + tr.getHoursSpent()+ " Description: " + tr.getDescription());
+                    counter++;
+                } else {
+                    break;
+                }
+            }
+            System.out.println("Options:");
+            System.out.println("1. Edit Registered Time");
+            System.out.println("2. Delete Registered Time");
+            System.out.println("3. View All Registered Time");
+            System.out.println("0. Go back to My View");
+            System.out.print("# ");
+
+            try {
+                int choice = Integer.parseInt(sc.nextLine());
+
+                if (choice == 1) {
+                    System.out.print("Enter Time Registration ID to Edit: ");
+                    String timeRegistrationId = sc.nextLine();
+                    System.out.print("Enter New Hours: ");
+                    String newHours = sc.nextLine();
+                    System.out.print("Enter New Description: ");
+                    String newDescription = sc.nextLine();
+                    blController.editTimeRegistration(timeRegistrationId, newHours, newDescription);
+                    System.out.println("Time registration updated successfully!");
+                    break;
+                } else if (choice == 2) {
+                    System.out.print("Enter Time Registration ID to Delete: ");
+                    String timeRegistrationId = sc.nextLine();
+                    blController.deleteTimeRegistration(timeRegistrationId);
+                    System.out.println("Time registration deleted successfully!");
+                    break;
+                } else if (choice == 3) {
+                    System.out.println("All Registered Time:");
+                    for (TimeRegistration tr : systemStorage.getTimeRegistrations()) {
+                        System.out.println("- [" + tr.getTimeRegistrationId() + "] " + tr.getActivity().getActivityName() + " Date: " + tr.getDate() + " Hours: " + tr.getHoursSpent()+ " Description: " + tr.getDescription());
+                    }
+                    System.out.println("Press Enter to go back...");
+                    sc.nextLine();
+                } else if (choice == 0) {
+                    break;
+                } else {
+                    System.out.println("Invalid option. Press Enter to try again...");
+                    sc.nextLine();
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number (0-2). Press Enter to try again...");
+                sc.nextLine();
+            }
+
         }
     }
 

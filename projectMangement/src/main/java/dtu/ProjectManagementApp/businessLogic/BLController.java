@@ -171,7 +171,7 @@ public class BLController {
         return sum; // Return the total number of activities
     }
     /* TIME REGISTRATION */
-    public void registerTime(String activityId, String dateString, String hoursSpent, String description) {
+    public void registerTime( String activityId, String dateString, String hoursSpent, String description) {
         Employee employee = systemStorage.getLoggedInEmployee();
         if (employee == null) {
             throw new IllegalStateException("No user is logged in");
@@ -205,11 +205,38 @@ public class BLController {
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Invalid date format. Use yyyy-MM-dd");
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid hours format");
+            throw new IllegalArgumentException("Invalid hours format, must be between 0 and 24");
         }
 
     }
+    public void editTimeRegistration(String timeRegistrationId, String newHours,  String newDescription) {
 
+        TimeRegistration timeRegistration = systemStorage.getTimeRegistrations().stream()
+                .filter(tr -> tr.getTimeRegistrationId().equals(timeRegistrationId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Time registration with ID " + timeRegistrationId + " does not exist."));
+
+        if (newHours != null) {
+            double hours = Double.parseDouble(newHours);
+            timeRegistration.setHoursSpent(hours);
+        }
+
+        if (newDescription != null) {
+            try {
+                timeRegistration.setDescription(newDescription);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Description cannot be null or empty");
+            }
+        }
+    }
+    public void deleteTimeRegistration(String timeRegistrationId) {
+        TimeRegistration timeRegistration = systemStorage.getTimeRegistrations().stream()
+                .filter(tr -> tr.getTimeRegistrationId().equals(timeRegistrationId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Time registration ID does not exist."));
+
+        systemStorage.removeTimeRegistration(timeRegistration);
+    }
 
 
     public void assignEmployeeToActivity(String activityId, String huba) {
@@ -232,4 +259,6 @@ public class BLController {
         }
 
     }
+
+
 }

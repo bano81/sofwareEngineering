@@ -1,5 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,8 @@ public class SystemStorage {
 
         blController.assignEmployeeToActivity(activity1.getActivityId(), "huba");
         blController.assignEmployeeToActivity(activity2.getActivityId(), "huba");
+
+        getTimeRegistrations().add(new TimeRegistration(getEmployee("huba"), project1, activity1, LocalDate.now(), 5, "something"));
     }
 
     public void addEmployee(Employee employee) {
@@ -159,4 +162,18 @@ public class SystemStorage {
 		}
 		return weekActivities;
 	}
+
+    public List<TimeRegistration> getTimeRegistrationsForUser(String employeeId) {
+        List<TimeRegistration> userTimeRegistrations = new ArrayList<>();
+        for (TimeRegistration timeRegistration : timeRegistrations) {
+            if (timeRegistration.getEmployee().getEmployeeId().equals(employeeId)) {
+                userTimeRegistrations.add(timeRegistration);
+            }
+        }
+        return userTimeRegistrations;
+    }
+
+    public void removeTimeRegistration(TimeRegistration timeRegistration) {
+        timeRegistrations.remove(timeRegistration);
+    }
 }
