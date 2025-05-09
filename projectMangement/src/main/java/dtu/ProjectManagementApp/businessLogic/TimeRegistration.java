@@ -1,7 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class TimeRegistration {
     private String timeRegistrationId;

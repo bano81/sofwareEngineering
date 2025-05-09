@@ -1,7 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class SystemStorage {
@@ -151,4 +150,13 @@ public class SystemStorage {
     public List<TimeRegistration> getTimeRegistrations() {
         return timeRegistrations;
     }
+
+
+	public int getWeekActivitiesNumber(String employeeId, String weekNumber) {
+		int weekActivities = 0;
+		for(Project project : projects) {
+			weekActivities += project.getNumberOfWeekActivityForEmployee(employeeId, weekNumber);
+		}
+		return weekActivities;
+	}
 }

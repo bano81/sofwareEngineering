@@ -1,6 +1,4 @@
 package dtu.ProjectManagementApp.businessLogic;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Employee {
  private String employeeId;

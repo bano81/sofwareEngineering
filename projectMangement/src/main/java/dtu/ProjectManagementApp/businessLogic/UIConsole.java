@@ -1,6 +1,5 @@
 package dtu.ProjectManagementApp.businessLogic;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,6 +56,7 @@ public class UIConsole {
             System.out.println("2. Project Management");
             System.out.println("3. Employee Availability Overview");
             System.out.println("4. Generate Reports");
+            System.out.println("5. Create New Employee");
             System.out.println("0. Exit");
             System.out.print("# ");
             choice = sc.nextInt();
@@ -71,12 +71,25 @@ public class UIConsole {
             case 2 -> projectManagementMenu(sc);
             case 3 -> employeeAvailabilityMenu(sc);
             case 4 -> generateReportsMenu(sc);
+            case 5 -> createNewEmployee(sc);
             case 0 -> System.out.println("Exiting the program.");
             default -> System.out.println("Invalid choice. Please try again.");
         }
     }
 
-    private void timeAndActivitiesMenu(String username, Scanner sc) {
+    private void createNewEmployee(Scanner sc) {
+		System.out.print("Enter employee's full name (first name and surname): ");
+		String fullName = sc.nextLine();
+		String[] nameParts = fullName.split(" ");
+		String firstName = nameParts[0];
+		String surName = nameParts[nameParts.length - 1];
+		System.out.print("Enter employee's ID: ");
+		String ID = sc.nextLine();
+		Employee employee = new Employee(firstName, surName, ID);
+		systemStorage.addEmployee(employee);		
+	}
+
+	private void timeAndActivitiesMenu(String username, Scanner sc) {
         int choice;
         do {
             clearConsole();
@@ -84,7 +97,9 @@ public class UIConsole {
             System.out.println("My Assigned Activities:");
             List<Activity> activities = systemStorage.getActivitiesForUser(systemStorage.getLoggedInEmployee().getEmployeeId()); // Fetch activities from SystemStorage
             for (Activity activity : activities) {
-                System.out.println("- [" + activity.getActivityId() + "] "+ activity.getActivityName() + " Start: " + activity.getStartDate() + " End: " + activity.getEndDate() + " Budgeted hours: " + activity.getBudgetedHours()+ " Current hours spent: " + activity.getCurrentSpentHours(systemStorage.getTimeRegistrations()));
+                System.out.println("- [" + activity.getActivityId() + "] "+ activity.getActivityName() + " Start: " + activity.getStartDate() + " End: " + 
+                       activity.getEndDate() + " Budgeted hours: " + activity.getBudgetedHours()+ " Current hours spent: " + 
+                	   activity.getCurrentSpentHours(systemStorage.getTimeRegistrations()));
             }
             System.out.println("Options:");
             System.out.println("1. Register Time");
@@ -398,7 +413,54 @@ public class UIConsole {
     }
 
     private void staffActivity(Project project, Scanner sc) {
-        // TODO: Implement logic to staff activity
+    	System.out.println("1. Add Employee");
+    	System.out.println("2. Remove Employee");
+    	System.out.println("0. Back to Project Options");
+    	System.out.print("# ");
+    	int choice = sc.nextInt();
+    	sc.nextLine();
+    	String employeeID;
+    	String activityName;
+    	Activity activity;// = project.getActivity(activityName);
+    	switch(choice) {
+    		case 1 -> {
+    			System.out.print("Enter activity's name: ");
+    			activityName = sc.nextLine();
+    			activity = project.getActivity(activityName);
+    			if (activity == null) {
+    				 System.out.println("Activity not found.");
+    				 return;
+    			}
+    			System.out.print("Enter employee's ID: ");
+    			employeeID = sc.nextLine();
+    			if (systemStorage.employeeExists(employeeID)) {
+    				activity.assignEmployee(employeeID);
+    				System.out.println("Employee added to activity successfully!");
+    			} else {
+    				System.out.println("Employee not found.");
+    			}
+    		}
+    		case 2 -> {
+    			System.out.print("Enter activity's name: ");
+    			activityName = sc.nextLine();
+    			activity = project.getActivity(activityName);
+    			if (activity == null) {
+    				 System.out.println("Activity not found.");
+    				 return;
+    			}
+    			System.out.print("Enter employee's ID: ");
+    			employeeID = sc.nextLine();
+    			if (systemStorage.employeeExists(employeeID)) {
+    				activity.getAssignedEmployees().remove(employeeID);
+    				System.out.println("Employee is removed from activity!");
+    			}else {
+    				System.out.println("Employee not found.");
+    			}
+    		}
+    		case 0 -> System.out.println("Returning to Manage Project Options.");
+            default -> System.out.println("Invalid choice. Please try again.");
+    	}
+        
     }
 
     private void assignProjectManager(Project project, Scanner sc) {
@@ -429,10 +491,42 @@ public class UIConsole {
         System.out.print("# ");
         int choice = sc.nextInt();
         sc.nextLine(); // Consume newline
+        handleEmployeeAvailability(choice, sc);
         // TODO: Implement employee availability logic
     }
 
-    private void generateReportsMenu(Scanner sc) {
+    private void handleEmployeeAvailability(int choice, Scanner sc) {
+    	switch (choice) {
+        case 1 -> viewAvailableEmployeeByWeek(sc);
+        case 2 -> viewSpecificEmployeeSchedule(sc);
+        case 0 -> System.out.println("Returning to Project Management Menu.");
+        default -> System.out.println("Invalid choice. Please try again.");
+       }
+		
+	}
+    
+    private void viewAvailableEmployeeByWeek(Scanner sc) {
+    	System.out.print("Enter week's number (YY-WW): ");
+    	String weekNumber = sc.nextLine();
+    	int WeekActivities = 0;
+    	
+    	System.out.printf("%n%-12s %-15s%n", "Employee ID", "Nr. Activities");
+    	System.out.printf("%-12s %-15s%n",   "-----------", "--------------");
+    	for(Employee employee : systemStorage.getEmployees()) {
+    		WeekActivities = systemStorage.getWeekActivitiesNumber(employee.getEmployeeId(), weekNumber);
+    		System.out.printf("%-12s %-15s%n", employee.getEmployeeId(), WeekActivities);
+    	}
+	}
+
+	private void viewSpecificEmployeeSchedule(Scanner sc) {
+		System.out.print("Enter employee's ID: ");
+		String employeeID = sc.nextLine();
+		
+	}
+
+	
+
+	private void generateReportsMenu(Scanner sc) {
         clearConsole();
         System.out.println("-- Reports --");
         System.out.println("Options:");
