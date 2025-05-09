@@ -4,7 +4,7 @@ package hellocucumber;
 import dtu.ProjectManagementApp.businessLogic.SystemStorage;
 import dtu.ProjectManagementApp.businessLogic.Project;
 import dtu.ProjectManagementApp.businessLogic.Activity;
-import dtu.ProjectManagementApp.businessLogic.BLController;
+import dtu.ProjectManagementApp.businessLogic.ProjectManagementAppBL;
 import dtu.ProjectManagementApp.businessLogic.Employee;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +18,7 @@ public class ProjectSteps {
 	private Exception e;
 	private String employeeId;
 	private SystemStorage systemStorage = TestContext.getSystemStorage();
-	private BLController blController = new BLController(systemStorage);
+	private ProjectManagementAppBL blController = new ProjectManagementAppBL(systemStorage);
 	
 	@When("the user tries to create a new project with name {string} and id {string}")
 	public void theUserTriesToCreateANewProjectWithNameAndId(String projectName, String projectId) {

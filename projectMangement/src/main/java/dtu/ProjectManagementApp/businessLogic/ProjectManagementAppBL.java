@@ -3,18 +3,15 @@ package dtu.ProjectManagementApp.businessLogic;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
-public class BLController {
+public class ProjectManagementAppBL {
     private SystemStorage systemStorage;
 
-    public BLController() {
+    public ProjectManagementAppBL() {
         this.systemStorage = new SystemStorage();
     }
 
-    public BLController(SystemStorage systemStorage) {
+    public ProjectManagementAppBL(SystemStorage systemStorage) {
         this.systemStorage = systemStorage;
     }
 
@@ -44,22 +41,6 @@ public class BLController {
                 anyMatch(employee -> employee.getEmployeeId().equals(employeeId));
     }
 
-    public boolean employeeExists(String employeeId, String name, String surname) {
-        boolean employeeExists = false; // Flag to check if the employee exists
-        for (Employee employee : systemStorage.getEmployees()) {
-            if (employee.getEmployeeId().equals(employeeId)) { // Check if the employee ID already exists
-                employeeExists = true; // Employee ID already exists
-                break;
-            }
-            if (employee.getName().equals(name) && employee.getSurname().equals(surname)) { // Check if the name and surname already exist
-                employeeExists = true; // Name and surname already exist
-                break;
-            }
-        }
-        return employeeExists; // Return true if the employee exists, false otherwise
-        
-    }
-
     public Employee getLoggedInEmployee() {
         Employee loggedInEmployee = systemStorage.getLoggedInEmployee();
         if (loggedInEmployee == null) {
@@ -77,16 +58,6 @@ public class BLController {
         return false; // Employee already exists
     }
 
-    public List<Employee> getEmployees() {
-        return systemStorage.getEmployees(); // Return the list of employees
-    }
-
-    public Employee getEmployee(String employeeId) {
-        if (!systemStorage.employeeExists(employeeId)) {
-            throw new IllegalArgumentException("Employee with ID " + employeeId + " does not exist.");
-        } 
-        return systemStorage.getEmployee(employeeId);
-    }
 
     public void assignEmployeeToProject(String projectID, String employeeId) {
         Project project = systemStorage.getProject(projectID);// Get the project by name
@@ -115,22 +86,6 @@ public class BLController {
         systemStorage.addProject(project); // Add the project to the system storage
     }
 
-    public List<Project> getProjects() {
-        return systemStorage.getProjects(); // Return the list of projects
-    }
-
-    public Project getProject(String projectName) {
-        return systemStorage.getProject(projectName); // Return the project by ID
-    }
-
-    public void createNewActivity(String projectName, String activityName) {
-        systemStorage.getProjects().stream()
-                .filter(project -> project.getProjectName().equals(projectName))
-                .findFirst()
-                .ifPresent(project -> {
-                    project.addActivity(new Activity(activityName)); // Add the activity to the project  
-                });
-    }
 
     public void createNewActivity(String projectName, String activityName, String startWeek, String endWeek, double budgetedHours) {
         systemStorage.getProjects().stream()
@@ -141,38 +96,6 @@ public class BLController {
                 });
     }
 
-    public List<Activity> getActivities() {
-        return systemStorage.getProjects().stream()
-                .flatMap(project -> project.getActivities().stream())
-                .toList(); // Return the list of all activities
-    }
-    
-
-    public List<Activity> getActivitiesByProject(String projectName) {
-        return systemStorage.getProjects().stream()
-                .filter(project -> project.getProjectName().equals(projectName))
-                .flatMap(project -> project.getActivities().stream())
-                .toList(); // Return the list of activities for the specified project
-    }
-
-
-    
-    public int getNumberOfNotCompletedActivities(Map<String, Employee> employees, String employeeId) {
-		countNumberOfActivities(employeeId);
-		return employees.get(employeeId).getNumberOfActivities();
-	}
-
-    public int countNumberOfActivities(String employeeId){
-        int sum = 0; // Initialize the sum to 0
-        for (Project project : systemStorage.getProjects()) { // Iterate through all projects
-            for (Activity activity : project.getActivities()) { // Iterate through all activities in the project
-                if (activity.getAssignedEmployees().contains(employeeId)){
-                    sum += 1;
-                }
-            }
-        }
-        return sum; // Return the total number of activities
-    }
     /* TIME REGISTRATION */
     public void registerTime( String activityId, String dateString, String hoursSpent, String description) {
         Employee employee = systemStorage.getLoggedInEmployee();

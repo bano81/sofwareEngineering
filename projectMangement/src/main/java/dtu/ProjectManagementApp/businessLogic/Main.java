@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) throws ParseException {
         // Initialize SystemStorage and BLController
         SystemStorage systemStorage = new SystemStorage();
-        BLController blController = new BLController(systemStorage);
+        ProjectManagementAppBL blController = new ProjectManagementAppBL(systemStorage);
 
         UIConsole uiConsole = new UIConsole(blController, systemStorage);
 
