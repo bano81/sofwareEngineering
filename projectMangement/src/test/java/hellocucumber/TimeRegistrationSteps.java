@@ -40,7 +40,7 @@ public class TimeRegistrationSteps {
     @And("a project {string} with ID {string} and deadline {string} exists")
     public void aProjectWithIDExists(String projectName, String projectId, String projectDeadLine) {
         this.projectID = projectId;
-        systemStorage.getProjects().add(new Project(projectID, projectName, projectDeadLine));
+        systemStorage.getProjects().add(new Project(projectName,projectID , projectDeadLine));
         assertTrue(systemStorage.getProjects().contains(systemStorage.getProject(projectID)));
     }
 
