@@ -521,7 +521,18 @@ public class UIConsole {
 	private void viewSpecificEmployeeSchedule(Scanner sc) {
 		System.out.print("Enter employee's ID: ");
 		String employeeID = sc.nextLine();
-		
+		System.out.println("\nSchedule for employee ("+ employeeID + "):");
+		System.out.printf("%n%-12s %-15s %-15s %-15s%n", "Project", "Activity", "start", "end");
+		System.out.printf("%-12s %-15s %-15s %-15s%n",     "-------", "--------", "-----", "---");
+		for(Project project : systemStorage.getProjects()) {
+			System.out.printf("%-12s%n", project.getProjectName());
+			for(Activity activity : project.getActivities()) {
+				if(activity.isEmployeeAssigned(employeeID)) {
+					System.out.printf("%-12s %-15s %-15s %-15s%n",     "      ", activity.getActivityName(),
+							activity.getStartDate(), activity.getEndDate());
+				}				
+			}
+		}
 	}
 
 	
