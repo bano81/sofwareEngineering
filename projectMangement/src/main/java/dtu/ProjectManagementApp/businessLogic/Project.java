@@ -1,5 +1,6 @@
 package dtu.ProjectManagementApp.businessLogic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -13,19 +14,13 @@ public class Project {
     private List<Activity> activities = new ArrayList<>();
     private List<Employee> assignedEmployees = new ArrayList<>();
 
-    public Project(String projectName) {
+    public Project(String projectName, String projectId) {
         this.projectName = projectName;
-        this.projectId = generateProjectId();
-    }
-
-    public Project(String projectName, String deadline) {
-        this.projectName = projectName;
-        this.projectId = generateProjectId();
-        this.deadline = deadline;
+        this.projectId = projectId;
     }
 
     //for testing
-    public Project(String projectId, String projectName, String deadline) {
+    public Project(String projectName,String projectId, String deadline) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.deadline = deadline;
@@ -136,13 +131,6 @@ public class Project {
         return false;
     }
     
-
-    public String generateProjectId() {
-        int year = Calendar.getInstance().get(Calendar.YEAR) % 100;
-        int nextNumber = (int) (Math.random() * 9000) + 1000; // Generate a random 4-digit number
-        return String.valueOf(year * 1000 + nextNumber);
-    }
-
     public List<Activity> getActivities() {
         return activities;
     }

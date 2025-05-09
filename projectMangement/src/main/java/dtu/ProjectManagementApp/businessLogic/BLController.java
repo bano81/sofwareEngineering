@@ -99,7 +99,8 @@ public class BLController {
     }
 
     public void createProject(String projectName) {
-        Project project = new Project(projectName);
+        String projectId = String.valueOf(LocalDate.now().getYear()).substring(2) + String.format("%03d", systemStorage.getProjects().size() + 1);
+        Project project = new Project(projectName,projectId);
         if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }
@@ -107,7 +108,7 @@ public class BLController {
     }
 
     public void createProject(String projectId, String projectName) {
-        Project project = new Project(projectId, projectName);
+        Project project = new Project(projectName, projectId);
         if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
             throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
         }

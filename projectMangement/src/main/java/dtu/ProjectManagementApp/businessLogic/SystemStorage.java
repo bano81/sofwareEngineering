@@ -20,9 +20,9 @@ public class SystemStorage {
         employees.add(new Employee("Hubert", "Baumeister", "huba")); 
         employees.add(new Employee("Silas", "Kejser", "sike")); 
         
-        Project project1 = new Project("Project1","25-05");
-        Project project2 = new Project("Project2","25-06");
-        Project project3 = new Project("Project3","25-07");
+        Project project1 = new Project("Project1","25001","25-05");
+        Project project2 = new Project("Project2","25002","25-06");
+        Project project3 = new Project("Project3","25003","25-07");
         projects.add(project1);
         projects.add(project2);
         projects.add(project3);
