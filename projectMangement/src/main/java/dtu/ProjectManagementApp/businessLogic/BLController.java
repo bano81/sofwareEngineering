@@ -131,11 +131,13 @@ public class BLController {
                 });
     }
 
-    public void createNewActivity(String projectName, String activityName, String employeeId) {
-        Project project = new Project(projectName); // Create a new project
-        Activity activity = new Activity(activityName); // Create a new activity
-        project.addActivity(activity); // Add the activity to the project
-        systemStorage.addProject(project); // Add the project to the system storage
+    public void createNewActivity(String projectName, String activityName, String startWeek, String endWeek, double budgetedHours) {
+        systemStorage.getProjects().stream()
+                .filter(project -> project.getProjectName().equals(projectName))
+                .findFirst()
+                .ifPresent(project -> {
+                    project.addActivity(new Activity(activityName,startWeek, endWeek, budgetedHours)); // Add the activity to the project  
+                });
     }
 
     public List<Activity> getActivities() {
@@ -218,18 +220,24 @@ public class BLController {
                         .anyMatch(a -> a.getActivityId().equals(activityId)))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Project with activity ID " + activityId + " does not exist"));
+        project.getActivityById(activityId).assignEmployee(huba);
+    }
 
+    public void removeEmployeeFromActivity(String activityId, String employeeID) {
+        Project project = systemStorage.getProjects().stream()
+                .filter(p -> p.getActivities().stream()
+                        .anyMatch(a -> a.getActivityId().equals(activityId)))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Project with activity ID " + activityId + " does not exist"));
+                project.getActivityById(activityId).removeEmployee(employeeID); // Remove the employee from the activity
+    }
 
+    public void assignProjectManager(String projectId, String employeeId) {
+        Project project = systemStorage.getProject(projectId); // Get the project by ID
         if (project != null) {
-            Activity activity = project.getActivityById(activityId); // Get the activity by ID
-            if (activity != null) {
-                activity.assignEmployee(huba); // Assign the employee to the activity
-            } else {
-                throw new IllegalArgumentException("Activity with ID " + activityId + " does not exist.");
-            }
+            project.setProjectManager(employeeId); // Set the employee as the project manager
         } else {
-            throw new IllegalArgumentException("Project with does not exist.");
+            throw new IllegalArgumentException("Project with ID " + projectId + " does not exist.");
         }
-
     }
 }

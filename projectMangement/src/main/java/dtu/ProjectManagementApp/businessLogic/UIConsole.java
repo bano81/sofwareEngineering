@@ -17,8 +17,9 @@ public class UIConsole {
 
         // Login process
         boolean isLoggedIn = false;
+        System.out.println("Welcome to the Project Management System!");
+
         while (!isLoggedIn) {
-            System.out.println("Welcome to the Project Management System!");
             isLoggedIn = login(sc);
         }
 
@@ -85,8 +86,7 @@ public class UIConsole {
 		String surName = nameParts[nameParts.length - 1];
 		System.out.print("Enter employee's ID: ");
 		String ID = sc.nextLine();
-		Employee employee = new Employee(firstName, surName, ID);
-		systemStorage.addEmployee(employee);		
+		blController.createEmployee(firstName, surName, ID);		
 	}
 
 	private void timeAndActivitiesMenu(String username, Scanner sc) {
@@ -132,9 +132,16 @@ public class UIConsole {
 
         while (true) {  // Continue only if user wants to try again
             clearConsole();
-
-            System.out.print("Select Activity (Number/ID): ");
-            String activityId = sc.nextLine();
+            System.out.println("Available Activities:");
+            List<Activity> activities = systemStorage.getActivitiesForUser(systemStorage.getLoggedInEmployee().getEmployeeId()); // Fetch activities from SystemStorage
+            int i = 0;
+            for (Activity activity : activities) {
+                System.out.println((i + 1) + ". [" + activity.getActivityId() + "] " + activity.getActivityName());
+                i++;
+            }
+            
+            System.out.print("Select Activity (Number in list): ");
+            String activityChoice = sc.nextLine();
 
             System.out.print("Enter Date (YYYY-MM-DD, default Today): ");
             String date = sc.nextLine();
@@ -159,6 +166,8 @@ public class UIConsole {
 
                 if (choice == 1) {
                     try {
+                        int activityIndex = Integer.parseInt(activityChoice) - 1;
+                        String activityId = activities.get(activityIndex).getActivityId();
                         blController.registerTime(activityId, date, hours, description);
                         break;
                     } catch (Exception e) {
@@ -321,7 +330,7 @@ public class UIConsole {
         System.out.print("Enter Budgeted Hours: ");
         double budgetedHours = sc.nextDouble();
         sc.nextLine(); // Consume newline
-        project.addActivity(new Activity(activityName, startWeek, endWeek, budgetedHours));
+        blController.createNewActivity(project.getProjectId(),activityName, startWeek, endWeek, budgetedHours);
         System.out.println("Activity added successfully!");
         delay();
     }
@@ -434,7 +443,7 @@ public class UIConsole {
     			System.out.print("Enter employee's ID: ");
     			employeeID = sc.nextLine();
     			if (systemStorage.employeeExists(employeeID)) {
-    				activity.assignEmployee(employeeID);
+                    blController.assignEmployeeToActivity(activity.getActivityId(),employeeID);
     				System.out.println("Employee added to activity successfully!");
     			} else {
     				System.out.println("Employee not found.");
@@ -451,7 +460,7 @@ public class UIConsole {
     			System.out.print("Enter employee's ID: ");
     			employeeID = sc.nextLine();
     			if (systemStorage.employeeExists(employeeID)) {
-    				activity.getAssignedEmployees().remove(employeeID);
+                    blController.removeEmployeeFromActivity(activity.getActivityId(),employeeID);
     				System.out.println("Employee is removed from activity!");
     			}else {
     				System.out.println("Employee not found.");
@@ -467,8 +476,13 @@ public class UIConsole {
         System.out.print("Enter Employee ID to Assign as Project Manager: ");
         String employeeId = sc.nextLine();
         if (systemStorage.employeeExists(employeeId)) {
-            project.setProjectManager(employeeId);
-            System.out.println("Project Manager assigned successfully!");
+            try {
+                blController.assignProjectManager(project.getProjectId(), employeeId);
+                System.out.println("Project Manager assigned successfully!");
+            } catch (IllegalStateException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
         } else {
             System.out.println("Employee not found.");
         }
@@ -492,6 +506,8 @@ public class UIConsole {
         int choice = sc.nextInt();
         sc.nextLine(); // Consume newline
         handleEmployeeAvailability(choice, sc);
+        System.out.println("Press Enter to continue...");
+        sc.nextLine();
         // TODO: Implement employee availability logic
     }
 
