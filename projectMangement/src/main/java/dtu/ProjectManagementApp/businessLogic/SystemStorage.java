@@ -188,7 +188,7 @@ public class SystemStorage {
     public List<TimeRegistration> getTimeRegistrationsForActivity(Activity activity) {
         List<TimeRegistration> activityTimeRegistrations = new ArrayList<>();
         if (activity == null) {
-            return activityTimeRegistrations; // Return empty list if activity is null
+            return activityTimeRegistrations; // Return an empty list if activity is null
         }
         for (TimeRegistration timeRegistration : timeRegistrations) {
             if (timeRegistration.getActivity().equals(activity)) {

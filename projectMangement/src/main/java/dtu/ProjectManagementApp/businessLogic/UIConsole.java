@@ -528,7 +528,6 @@ public class UIConsole {
                 System.out.println("Project Manager assigned successfully!");
             } catch (IllegalStateException e) {
                 System.out.println(e.getMessage());
-                return;
             }
         } else {
             System.out.println("Employee not found.");
@@ -716,7 +715,12 @@ public class UIConsole {
             System.out.printf("    %-6s %6s   %-45s%n", "User", "Hours", "Description");
             System.out.printf("    %-6s %6s   %-45s%n", "----", "-----", "-----------");
             for (Activity activity : project.getActivities()) {
-                System.out.print(activity.getActivityName() + " - " + activity.getAssignedEmployees().size() + " Assigned Employee(s)");
+                int employeeCount = activity.getAssignedEmployees().size();
+                String employeeText;
+                if (employeeCount == 0) { employeeText = "<No Assigned Employees>"; }
+                else if (employeeCount == 1) { employeeText = employeeCount + " Assigned Employee"; }
+                else { employeeText = employeeCount + " Assigned Employees"; }
+                System.out.print(activity.getActivityName() + " - " + employeeText);
                 List<TimeRegistration> registrations = systemStorage.getTimeRegistrationsForActivity(activity);
                 if (registrations.isEmpty()) {
                     System.out.println(" - <Not Started>:");
