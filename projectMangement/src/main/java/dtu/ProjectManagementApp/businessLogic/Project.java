@@ -75,7 +75,14 @@ public class Project {
     }
 
     public void addActivity(Activity activity) {
+        int nextActivityNumber = activities.size() + 1;
+        String activityId = generateActivityId(nextActivityNumber);
+        activity.setActivityId(activityId);
         this.activities.add(activity);
+    }
+
+    private String generateActivityId(int activityNumber) {
+        return this.projectId + String.format("%03d", activityNumber);
     }
 
     public void removeActivity(Activity activity) {

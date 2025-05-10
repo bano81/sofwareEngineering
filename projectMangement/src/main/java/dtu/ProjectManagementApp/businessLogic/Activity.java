@@ -21,7 +21,6 @@ public class Activity {
 
    public Activity(String activityName) {
        this.activityName = activityName;
-       this.activityId = generateActivityId();
    }
 
 //    public Activity(String activityName, String activityStatus, String startWeek, String endWeek) {
@@ -46,7 +45,6 @@ public class Activity {
     this.startWeek = startWeek;
     this.endWeek = endWeek;
     this.budgetedHours = budgetedHours;
-    this.activityId = generateActivityId();
    }
 
    // test constructor
@@ -55,8 +53,8 @@ public class Activity {
          this.activityName = activityName;
    }
 
-   public String generateActivityId() {
-       return String.valueOf(System.currentTimeMillis()); // TODO: Implement better ID generation?
+   public void setActivityId(String activityId) {
+       this.activityId = activityId;
    }
 
    public void assignEmployee(String employeeId) {
