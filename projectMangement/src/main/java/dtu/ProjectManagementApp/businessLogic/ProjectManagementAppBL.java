@@ -89,7 +89,7 @@ public class ProjectManagementAppBL {
 
     public void createNewActivity(String projectName, String activityName, String startWeek, String endWeek, double budgetedHours) {
         systemStorage.getProjects().stream()
-                .filter(project -> project.getProjectName().equals(projectName))
+                .filter(project -> project.getProjectId().equals(projectName))
                 .findFirst()
                 .ifPresent(project -> {
                     project.addActivity(new Activity(activityName,startWeek, endWeek, budgetedHours)); // Add the activity to the project  

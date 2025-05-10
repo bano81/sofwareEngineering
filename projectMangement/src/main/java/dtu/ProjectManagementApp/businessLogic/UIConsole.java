@@ -487,7 +487,8 @@ public class UIConsole {
     			System.out.print("Enter employee's ID: ");
     			employeeID = sc.nextLine();
     			if (systemStorage.employeeExists(employeeID)) {
-                    blController.assignEmployeeToActivity(activity.getActivityId(),employeeID);
+                    //blController.assignEmployeeToActivity(activity.getActivityId(),employeeID);
+                    activity.assignEmployee(employeeID);
     				System.out.println("Employee added to activity successfully!");
     			} else {
     				System.out.println("Employee not found.");
@@ -504,7 +505,8 @@ public class UIConsole {
     			System.out.print("Enter employee's ID: ");
     			employeeID = sc.nextLine();
     			if (systemStorage.employeeExists(employeeID)) {
-                    blController.removeEmployeeFromActivity(activity.getActivityId(),employeeID);
+                    //blController.removeEmployeeFromActivity(activity.getActivityId(),employeeID);
+                    activity.getAssignedEmployees().remove(employeeID);
     				System.out.println("Employee is removed from activity!");
     			}else {
     				System.out.println("Employee not found.");
