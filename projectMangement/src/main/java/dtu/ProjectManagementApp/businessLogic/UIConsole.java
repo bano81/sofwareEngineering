@@ -617,6 +617,9 @@ public class UIConsole {
             System.out.println("Project ID: " + project.getProjectId());
             System.out.println("Project Manager: " + project.getProjectManagerId());
             System.out.println("Project Deadline: " + project.getDeadline());
+            int weeksLeft = project.getWeeksUntilDeadline();
+            if (weeksLeft < 0) { System.out.println("Deadline exceeded by: " + Math.abs(weeksLeft) + " weeks"); }
+            else { System.out.println("Deadline in: " + weeksLeft + " weeks"); }
             System.out.println();
             System.out.println("Time Status per Activity:");
             System.out.printf("%n%-20s %-20s %-20s%n", "Activity", "Budgeted Hours", "Registered Hours");

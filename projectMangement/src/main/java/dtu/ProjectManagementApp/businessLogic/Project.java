@@ -1,6 +1,5 @@
 package dtu.ProjectManagementApp.businessLogic;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -44,6 +43,23 @@ public class Project {
 
     public String getDeadline() {
         return deadline;
+    }
+
+    public int getWeeksUntilDeadline() {
+        if (deadline == null || this.deadline.isEmpty()) {
+            return -1; // No deadline set
+        }
+        try {
+            String[] parts = deadline.split("-");
+            int deadlineYear = 2000 + Integer.parseInt(parts[0]);
+            int deadlineWeek = Integer.parseInt(parts[1]);
+            Calendar current = Calendar.getInstance();
+            int currentYear = current.get(Calendar.YEAR);
+            int currentWeek = current.get(Calendar.WEEK_OF_YEAR);
+            return (deadlineYear - currentYear) * 52 + (deadlineWeek - currentWeek);
+        } catch (NumberFormatException e) {
+            return -1; // Invalid date format
+        }
     }
 
     public void setDeadline(String deadline) {
