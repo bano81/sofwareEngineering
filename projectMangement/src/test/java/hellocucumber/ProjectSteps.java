@@ -23,7 +23,8 @@ public class ProjectSteps {
 	@When("the user tries to create a new project with name {string} and id {string}")
 	public void theUserTriesToCreateANewProjectWithNameAndId(String projectName, String projectId) {
 		try {
-			blController.createProject(projectId, projectName); // Simulate project creation
+			blController.createProject(projectName); // Simulate project creation
+			systemStorage.getProjects().getLast().setProjectId(projectId);
 		} catch (Exception e) {
 			this.e = e; // Capture the exception if thrown
 		}

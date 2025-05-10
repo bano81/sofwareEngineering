@@ -46,9 +46,18 @@ public class TimeRegistrationSteps {
 
     @And("an activity {string} with ID {string}, in project with id {string} exists")
     public void anActivityWithIDExists(String activityName, String activityId, String projectId) {
-        systemStorage.getProject(projectId).addActivity(new Activity(activityId, activityName));
-        assertTrue(systemStorage.getProject(projectId).getActivities().contains(systemStorage.getProject(projectId).getActivityById(activityId)));
+        Project project = systemStorage.getProject(projectId);
+        assertNotNull(project, "Project with ID " + projectId + " does not exist");
 
+        Activity activity = new Activity(activityName);
+
+        project.addActivity(activity);
+
+        Activity addedActivity = project.getActivities().get(project.getActivities().size() - 1);
+        addedActivity.setActivityId(activityId);
+
+        assertNotNull(project.getActivityById(activityId),
+                "Activity with ID " + activityId + " was not found in project " + projectId);
     }
 
     @And("an activity {string} with ID {string} belongs to project {string}")

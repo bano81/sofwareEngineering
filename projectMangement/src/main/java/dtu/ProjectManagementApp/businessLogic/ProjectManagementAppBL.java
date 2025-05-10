@@ -78,14 +78,6 @@ public class ProjectManagementAppBL {
         systemStorage.addProject(project); // Add the project to the system storage
     }
 
-    public void createProject(String projectId, String projectName) {
-        Project project = new Project(projectName, projectId);
-        if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
-            throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
-        }
-        systemStorage.addProject(project); // Add the project to the system storage
-    }
-
 
     public void createNewActivity(String projectName, String activityName, String startWeek, String endWeek, double budgetedHours) {
         systemStorage.getProjects().stream()
