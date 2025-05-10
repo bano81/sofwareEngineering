@@ -30,10 +30,12 @@ public class SystemStorage {
         Activity activity1 = new Activity("design", "25-01", "25-02", 20);
         Activity activity2 = new Activity("analysis", "25-02", "25-03", 20);
         Activity activity3 = new Activity("implementation", "25-03", "25-05", 20);
+        Activity activity4 = new Activity("post-release fixing", "25-11", "25-17", 10);
 
         project1.addActivity(activity1);
         project1.addActivity(activity2);
         project1.addActivity(activity3);
+        project1.addActivity(activity4);
 
 
         blController.assignEmployeeToProject(project1.getProjectId(), "huba");
@@ -45,6 +47,7 @@ public class SystemStorage {
         getTimeRegistrations().add(new TimeRegistration(getEmployee("huba"), project1, activity1, LocalDate.now(), 5, "something"));
         getTimeRegistrations().add(new TimeRegistration(getEmployee("huba"), project1, activity1, LocalDate.now(), 10, "something more"));
         getTimeRegistrations().add(new TimeRegistration(getEmployee("huba"), project1, activity2, LocalDate.now(), 7, "something else"));
+        getTimeRegistrations().add(new TimeRegistration(getEmployee("sike"), project1, activity4, LocalDate.now(), 1, "nothing"));
     }
 
     public void addEmployee(Employee employee) {

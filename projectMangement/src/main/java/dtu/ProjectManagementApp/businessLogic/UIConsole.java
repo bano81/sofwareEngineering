@@ -611,9 +611,10 @@ public class UIConsole {
             }
             double totalBudgetedHours = 0;
             double totalRegisteredHours = 0;
-
             System.out.println();
             System.out.println("--Status Report for " + project.getProjectName() + "--");
+
+            // GENERAL DETAILS
             System.out.println("Project ID: " + project.getProjectId());
             System.out.println("Project Manager: " + project.getProjectManagerId());
             System.out.println("Project Deadline: " + project.getDeadline());
@@ -621,6 +622,8 @@ public class UIConsole {
             if (weeksLeft < 0) { System.out.println("Deadline exceeded by: " + Math.abs(weeksLeft) + " weeks"); }
             else { System.out.println("Deadline in: " + weeksLeft + " weeks"); }
             System.out.println();
+
+            // TIME STATUS
             System.out.println("Time Status per Activity:");
             System.out.printf("%n%-20s %-20s %-20s%n", "Activity", "Budgeted Hours", "Registered Hours");
             System.out.printf("%-20s %-20s %-20s%n", "--------", "--------------", "----------------");
@@ -629,7 +632,6 @@ public class UIConsole {
                         activity.getActivityName(),
                         activity.getBudgetedHours(),
                         activity.getCurrentSpentHours(systemStorage.getTimeRegistrationsForActivity(activity)));
-
                 // Calculate totals:
                 totalBudgetedHours += activity.getBudgetedHours();
                 totalRegisteredHours += activity.getCurrentSpentHours(systemStorage.getTimeRegistrationsForActivity(activity));
@@ -640,16 +642,73 @@ public class UIConsole {
             System.out.println(totalRegisteredHours + " Hours Registered Time");
             System.out.println();
 
+            // VISUAL REPRESENTATION OF TIMELINE FOR ACTIVITIES
+            System.out.println("Activity Timeline:");
+            System.out.println();
+            // Find boundaries of the timeline
+            int earliestWeek = Integer.MAX_VALUE;
+            int latestWeek = Integer.MIN_VALUE;
+            for (Activity activity : project.getActivities()) {
+                String[] startParts = activity.getStartDate().split("-");
+                int startYear = Integer.parseInt(startParts[0]);
+                int startWeek = Integer.parseInt(startParts[1]);
+                int startAbsWeek = startYear * 52 + startWeek;
+                String[] endParts = activity.getEndDate().split("-");
+                int endYear = Integer.parseInt(endParts[0]);
+                int endWeek = Integer.parseInt(endParts[1]);
+                int endAbsWeek = endYear * 52 + endWeek;
+                earliestWeek = Math.min(earliestWeek, startAbsWeek);
+                latestWeek = Math.max(latestWeek, endAbsWeek);
+            }
+            // Display week numbers (limited to 13 weeks)
+            int weeksToDisplay = Math.min(13, latestWeek - earliestWeek + 1);
+            System.out.print("Activity          |");
+            for (int i = 0; i < weeksToDisplay; i++) {
+                int weekNumber = (earliestWeek + i) % 52;
+                if (weekNumber == 0) weekNumber = 52;
+                System.out.printf("W%-2d|", weekNumber);
+            }
+            System.out.println();
+            // Display activity timelines
+            for (Activity activity : project.getActivities()) {
+                // Activity name shortened if needed
+                String displayName = activity.getActivityName().length() > 18
+                        ? activity.getActivityName().substring(0, 15) + "..."
+                        : activity.getActivityName();
+                System.out.printf("%-18s|", displayName);
+
+                // Position of each activity in the timeline
+                String[] startParts = activity.getStartDate().split("-");
+                int startAbsWeek = Integer.parseInt(startParts[0]) * 52 + Integer.parseInt(startParts[1]);
+                String[] endParts = activity.getEndDate().split("-");
+                int endAbsWeek = Integer.parseInt(endParts[0]) * 52 + Integer.parseInt(endParts[1]);
+
+                // Finally, draw the timeline
+                for (int i = 0; i < weeksToDisplay; i++) {
+                    int currentWeek = earliestWeek + i;
+                    if (currentWeek >= startAbsWeek && currentWeek <= endAbsWeek) {
+                        System.out.print("███|");
+                    } else {
+                        System.out.print("   |");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
+
+            // LATEST TIME REGISTRATIONS
             System.out.println("Latest Time Registrations for Activities (up to 5):");
             System.out.println();
             System.out.printf("    %-6s %6s   %-45s%n", "User", "Hours", "Description");
             System.out.printf("    %-6s %6s   %-45s%n", "----", "-----", "-----------");
             for (Activity activity : project.getActivities()) {
-                System.out.println(activity.getActivityName() + ":");
+                System.out.print(activity.getActivityName());
                 List<TimeRegistration> registrations = systemStorage.getTimeRegistrationsForActivity(activity);
                 if (registrations.isEmpty()) {
+                    System.out.println(" - <Not Started>:");
                     System.out.println("   <none>");
                 } else {
+                    System.out.println(":");
                     registrations.sort((r1, r2) -> r2.getDate().compareTo(r1.getDate())); // Sort by date (newest first)
                     for (int i = 0; i < Math.min(5, registrations.size()); i++) {
                         TimeRegistration reg = registrations.get(i);
