@@ -715,7 +715,7 @@ public class UIConsole {
             System.out.printf("    %-6s %6s   %-45s%n", "User", "Hours", "Description");
             System.out.printf("    %-6s %6s   %-45s%n", "----", "-----", "-----------");
             for (Activity activity : project.getActivities()) {
-                System.out.print(activity.getActivityName());
+                System.out.print(activity.getActivityName() + " - " + activity.getAssignedEmployees().size() + " Assigned Employee(s)");
                 List<TimeRegistration> registrations = systemStorage.getTimeRegistrationsForActivity(activity);
                 if (registrations.isEmpty()) {
                     System.out.println(" - <Not Started>:");
