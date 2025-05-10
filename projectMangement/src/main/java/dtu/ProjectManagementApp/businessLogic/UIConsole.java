@@ -570,7 +570,7 @@ public class UIConsole {
     private void viewAvailableEmployeeByWeek(Scanner sc) {
     	System.out.print("Enter week's number (YY-WW): ");
     	String weekNumber = sc.nextLine();
-    	int WeekActivities = 0;
+    	int WeekActivities;
     	
     	System.out.printf("%n%-12s %-15s%n", "Employee ID", "Nr. Activities");
     	System.out.printf("%-12s %-15s%n",   "-----------", "--------------");
@@ -612,7 +612,7 @@ public class UIConsole {
             double totalBudgetedHours = 0;
             double totalRegisteredHours = 0;
             System.out.println();
-            System.out.println("--Status Report for " + project.getProjectName() + "--");
+            System.out.println("-- Status Report for " + project.getProjectName() + " --");
 
             // GENERAL DETAILS
             System.out.println("Project ID: " + project.getProjectId());
@@ -644,7 +644,6 @@ public class UIConsole {
 
             // VISUAL REPRESENTATION OF TIMELINE FOR ACTIVITIES
             System.out.println("Activity Timeline:");
-            System.out.println();
             // Find boundaries of the timeline
             int earliestWeek = Integer.MAX_VALUE;
             int latestWeek = Integer.MIN_VALUE;
@@ -660,44 +659,58 @@ public class UIConsole {
                 earliestWeek = Math.min(earliestWeek, startAbsWeek);
                 latestWeek = Math.max(latestWeek, endAbsWeek);
             }
-            // Display week numbers (limited to 13 weeks)
-            int weeksToDisplay = Math.min(13, latestWeek - earliestWeek + 1);
-            System.out.print("Activity          |");
-            for (int i = 0; i < weeksToDisplay; i++) {
-                int weekNumber = (earliestWeek + i) % 52;
-                if (weekNumber == 0) weekNumber = 52;
-                System.out.printf("W%-2d|", weekNumber);
-            }
-            System.out.println();
-            // Display activity timelines
-            for (Activity activity : project.getActivities()) {
-                // Activity name shortened if needed
-                String displayName = activity.getActivityName().length() > 18
-                        ? activity.getActivityName().substring(0, 15) + "..."
-                        : activity.getActivityName();
-                System.out.printf("%-18s|", displayName);
-
-                // Position of each activity in the timeline
-                String[] startParts = activity.getStartDate().split("-");
-                int startAbsWeek = Integer.parseInt(startParts[0]) * 52 + Integer.parseInt(startParts[1]);
-                String[] endParts = activity.getEndDate().split("-");
-                int endAbsWeek = Integer.parseInt(endParts[0]) * 52 + Integer.parseInt(endParts[1]);
-
-                // Finally, draw the timeline
-                for (int i = 0; i < weeksToDisplay; i++) {
-                    int currentWeek = earliestWeek + i;
-                    if (currentWeek >= startAbsWeek && currentWeek <= endAbsWeek) {
-                        System.out.print("███|");
-                    } else {
-                        System.out.print("   |");
-                    }
+            // Calculate the number of 13-week chunks needed
+            int totalWeeks = latestWeek - earliestWeek + 1;
+            int weeksPerChunk = 13;
+            int chunksNeeded = (int) Math.ceil((double) totalWeeks / weeksPerChunk);
+            for (int chunk = 0; chunk < chunksNeeded; chunk++) {
+                int chunkStartWeek = earliestWeek + (chunk * weeksPerChunk);
+                int chunkEndWeek = Math.min(chunkStartWeek + weeksPerChunk - 1, latestWeek);
+                int startYear = chunkStartWeek / 52 + 2000;
+                int endYear = chunkEndWeek / 52 + 2000;
+                // Create an appropriate header (might span multiple years)
+                if (startYear == endYear) {
+                    System.out.println("\n-- Weeks " + ((chunk * weeksPerChunk) + 1) + " to " +
+                            Math.min((chunk + 1) * weeksPerChunk, totalWeeks) + " of Year " + startYear + " --");
+                } else {
+                    System.out.println("\n-- Weeks " + ((chunk * weeksPerChunk) + 1) + " to " +
+                            Math.min((chunk + 1) * weeksPerChunk, totalWeeks) + " spanning Years " +
+                            startYear + "-" + endYear + " --");
+                }
+                // Display week header for this chunk
+                System.out.print("Activity          |");
+                for (int i = 0; i <= chunkEndWeek - chunkStartWeek; i++) {
+                    int weekNumber = (chunkStartWeek + i) % 52;
+                    if (weekNumber == 0) weekNumber = 52;
+                    System.out.printf("W%-2d|", weekNumber);
                 }
                 System.out.println();
+                // Display all activities for this chunk
+                for (Activity activity : project.getActivities()) {
+                    String displayName = activity.getActivityName().length() > 16
+                            ? activity.getActivityName().substring(0, 13) + "..."
+                            : activity.getActivityName();
+                    System.out.printf("%-18s|", displayName);
+                    // Draw a timeline for this chunk
+                    String[] startParts = activity.getStartDate().split("-");
+                    int startAbsWeek = Integer.parseInt(startParts[0]) * 52 + Integer.parseInt(startParts[1]);
+                    String[] endParts = activity.getEndDate().split("-");
+                    int endAbsWeek = Integer.parseInt(endParts[0]) * 52 + Integer.parseInt(endParts[1]);
+                    for (int i = 0; i <= chunkEndWeek - chunkStartWeek; i++) {
+                        int currentWeek = chunkStartWeek + i;
+                        if (currentWeek >= startAbsWeek && currentWeek <= endAbsWeek) {
+                            System.out.print("███|");
+                        } else {
+                            System.out.print("   |");
+                        }
+                    }
+                    System.out.println();
+                }
             }
             System.out.println();
 
             // LATEST TIME REGISTRATIONS
-            System.out.println("Latest Time Registrations for Activities (up to 5):");
+            System.out.println("Latest Time Registration Descriptions (up to 5 per Activity):");
             System.out.println();
             System.out.printf("    %-6s %6s   %-45s%n", "User", "Hours", "Description");
             System.out.printf("    %-6s %6s   %-45s%n", "----", "-----", "-----------");
