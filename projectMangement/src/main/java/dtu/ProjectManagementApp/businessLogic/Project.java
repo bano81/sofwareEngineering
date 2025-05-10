@@ -18,7 +18,6 @@ public class Project {
         this.projectId = projectId;
     }
 
-    //for testing
     public Project(String projectName,String projectId, String deadline) {
         this.projectId = projectId;
         this.projectName = projectName;

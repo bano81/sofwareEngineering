@@ -170,6 +170,7 @@ public class UIConsole {
                         int activityIndex = Integer.parseInt(activityChoice) - 1;
                         String activityId = activities.get(activityIndex).getActivityId();
                         blController.registerTime(activityId, date, hours, description);
+                        System.out.println("TimeRegistration registered successfully");
                         break;
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());

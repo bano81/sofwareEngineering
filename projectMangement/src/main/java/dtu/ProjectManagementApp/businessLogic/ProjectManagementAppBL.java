@@ -126,7 +126,6 @@ public class ProjectManagementAppBL {
             TimeRegistration timeReg = new TimeRegistration(
                     employee, project, activity, dateOfRegistration, hours, description);
             systemStorage.addTimeRegistration(timeReg);
-            System.out.println("TimeRegistration registered successfully");
 
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Invalid date format. Use yyyy-MM-dd");
