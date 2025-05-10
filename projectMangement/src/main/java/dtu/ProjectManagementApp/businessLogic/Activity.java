@@ -31,9 +31,9 @@ public class Activity {
 //     this.activityId = generateActivityId(); // Generate a unique ID for the activity
 //    }
 
-//    public Activity(String activityName, String ativityStatus, String startWeek, String endWeek, double budgetedHours) {
+//    public Activity(String activityName, String activityStatus, String startWeek, String endWeek, double budgetedHours) {
 //     this.activityName = activityName;
-//     this.activityStatus = ativityStatus;
+//     this.activityStatus = activityStatus;
 //     this.startWeek = startWeek;
 //     this.endWeek = endWeek;
 //     this.budgetedHours = budgetedHours;
@@ -142,19 +142,19 @@ public class Activity {
     //     return endDate.before(currentDate);
     // }
     // public boolean isCompleted() {
-    //     return ativityStatus.equals("Completed");
+    //     return activityStatus.equals("Completed");
     // }
     // public boolean isInProgress() {
-    //     return ativityStatus.equals("In Progress");
+    //     return activityStatus.equals("In Progress");
     // }
     // public boolean isNotStarted() {
-    //     return ativityStatus.equals("Not Started");
+    //     return activityStatus.equals("Not Started");
     // }
     // public boolean isOnHold() {
-    //     return ativityStatus.equals("On Hold");
+    //     return activityStatus.equals("On Hold");
     // }
     // public boolean isCancelled() {
-    //     return ativityStatus.equals("Cancelled");
+    //     return activityStatus.equals("Cancelled");
     // }
 
 	

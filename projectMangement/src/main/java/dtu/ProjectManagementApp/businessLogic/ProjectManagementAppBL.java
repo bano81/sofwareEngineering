@@ -62,7 +62,6 @@ public class ProjectManagementAppBL {
     public void assignEmployeeToProject(String projectID, String employeeId) {
         Project project = systemStorage.getProject(projectID);// Get the project by name
         if (project != null) {
-            Employee employee = systemStorage.getEmployee(employeeId); // Get the employee by ID
             project.addEmployee(systemStorage.getEmployee(employeeId)); // Assign the employee to the project
         } else {
             throw new IllegalArgumentException("Project with name " + projectID + " does not exist.");

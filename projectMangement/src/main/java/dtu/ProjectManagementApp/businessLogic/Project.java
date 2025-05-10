@@ -107,7 +107,7 @@ public class Project {
     
     public boolean activityExists(String activityName) {
         for (Activity activity : activities) {
-            if (activity.getActivityName() == activityName) {
+            if (activity.getActivityName().equals(activityName)) {
                 return true;
             }
         }
