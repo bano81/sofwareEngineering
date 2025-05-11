@@ -267,20 +267,32 @@ public class UIConsole {
     }
 
     private void registerFixedActivity(Scanner sc) {
-        clearConsole();
-        System.out.println("Fixed Activity Types:");
-        System.out.println("1: Vacation");
-        System.out.println("2: Course");
-        System.out.println("3: Sickness");
-        System.out.print("Select Fixed Activity Type: ");
-        int type = sc.nextInt();
-        sc.nextLine(); // Consume newline
-        System.out.print("Enter Start Date (YYYY-MM-DD or YYYY-Www): ");
-        String startDate = sc.nextLine();
-        System.out.print("Enter End Date (YYYY-MM-DD or YYYY-Www): ");
-        String endDate = sc.nextLine();
-        // TODO: Implement logic to register fixed activity
-        System.out.println("Fixed activity registered successfully!");
+        int choice;
+        do {
+            clearConsole();
+            System.out.println("Fixed Activity Types:");
+            System.out.println("1: Vacation");
+            System.out.println("2: Course");
+            System.out.println("3: Sickness");
+            System.out.println("0: Back to My View");
+            System.out.print("Select Fixed Activity Type: ");
+            try{
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number (0-3).");
+                choice = -1; // Invalid choice to continue the loop
+            }
+            System.out.print("Enter Start Date (YYYY-MM-DD or YYYY-WW): ");
+            String startDate = sc.nextLine();
+            System.out.print("Enter End Date (YYYY-MM-DD or YYYY-WW): ");
+            String endDate = sc.nextLine();
+            // TODO: Implement logic to register fixed activity
+            //System.out.println("Fixed activity registered successfully!");
+            System.out.print("This feature is not implemented yet. Press Enter to go back...");
+            sc.nextLine();
+            break;
+        } while (true);
+
     }
 
     private void projectManagementMenu(Scanner sc) {
