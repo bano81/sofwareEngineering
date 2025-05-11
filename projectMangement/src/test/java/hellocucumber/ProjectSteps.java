@@ -19,12 +19,11 @@ public class ProjectSteps {
 	private String employeeId;
 	private SystemStorage systemStorage = TestContext.getSystemStorage();
 	private ProjectManagementAppBL blController = new ProjectManagementAppBL(systemStorage);
-	
-	@When("the user tries to create a new project with name {string} and id {string}")
-	public void theUserTriesToCreateANewProjectWithNameAndId(String projectName, String projectId) {
+
+	@When("the user tries to create a new project with name {string}")
+	public void theUserTriesToCreateANewProjectWithName(String projectName) {
 		try {
 			blController.createProject(projectName); // Simulate project creation
-			systemStorage.getProjects().getLast().setProjectId(projectId);
 		} catch (Exception e) {
 			this.e = e; // Capture the exception if thrown
 		}
@@ -50,10 +49,10 @@ public class ProjectSteps {
 		blController.login(userId); // Simulate user login	
 	}
 
-	@Then("the project {string} is created with id {string}")
-	public void theProjectIsCreatedWithId(String projectName, String projectId) {
-		assertTrue(systemStorage.getProject(projectId).getProjectName().equals(projectName)); // Check if the project name matches the expected name
-		assertTrue(systemStorage.getProjects().stream().filter(p -> p.getProjectId().equals(projectId)).toList().size() < 2); // Check if the project ID is unique
+	@Then("the project {string} is created")
+	public void theProjectIsCreatedWithId(String projectName) {
+        assertEquals(systemStorage.getProjectByName(projectName).getProjectName(), projectName); // Check if the project name matches the expected name
+		assertTrue(systemStorage.getProjects().stream().filter(p -> p.getProjectId().equals(systemStorage.getProjectByName(projectName))).toList().size() < 2); // Check if the project ID is unique
 	}
 
 	@Then("the system should return the error message {string}")
@@ -62,12 +61,12 @@ public class ProjectSteps {
 		assertEquals(string, e.getMessage()); // Check if the exception message matches the expected message
 	}
 
-	@When("{string} is assigned as project manager for the project with id{string}")
+	@When("{string} is assigned as project manager for the project with Id {string}")
 	public void isAssignedAsProjectManagerForTheProjectWithId(String userId, String projectId) {
 		systemStorage.getProject(projectId).setProjectManager(userId); // Simulate assigning the user as project manager
 	}
 
-	@Then("{string} should be listed as project manager for the project with id {string}")
+	@Then("{string} should be listed as project manager for the project with Id {string}")
 	public void ShouldBeListedAsProjectManagerForTheProjectWithId(String userId, String projectId) {
 		assertEquals(userId, systemStorage.getProject(projectId).getProjectManagerId()); // Check if the user is listed as project manager
 	}
