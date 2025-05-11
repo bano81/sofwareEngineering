@@ -45,7 +45,7 @@ public class Project {
 
     public int getWeeksUntilDeadline() {
         if (deadline == null || this.deadline.isEmpty()) {
-            return -1; // No deadline set
+            return -999; // No deadline set
         }
         try {
             String[] parts = deadline.split("-");
@@ -56,7 +56,7 @@ public class Project {
             int currentWeek = current.get(Calendar.WEEK_OF_YEAR);
             return (deadlineYear - currentYear) * 52 + (deadlineWeek - currentWeek);
         } catch (NumberFormatException e) {
-            return -1; // Invalid date format
+            return -999; // Invalid date format
         }
     }
 
