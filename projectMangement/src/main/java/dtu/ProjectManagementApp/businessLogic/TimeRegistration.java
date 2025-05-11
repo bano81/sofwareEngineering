@@ -12,21 +12,7 @@ public class TimeRegistration {
     private String description;
 
     public TimeRegistration(Employee employee, Project project, Activity activity, LocalDate localDate, double hoursSpent, String description) {
-        //if (employee == null) {
-        //    throw new IllegalArgumentException("Employee cannot be null");
-        //}
-        //if (project == null) {
-        //    throw new IllegalArgumentException("Project cannot be null");
-        //}
-        //if (activity == null) {
-        //    throw new IllegalArgumentException("Activity cannot be null");
-        //}
-        //if (localDate == null) {
-        //    throw new IllegalArgumentException("Date cannot be null");
-        //}
-        if (hoursSpent <= 0 || hoursSpent > 24) {
-            throw new IllegalArgumentException("Invalid hours format, must be between 0 and 24");
-        }
+
         this.timeRegistrationId = generateTimeRegistrationId();
         this.employee = employee;
         this.project = project;

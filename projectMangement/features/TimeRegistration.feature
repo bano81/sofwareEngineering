@@ -50,6 +50,20 @@
      Then the time registration should not be saved to SystemStorage
      And the system should display an error message "Invalid hours format, must be between 0 and 24"
 
+   Scenario: Successfully register time with 24 hours
+     Given The employee with ID "valid_employee1" is logged in
+     And a project "Website Redesign" with ID "25001" and deadline "2025-06-12" exists
+     And an activity "Frontend Development" with ID "A001", in project with id "25001" exists
+     And an activity "Frontend Development" with ID "A001" belongs to project "25001"
+     And the employee with ID "valid_employee1" is assigned to activity with "A001"
+     When a user registers time spent on activity with Id "A001", on date "2025-05-15", hours spent "24", and description "Implemented navigation bar and fixed layout issues"
+     Then the time registration should be saved to SystemStorage
+     And the latest time registration should have employee "valid_employee1"
+     And the latest time registration should be for activity "A001"
+     And the latest time registration should have date "2025-05-15"
+     And the latest time registration should have "24" hours spent
+     And the latest time registration should have description "Implemented navigation bar and fixed layout issues"
+
 
    Scenario: Fail to register time for non-existent activity
      Given The employee with ID "valid_employee1" is logged in

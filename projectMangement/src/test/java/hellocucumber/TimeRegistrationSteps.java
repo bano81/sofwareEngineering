@@ -11,6 +11,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TimeRegistrationSteps {
@@ -21,6 +24,7 @@ public class TimeRegistrationSteps {
     private String projectID;
     private String timeRegistrationId;
     private int timeRegistrationCount;
+    private LocalDate mockedCurrentDate;
 
     @Before
     public void resetLoginState() {
@@ -71,6 +75,7 @@ public class TimeRegistrationSteps {
         systemStorage.getProject(projectID).getActivityById(activityID).assignEmployee(employeeId);
         assertTrue(systemStorage.getProject(projectID).getActivityById(activityID).getAssignedEmployees().contains(employeeId));
     }
+
 
     @When("a user registers time spent on activity with Id {string}, on date {string}, hours spent {string}, and description {string}")
     public void aUserRegistersTimeSpentOnActivityWithIdOnDateHoursSpentAndDescription(String activityId, String dateString, String hoursSpent, String description) {
@@ -182,4 +187,6 @@ public class TimeRegistrationSteps {
     public void theTimeRegistrationShouldNotBeDeletedFromSystemStorage() {
         assertFalse(systemStorage.getTimeRegistrations().size() < timeRegistrationCount);
     }
+
+
 }

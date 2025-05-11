@@ -95,18 +95,20 @@ public class ProjectManagementAppBL {
 
         Activity activity = project.getActivityById(activityId);
 
-        // Check if employee is assigned to activity
         if (!activity.getAssignedEmployees().contains(employee.getEmployeeId())) {
             throw new IllegalArgumentException("You are not assigned to this activity");
         }
 
-        // Parse date and hours
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate dateOfRegistration = LocalDate.parse(dateString, formatter);
+
             double hours = Double.parseDouble(hoursSpent);
 
-            // Create and add time registration
+            if (hours <= 0.0 || hours > 24.0) {
+                throw new IllegalArgumentException("Invalid hours format, must be between 0 and 24");
+            }
+
             TimeRegistration timeReg = new TimeRegistration(
                     employee, project, activity, dateOfRegistration, hours, description);
             systemStorage.addTimeRegistration(timeReg);
