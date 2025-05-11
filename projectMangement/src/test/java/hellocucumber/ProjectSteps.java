@@ -34,11 +34,6 @@ public class ProjectSteps {
 		systemStorage.getProjects().add(new Project(projectId, projectName)); // Simulate project creation
 	}
 
-	@When("an activity named {string} is created for the project with id {string}")
-	public void anActivityNamedIsCreatedForTheProjectWithId(String activityName, String projectId) {
-		systemStorage.getProject(projectId).addActivity(new Activity(activityName)); // Simulate activity creation
-	}
-
 	@Given("a user with id {string} exists")
 	public void aUserWithIdExists(String userId) {
 		systemStorage.addEmployee(new Employee("test", "test", userId)); // Simulate user creation
@@ -55,15 +50,9 @@ public class ProjectSteps {
 		assertTrue(systemStorage.getProjects().stream().filter(p -> p.getProjectId().equals(systemStorage.getProjectByName(projectName))).toList().size() < 2); // Check if the project ID is unique
 	}
 
-	@Then("the system should return the error message {string}")
-	public void theSystemShouldReturnTheErrorMessage(String string) {
-		assertNotNull(e); // Check if an exception was thrown
-		assertEquals(string, e.getMessage()); // Check if the exception message matches the expected message
-	}
-
 	@When("{string} is assigned as project manager for the project with Id {string}")
 	public void isAssignedAsProjectManagerForTheProjectWithId(String userId, String projectId) {
-		systemStorage.getProject(projectId).setProjectManager(userId); // Simulate assigning the user as project manager
+		blController.assignProjectManager(projectId, userId); // Simulate assigning a project manager
 	}
 
 	@Then("{string} should be listed as project manager for the project with Id {string}")

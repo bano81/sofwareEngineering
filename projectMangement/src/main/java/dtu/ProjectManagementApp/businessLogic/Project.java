@@ -11,7 +11,6 @@ public class Project {
     private String deadline;
     private String projectManagerId;
     private List<Activity> activities = new ArrayList<>();
-    private List<Employee> assignedEmployees = new ArrayList<>();
 
     public Project(String projectName, String projectId) {
         this.projectName = projectName;
@@ -108,45 +107,6 @@ public class Project {
     public boolean activityExists(String activityName) {
         for (Activity activity : activities) {
             if (activity.getActivityName().equals(activityName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    // public boolean isOverdue() {
-    //     Date currentDate = new Date();
-    //     return deadline.before(currentDate);
-    // }
-
-    // public boolean isCompleted() {
-    //     for (Activity activity : activities) {
-    //         if (!activity.isCompleted()) {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
-
-    public void addEmployee(Employee employee) {
-        this.assignedEmployees.add(employee);
-    }
-
-    public Employee getEmployee(String employeeId) {
-        for (Employee employee : assignedEmployees) {
-            if (employee.getEmployeeId().equals(employeeId)) {
-                return employee;
-            }
-        }
-        return null;
-    }
-
-    public List<Employee> getAssignedEmployees() {
-        return this.assignedEmployees;
-    }
-
-    public boolean isEmployeeAssigned(String employeeId) {
-        for (Employee employee : assignedEmployees) {
-            if (employee.getEmployeeId().equals(employeeId)) {
                 return true;
             }
         }

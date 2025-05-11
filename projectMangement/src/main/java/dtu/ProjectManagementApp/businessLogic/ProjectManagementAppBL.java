@@ -21,9 +21,9 @@ public class ProjectManagementAppBL {
             throw new IllegalStateException("Employee with ID " + employeeId + " does not exist."); // Employee does not exist
         } else if (systemStorage.getLoggedInEmployee() != null) { // Check if an employee is already logged in
             if (systemStorage.getLoggedInEmployee().getEmployeeId().equals(employeeId)) {
-                throw new IllegalStateException("You are already logged in"); // The same employee is already logged in
+                throw new IllegalStateException("You are already logged in."); // The same employee is already logged in
             }
-            throw new IllegalStateException("An employee is already logged in."); // An employee is already logged in
+            throw new IllegalStateException("Another employee is already logged in."); // An employee is already logged in
         } else {
             systemStorage.setLoggedInEmployee(systemStorage.getEmployee(employeeId)); // Set the logged-in employee
         }
@@ -60,22 +60,13 @@ public class ProjectManagementAppBL {
         return false; // Employee already exists
     }
 
-
-    public void assignEmployeeToProject(String projectID, String employeeId) {
-        Project project = systemStorage.getProject(projectID);// Get the project by name
-        if (project != null) {
-            project.addEmployee(systemStorage.getEmployee(employeeId)); // Assign the employee to the project
-        } else {
-            throw new IllegalArgumentException("Project with name " + projectID + " does not exist.");
-        }
-    }
-
     public void createProject(String projectName) {
         String projectId = String.valueOf(LocalDate.now().getYear()).substring(2) + String.format("%03d", systemStorage.getProjects().size() + 1);
-        Project project = new Project(projectName,projectId);
-        if (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(project.getProjectId()))) { // Check if the project ID already exists
-            throw new IllegalArgumentException("Project ID already exists."); // Throw an exception if it does
+        int projectIdInt = Integer.parseInt(projectId);
+        while (systemStorage.getProjects().stream().anyMatch(p -> p.getProjectId().equals(projectId))) { // Check if the project ID already exists
+            projectIdInt++;
         }
+        Project project = new Project(projectName, String.valueOf(projectIdInt)); // Create a new project
         systemStorage.addProject(project); // Add the project to the system storage
     }
 

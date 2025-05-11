@@ -37,11 +37,6 @@ public class SystemStorage {
         project1.addActivity(activity3);
         project1.addActivity(activity4);
 
-
-        blController.assignEmployeeToProject(project1.getProjectId(), "huba");
-        blController.assignEmployeeToProject(project1.getProjectId(), "sike");
-        blController.assignEmployeeToProject(project2.getProjectId(), "huba");
-
         blController.assignEmployeeToActivity(activity1.getActivityId(), "huba");
         blController.assignEmployeeToActivity(activity1.getActivityId(), "sike");
         blController.assignEmployeeToActivity(activity2.getActivityId(), "huba");
