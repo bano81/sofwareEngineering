@@ -51,13 +51,11 @@ public class ProjectManagementAppBL {
         return loggedInEmployee;
     }
 
-    public boolean createEmployee(String firstName, String surName, String employeeId) {
-        boolean employeeExists = employeeExists(employeeId); // Check if the employee already exists
-        if (!employeeExists) {
-            systemStorage.addEmployee(new Employee(firstName, surName, employeeId)); // Create a new employee
-            return true; // Employee created successfully
+    public void createEmployee(String firstName, String surName, String employeeId) {
+        if (employeeExists(employeeId)) { // Check if the employee already exists
+            throw new IllegalArgumentException("Employee with ID " + employeeId + " already exists."); // Employee already exists
         }
-        return false; // Employee already exists
+        systemStorage.addEmployee(new Employee(firstName, surName, employeeId)); // Create a new employee
     }
 
     public void createProject(String projectName) {
