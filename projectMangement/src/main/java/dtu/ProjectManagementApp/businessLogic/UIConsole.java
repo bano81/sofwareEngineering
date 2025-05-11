@@ -567,19 +567,25 @@ public class UIConsole {
     }
 
     private void employeeAvailabilityMenu(Scanner sc) {
-        clearConsole();
-        System.out.println("-- Employee Availability --");
-        System.out.println("Options:");
-        System.out.println("1. View Availability by Week");
-        System.out.println("2. View Specific Employee Schedule");
-        System.out.println("0. Back to Main Menu");
-        System.out.print("# ");
-        int choice = sc.nextInt();
-        sc.nextLine(); // Consume newline
-        handleEmployeeAvailability(choice, sc);
-        System.out.println("Press Enter to continue...");
-        sc.nextLine();
-        // TODO: Implement employee availability logic
+        int choice;
+        while (true) {
+            clearConsole();
+            System.out.println("-- Employee Availability Overview --");
+            System.out.println("1. View Availability by Week");
+            System.out.println("2. View Specific Employee Schedule");
+            System.out.println("0. Back to Main Menu");
+            System.out.print("# ");
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number (0-2).");
+                continue; // Invalid choice, continue the loop
+            }
+            if (choice == 0) {
+                break; // Exit the loop if the user chooses to go back
+            }
+            handleEmployeeAvailability(choice, sc);
+        }
     }
 
     private void handleEmployeeAvailability(int choice, Scanner sc) {
