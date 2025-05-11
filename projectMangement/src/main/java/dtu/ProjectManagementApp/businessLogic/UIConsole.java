@@ -96,11 +96,24 @@ public class UIConsole {
             clearConsole();
             System.out.println("-- Time & Activities (User: " + username + ") --");
             System.out.println("My Assigned Activities:");
-            List<Activity> activities = systemStorage.getActivitiesForUser(systemStorage.getLoggedInEmployee().getEmployeeId()); // Fetch activities from SystemStorage
+            List<Activity> activities = systemStorage.getActivitiesForUser(systemStorage.getLoggedInEmployee().getEmployeeId());
             for (Activity activity : activities) {
-                System.out.println("- [" + activity.getActivityId() + "] "+ activity.getActivityName() + " Start: " + activity.getStartDate() + " End: " + 
-                       activity.getEndDate() + " Budgeted hours: " + activity.getBudgetedHours()+ " Current hours spent: " + 
-                	   activity.getCurrentSpentHours(systemStorage.getTimeRegistrations()));
+                // Find the project that contains this activity
+                String projectName = "Unknown";
+                for (Project project : systemStorage.getProjects()) {
+                    if (project.getActivities().contains(activity) ||
+                            project.getActivityById(activity.getActivityId()) != null) {
+                        projectName = project.getProjectName();
+                        break;
+                    }
+                }
+
+                System.out.println("- [" + activity.getActivityId() + "]" +
+                        ", Activity: " + activity.getActivityName() +", Project: " + projectName +
+                        ", Start: " + activity.getStartDate() +
+                        ", End: " + activity.getEndDate() +
+                        ", Budgeted hours: " + activity.getBudgetedHours() +
+                        ", Current hours spent: " + activity.getCurrentSpentHours(systemStorage.getTimeRegistrations()));
             }
             System.out.println("Options:");
             System.out.println("1. Register Time");
