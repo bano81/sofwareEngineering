@@ -128,12 +128,17 @@ public class Project {
     }
     
     public int getNumberOfWeekActivityForEmployee(String employeeID, String weekNumber) {
+    	assert weekNumber.matches("\\d{2}-\\d{2}") : "Precondition: Week number must be in format YY-WW";
         int count = 0;
         int inputYear = Integer.parseInt(weekNumber.substring(0, 2));
-        int inputWeek = Integer.parseInt(weekNumber.substring(3));
+        int inputWeek = Integer.parseInt(weekNumber.substring(3));	        
+        assert inputWeek >= 1 && inputWeek <= 52 : "Precondition: Week number must be between 1 and 52";        
+        if (inputWeek < 1 || inputWeek > 52) {															// 1
+            return -1; // or throw an exception															// 2
+        }
         
-        for (Activity activity : activities) {
-            if (activity.isEmployeeAssigned(employeeID)) {
+        for (Activity activity : activities) {															// 3
+            if (activity.isEmployeeAssigned(employeeID)) {												// 4
                 String[] startParts = activity.getStartDate().split("-");
                 int startYear = Integer.parseInt(startParts[0]);
                 int startWeek = Integer.parseInt(startParts[1]);
@@ -143,13 +148,13 @@ public class Project {
                 int endWeek = Integer.parseInt(endParts[1]);
                 
                 if ((inputYear > startYear || (inputYear == startYear && inputWeek >= startWeek)) &&
-                    (inputYear < endYear || (inputYear == endYear && inputWeek <= endWeek))) {
-                    count++;
+                    (inputYear < endYear || (inputYear == endYear && inputWeek <= endWeek))) {			// 5
+                    count++;																			// 6
                 }
             }
-        }
-        
-        return count;
+        }        
+        assert count >= 0 : "Postcondition: Count of activities should never be negative";
+        return count;																					// 7
     }
 
 
