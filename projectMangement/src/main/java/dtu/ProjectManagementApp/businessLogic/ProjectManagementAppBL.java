@@ -16,14 +16,16 @@ public class ProjectManagementAppBL {
     }
 
 
-    public boolean login(String employeeId) throws IllegalStateException {
+    public void login(String employeeId) throws IllegalStateException {
         if (!employeeExists(employeeId)) { // Check if the employee exists
             throw new IllegalStateException("Employee with ID " + employeeId + " does not exist."); // Employee does not exist
         } else if (systemStorage.getLoggedInEmployee() != null) { // Check if an employee is already logged in
+            if (systemStorage.getLoggedInEmployee().getEmployeeId().equals(employeeId)) {
+                throw new IllegalStateException("You are already logged in"); // The same employee is already logged in
+            }
             throw new IllegalStateException("An employee is already logged in."); // An employee is already logged in
         } else {
             systemStorage.setLoggedInEmployee(systemStorage.getEmployee(employeeId)); // Set the logged-in employee
-            return true; // Login successful
         }
     }
 
