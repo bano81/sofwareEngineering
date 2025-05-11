@@ -1,18 +1,15 @@
 Feature: Create and manage employees
 
-	# Scenario: Create employee
-	# 	Given a user with ID "bano" exists
-	# 	And the user with ID "bano" is logged in
-	# 	When the user creates an employee with name "Hubert", surname "Baumeister" and ID "huba"
-	# 	Then a user with id "huba" is added to the list of employees
-	# 	And I logout
+	Scenario: Create employee
+		Given a user with ID "bano" exists
+		And the user with ID "bano" is logged in
+		When the user creates an employee with name "Hubert", surname "Baumeister" and ID "huba"
+		Then a user with id "huba" is added to the list of employees
 
-# 	Scenario: Create an employee with used ID
-# 		Given emplyee with name "Baqer", surname "Nour" and ID "bano" exists
-# 		When an employee is created with name "Noah", surname "Johnsen" and a used ID "bano"
-# 		Then the system will return an error message.
-
-
+	Scenario: Create an employee with used ID
+		Given a user with ID "huba" exists
+		When the user creates an employee with name "Hubert", surname "Baumeister" and ID "huba"
+		Then the system will return the error "Employee with ID huba already exists."
 
 # 	Scenario: Adding activity to existing employee
 # 		When an employee with ID "huba" add activity with ID "ana1", name "analysis", start date "2025-04-21", end date "2025-04-23", budget hours 3 and status "In progross"
@@ -30,4 +27,3 @@ Feature: Create and manage employees
 #		And an employee with ID "bano" exists
 #		When the project manager requests the list of available employees
 #		Then the system should display the list of available employees
-#		And I logout
