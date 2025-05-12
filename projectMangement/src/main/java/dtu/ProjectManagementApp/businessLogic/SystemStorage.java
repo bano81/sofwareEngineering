@@ -11,10 +11,8 @@ public class SystemStorage {
     private final List<TimeRegistration> timeRegistrations = new ArrayList<>();
     private Employee employeeLoggedIn = null; // Variable to store the logged-in employee
 
-
     public SystemStorage() {
     }
-
 
     public void initiateTestUsers(ProjectManagementAppBL blController) {
         employees.add(new Employee("Hubert", "Baumeister", "huba")); 
@@ -93,16 +91,6 @@ public class SystemStorage {
                 .findFirst()
                 .orElse(null);
     }
-    public boolean projectIDExists(String projectId) {
-        // Check if the project ID already exists in the list of projects
-        return projects.stream()
-                .anyMatch(project -> project.getProjectId().equals(projectId));        
-    }
-    
-
-    public  void removeProject(String projectID) {
-        projects.remove(getProject(projectID));
-    }
 
     public  List<Project> getProjects() {
         return projects;
@@ -118,14 +106,6 @@ public class SystemStorage {
         employeeLoggedIn = null;
     }
 
-    //shoudl prly be deleted
-    //public String generateProjectId() {
-    //    int year = Calendar.getInstance().get(Calendar.YEAR) % 100;
-    //    int nextNumber = projects.size() + 1;
-    //    return String.valueOf(year * 1000 + nextNumber);
-    //}
-
-
    // ####################### Activities #######################
 
     public List<Activity> getActivitiesForUser(String username) {
@@ -139,14 +119,6 @@ public class SystemStorage {
             }
         }
         return userActivities;
-    }
-
-    public int getActivityCount() {
-        int totalActivities = 0;
-        for (Project project : projects) {
-            totalActivities += project.getActivities().size();
-        }
-        return totalActivities;
     }
 
     /* TIME REGISTRATION*/

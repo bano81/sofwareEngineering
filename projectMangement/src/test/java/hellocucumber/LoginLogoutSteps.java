@@ -66,6 +66,6 @@ public class LoginLogoutSteps {
         } catch (IllegalStateException e) {
             this.e = e; // Capture the exception if thrown
         }
-        assertEquals(e.getMessage(), "No employee is currently logged in.");
+        assertEquals("No employee is currently logged in.", e.getMessage());
     }
 }

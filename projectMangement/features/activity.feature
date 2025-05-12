@@ -37,13 +37,6 @@ Feature: Activity Management
     And the user removes the employee with ID "bano" from the activity "NewActivity" from project with ID "25001"
     Then the activity "NewActivity" from project with ID "25001" should not have the employee with ID "bano" assigned
 
-    # this is a timeRegistration feature, not an activity feature
- # Scenario: Track spent hours on an activity
- #   When the user records 5.5 hours spent on activity "NewActivity" from project with ID "25001"
- #   Then the activity "NewActivity" from project with ID "25001" should have 5.5 hours spent
- #   When the user records 2.5 more hours spent on activity "NewActivity" from project with ID "25001"
- #   Then the activity "NewActivity" from project with ID "25001" should have 8.0 hours spent
-
   Scenario: Verify unique activity IDs
     And an activity named "NewActivity2" is created for the project with ID "25001"
     Then the activities "NewActivity" and "NewActivity2" from project with ID "25001" should have different IDs

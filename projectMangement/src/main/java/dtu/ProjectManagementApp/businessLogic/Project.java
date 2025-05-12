@@ -60,10 +60,6 @@ public class Project {
         }
     }
 
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
-    }
-
     public String getProjectManagerId() {
         return projectManagerId;
     }
@@ -83,10 +79,6 @@ public class Project {
         return this.projectId + String.format("%03d", activityNumber);
     }
 
-    public void removeActivity(Activity activity) {
-        this.activities.remove(activity);
-    }
-
     public Activity getActivity(String activityName) {
         for (Activity activity : activities) {
             if (activity.getActivityName().equals(activityName)) {
@@ -102,15 +94,6 @@ public class Project {
             }
         }
         return null;
-    }
-    
-    public boolean activityExists(String activityName) {
-        for (Activity activity : activities) {
-            if (activity.getActivityName().equals(activityName)) {
-                return true;
-            }
-        }
-        return false;
     }
     
     public List<Activity> getActivities() {

@@ -118,8 +118,8 @@ public class ProjectManagementAppBL {
         }
 
     }
-    public void editTimeRegistration(String timeRegistrationId, String newHours,  String newDescription) {
 
+    public void editTimeRegistration(String timeRegistrationId, String newHours,  String newDescription) {
         TimeRegistration timeRegistration = systemStorage.getTimeRegistrations().stream()
                 .filter(tr -> tr.getTimeRegistrationId().equals(timeRegistrationId))
                 .findFirst()
@@ -138,6 +138,7 @@ public class ProjectManagementAppBL {
             }
         }
     }
+
     public void deleteTimeRegistration(String timeRegistrationId) {
         TimeRegistration timeRegistration = systemStorage.getTimeRegistrations().stream()
                 .filter(tr -> tr.getTimeRegistrationId().equals(timeRegistrationId))
@@ -147,7 +148,6 @@ public class ProjectManagementAppBL {
         systemStorage.removeTimeRegistration(timeRegistration);
     }
 
-
     public void assignEmployeeToActivity(String activityId, String huba) {
         Project project = systemStorage.getProjects().stream()
                 .filter(p -> p.getActivities().stream()
@@ -155,15 +155,6 @@ public class ProjectManagementAppBL {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Project with activity ID " + activityId + " does not exist"));
         project.getActivityById(activityId).assignEmployee(huba);
-    }
-
-    public void removeEmployeeFromActivity(String activityId, String employeeID) {
-        Project project = systemStorage.getProjects().stream()
-                .filter(p -> p.getActivities().stream()
-                        .anyMatch(a -> a.getActivityId().equals(activityId)))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Project with activity ID " + activityId + " does not exist"));
-                project.getActivityById(activityId).removeEmployee(employeeID); // Remove the employee from the activity
     }
 
     public void assignProjectManager(String projectId, String employeeId) {

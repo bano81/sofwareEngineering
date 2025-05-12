@@ -35,23 +35,4 @@ public class Employee {
  public String getSurname() {
      return surname;
  }
-
- public double calculateSpentHours(String id){
-     return 0; // Placeholder for actual calculation logic
- }
- 
- public void setNumberOfActivities(int numberOfActivities) {
-     this.numberOfActivities = numberOfActivities;
-}
-
- public int getNumberOfActivities() {
-     return numberOfActivities;
- }
-
- public int getMaxActivities() {
-     return maxActivities;
- }
-
-
-
 }

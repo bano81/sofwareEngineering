@@ -4,41 +4,15 @@ import java.util.List;
 
 public class Activity {
    private String activityName;
-//    private Project activityAssignedProject;
-//    private String activityStatus;
    private double budgetedHours;
-  // private double currentSpentHours;
    private String startWeek;                    // format: YY-WW (e.g. 25-01)
    private String endWeek;                      // format: YY-WW (e.g. 25-05)
    private List<String> assignedEmployeeIDs = new ArrayList<>();
    private String activityId;
 
-//    LocalDate today = LocalDate.now();
-//    private int activityStartYear;
-//    private int activityEndYear;
-//    private int activityStartWeekNumber;
-//    private int activityEndWeekNumber;
-
    public Activity(String activityName) {
        this.activityName = activityName;
    }
-
-//    public Activity(String activityName, String activityStatus, String startWeek, String endWeek) {
-//     this.activityName = activityName;
-//     this.activityStatus = activityStatus;
-//     this.startWeek = startWeek;
-//     this.endWeek = endWeek;
-//     this.activityId = generateActivityId(); // Generate a unique ID for the activity
-//    }
-
-//    public Activity(String activityName, String activityStatus, String startWeek, String endWeek, double budgetedHours) {
-//     this.activityName = activityName;
-//     this.activityStatus = activityStatus;
-//     this.startWeek = startWeek;
-//     this.endWeek = endWeek;
-//     this.budgetedHours = budgetedHours;
-//     this.activityId = generateActivityId();
-//    }
 
    public Activity(String activityName, String startWeek, String endWeek, double budgetedHours) {
     this.activityName = activityName;
@@ -73,15 +47,9 @@ public class Activity {
 		return false;
 	}
 
-    // public void removeProject() {
-    //     this.activityAssignedProject = null;
-    // }
     public void setBudgetedHours(double hours) {
         this.budgetedHours = hours;
     }
-    //public void setCurrentSpentHours(double hours) {
-    //    this.currentSpentHours = hours;
-    //}
     public void setStartDate(String date) {
         this.startWeek = date;
     }
@@ -94,15 +62,10 @@ public class Activity {
     public String getActivityName() {
         return activityName;
     }
-    // public String getActivityStatus() {
-    //     return activityStatus;
-    // }
     public double getBudgetedHours() {
         return budgetedHours;
     }
-    //public double getCurrentSpentHours() {
-    //    return currentSpentHours;
-    //}
+
     public double getCurrentSpentHours(List<TimeRegistration> allTimeRegistrations) {
         double totalHours = 0;
         for (TimeRegistration tr : allTimeRegistrations) {
@@ -112,70 +75,21 @@ public class Activity {
         }
         return totalHours;
     }
+
     public String getStartDate() {
         return startWeek;
     }
     public String getEndDate() {
         return endWeek;
     }
-    // public Project getActivityAssignedProject() {
-    //     return activityAssignedProject;
-    // }
+
     public List<String> getAssignedEmployees() {
         return assignedEmployeeIDs;
     }
-    // public void setAssignedEmployees(List<String> assignedEmployeeIDs) {
-    //     this.assignedEmployeeIDs = assignedEmployeeIDs;
-    // }
-    // public void setActivityAssignedProject(Project activityAssignedProject) {
-    //     this.activityAssignedProject = activityAssignedProject;
-    // }
-    // public void setActivityStatus(String activityStatus) {
-    //     this.activityStatus = activityStatus;
-    // }
 
     public String getActivityId() {
        return activityId;
     }
-    // public boolean isOverdue() {
-    //     Date currentDate = new Date();
-    //     return endDate.before(currentDate);
-    // }
-    // public boolean isCompleted() {
-    //     return activityStatus.equals("Completed");
-    // }
-    // public boolean isInProgress() {
-    //     return activityStatus.equals("In Progress");
-    // }
-    // public boolean isNotStarted() {
-    //     return activityStatus.equals("Not Started");
-    // }
-    // public boolean isOnHold() {
-    //     return activityStatus.equals("On Hold");
-    // }
-    // public boolean isCancelled() {
-    //     return activityStatus.equals("Cancelled");
-    // }
-
-	
-
-    // Get a date (Monday of the week) from week number and year
-    /*public LocalDate getDateFromWeek(int year, int week) {
-        return LocalDate.of(year, 1, 1)
-            .with(WeekFields.ISO.weekBasedYear(), year)
-            .with(WeekFields.ISO.weekOfWeekBasedYear(), week)
-            .with(WeekFields.ISO.dayOfWeek(), 1); // Monday
-    }  */
-      
-
-    // public boolean isTimeDateValid(int year, int week) {
-    //     LocalDate inputDate = LocalDate.now();  //getDateFromWeek(year, week);   
-    //     if (inputDate.isAfter(today) || inputDate.isEqual(today)) {
-    //         return true; // Future or current week is valid for reporting
-    //     } else {
-    //         return false; // Past week is not valid for reporting
-    //     }
-    // }
 
 
     
