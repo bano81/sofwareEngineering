@@ -62,16 +62,6 @@
 			<version>5.15.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-controls</artifactId>
-			<version>23-ea+3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-fxml</artifactId>
-			<version>23-ea+3</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -99,14 +89,6 @@
 							cucumber.junit-platform.naming-strategy=long
 						</configurationParameters>
 					</properties>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.openjfx</groupId>
-				<artifactId>javafx-maven-plugin</artifactId>
-				<version>0.0.8</version>
-				<configuration>
-					<mainClass>hellofx/dtu.ProjectManagementApp.businessLogic.App</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
