@@ -1,22 +1,18 @@
 package hellocucumber;
 
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Map;
-
-import dtu.ProjectManagementApp.businessLogic.SystemStorage;
 import dtu.ProjectManagementApp.businessLogic.Activity;
-import dtu.ProjectManagementApp.businessLogic.ProjectManagementAppBL;
 import dtu.ProjectManagementApp.businessLogic.Employee;
 import dtu.ProjectManagementApp.businessLogic.Project;
+import dtu.ProjectManagementApp.businessLogic.ProjectManagementAppBL;
+import dtu.ProjectManagementApp.businessLogic.SystemStorage;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 
 public class WB_numberOfActivitiesSteps {
 	Exception e;
