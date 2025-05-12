@@ -1,16 +1,16 @@
 package hellocucumber;
 
 
-import dtu.ProjectManagementApp.businessLogic.SystemStorage;
-import dtu.ProjectManagementApp.businessLogic.Project;
-import dtu.ProjectManagementApp.businessLogic.Activity;
-import dtu.ProjectManagementApp.businessLogic.ProjectManagementAppBL;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import dtu.ProjectManagementApp.businessLogic.Employee;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-
- import io.cucumber.java.en.*;
+import dtu.ProjectManagementApp.businessLogic.Project;
+import dtu.ProjectManagementApp.businessLogic.ProjectManagementAppBL;
+import dtu.ProjectManagementApp.businessLogic.SystemStorage;
+ import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 
 
 public class ProjectSteps {

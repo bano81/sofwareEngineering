@@ -43,17 +43,28 @@ public class Project {
         return deadline;
     }
 
-    public int getWeeksUntilDeadline() {
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getCurrentDate() {
+        Calendar current = Calendar.getInstance();
+        int year = current.get(Calendar.YEAR);
+        int week = current.get(Calendar.WEEK_OF_YEAR);
+        return String.format("%02d-%02d", year % 100, week);
+    }
+
+    public int getWeeksUntilDeadline(String currentDate) {
         if (deadline == null || this.deadline.isEmpty()) {
             return -999; // No deadline set
         }
         try {
-            String[] parts = deadline.split("-");
-            int deadlineYear = 2000 + Integer.parseInt(parts[0]);
-            int deadlineWeek = Integer.parseInt(parts[1]);
-            Calendar current = Calendar.getInstance();
-            int currentYear = current.get(Calendar.YEAR);
-            int currentWeek = current.get(Calendar.WEEK_OF_YEAR);
+            String[] deadlineParts = deadline.split("-");
+            int deadlineYear = 2000 + Integer.parseInt(deadlineParts[0]);
+            int deadlineWeek = Integer.parseInt(deadlineParts[1]);
+            String[] currentParts = currentDate.split("-");
+            int currentYear = 2000 + Integer.parseInt(currentParts[0]);
+            int currentWeek = Integer.parseInt(currentParts[1]);
             return (deadlineYear - currentYear) * 52 + (deadlineWeek - currentWeek);
         } catch (NumberFormatException e) {
             return -999; // Invalid date format
