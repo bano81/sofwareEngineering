@@ -96,12 +96,6 @@ public class SystemStorage {
         return projects;
     }
 
-
-    public boolean employeeExists(String employeeId) {
-        // Check if the employee ID already exists in the list of employees
-        return employees.stream()
-                .anyMatch(employee -> employee.getEmployeeId().equals(employeeId));        
-    }
     public void resetLoginState() {
         employeeLoggedIn = null;
     }

@@ -473,7 +473,7 @@ public class UIConsole {
                     System.out.print("Add new Employee to Activity by ID (leave blank to skip): ");
                     String employeeId = sc.nextLine();
                     if (!employeeId.isBlank()) {
-                        if (systemStorage.employeeExists(employeeId)) {
+                        if (blController.employeeExists(employeeId)) {
                             activity.assignEmployee(employeeId);
                             System.out.println("Employee added to activity successfully!");
                         } else {
@@ -512,7 +512,7 @@ public class UIConsole {
     			}
     			System.out.print("Enter employee's ID: ");
     			employeeID = sc.nextLine();
-    			if (systemStorage.employeeExists(employeeID)) {
+    			if (blController.employeeExists(employeeID)) {
                     //blController.assignEmployeeToActivity(activity.getActivityId(),employeeID);
                     activity.assignEmployee(employeeID);
     				System.out.println("Employee added to activity successfully!");
@@ -530,7 +530,7 @@ public class UIConsole {
     			}
     			System.out.print("Enter employee's ID: ");
     			employeeID = sc.nextLine();
-    			if (systemStorage.employeeExists(employeeID)) {
+    			if (blController.employeeExists(employeeID)) {
                     //blController.removeEmployeeFromActivity(activity.getActivityId(),employeeID);
                     activity.getAssignedEmployees().remove(employeeID);
     				System.out.println("Employee is removed from activity!");
@@ -547,7 +547,7 @@ public class UIConsole {
     private void assignProjectManager(Project project, Scanner sc) {
         System.out.print("Enter Employee ID to Assign as Project Manager: ");
         String employeeId = sc.nextLine();
-        if (systemStorage.employeeExists(employeeId)) {
+        if (blController.employeeExists(employeeId)) {
             try {
                 blController.assignProjectManager(project.getProjectId(), employeeId);
                 System.out.println("Project Manager assigned successfully!");
@@ -585,6 +585,8 @@ public class UIConsole {
                 break; // Exit the loop if the user chooses to go back
             }
             handleEmployeeAvailability(choice, sc);
+            System.out.println("Press Enter to continue...");
+            sc.nextLine(); // Wait for user input before continuing
         }
     }
 

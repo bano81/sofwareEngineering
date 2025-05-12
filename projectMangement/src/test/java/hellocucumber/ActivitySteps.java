@@ -81,7 +81,7 @@ public class ActivitySteps {
             throw new IllegalArgumentException("Activity with name " + activityName + " does not exist in project " + projectId + ".");
         }
 
-        if (!systemStorage.employeeExists(employeeId)) {
+        if (!blController.employeeExists(employeeId)) {
             throw new IllegalArgumentException("Employee with ID " + employeeId + " does not exist.");
         }
 
