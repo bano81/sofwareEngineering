@@ -235,15 +235,30 @@ public class UIConsole {
                     String newHours = sc.nextLine();
                     System.out.print("Enter New Description: ");
                     String newDescription = sc.nextLine();
+                    try {
+                        blController.editTimeRegistration(timeRegistrationId, newHours, newDescription);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                        System.out.println("Press Enter to try again...");
+                        sc.nextLine();
+                        continue;
+                    }
                     blController.editTimeRegistration(timeRegistrationId, newHours, newDescription);
                     System.out.println("Time registration updated successfully!");
                     break;
                 } else if (choice == 2) {
                     System.out.print("Enter Time Registration ID to Delete: ");
                     String timeRegistrationId = sc.nextLine();
-                    blController.deleteTimeRegistration(timeRegistrationId);
-                    System.out.println("Time registration deleted successfully!");
-                    break;
+                    try {
+                        blController.deleteTimeRegistration(timeRegistrationId);
+                        System.out.println("Time registration deleted successfully!");
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                        System.out.println("Press Enter to try again...");
+                        sc.nextLine();
+                    }
+
                 } else if (choice == 3) {
                     System.out.println("All Registered Time:");
                     for (TimeRegistration tr : systemStorage.getTimeRegistrations()) {
@@ -597,36 +612,103 @@ public class UIConsole {
        }
 		
 	}
-    
-    private void viewAvailableEmployeeByWeek(Scanner sc) {
-    	System.out.print("Enter week's number (YY-WW): ");
-    	String weekNumber = sc.nextLine();
-    	int WeekActivities;
-    	
-    	System.out.printf("%n%-12s %-15s%n", "Employee ID", "Nr. Activities");
-    	System.out.printf("%-12s %-15s%n",   "-----------", "--------------");
-    	for(Employee employee : systemStorage.getEmployees()) {
-    		WeekActivities = systemStorage.getWeekActivitiesNumber(employee.getEmployeeId(), weekNumber);
-    		System.out.printf("%-12s %-15s%n", employee.getEmployeeId(), WeekActivities);
-    	}
-	}
 
-	private void viewSpecificEmployeeSchedule(Scanner sc) {
-		System.out.print("Enter employee's ID: ");
-		String employeeID = sc.nextLine();
-		System.out.println("\nSchedule for employee ("+ employeeID + "):");
-		System.out.printf("%n%-12s %-15s %-15s %-15s%n", "Project", "Activity", "start", "end");
-		System.out.printf("%-12s %-15s %-15s %-15s%n",     "-------", "--------", "-----", "---");
-		for(Project project : systemStorage.getProjects()) {
-			System.out.printf("%-12s%n", project.getProjectName());
-			for(Activity activity : project.getActivities()) {
-				if(activity.isEmployeeAssigned(employeeID)) {
-					System.out.printf("%-12s %-15s %-15s %-15s%n",     "      ", activity.getActivityName(),
-							activity.getStartDate(), activity.getEndDate());
-				}				
-			}
-		}
-	}
+    private void viewAvailableEmployeeByWeek(Scanner sc) {
+        String weekNumber = null;
+        boolean isValidFormat = false;
+        boolean goBack = false;
+
+        do {
+            clearConsole();
+            System.out.print("Enter week's number (YY-WW) or '0' to go back: ");
+            weekNumber = sc.nextLine();
+
+            if (weekNumber.equals("0")) {
+                goBack = true;
+                break;
+            }
+
+            if (weekNumber.matches("\\d{2}-\\d{2}")) {
+                try {
+                    int year = Integer.parseInt(weekNumber.substring(0, 2));
+                    int week = Integer.parseInt(weekNumber.substring(3));
+
+                    if (week >= 1 && week <= 52) {
+                        isValidFormat = true;
+                    } else {
+                        System.out.println("Week number must be between 1 and 52. Press Enter to try again.");
+                        sc.nextLine();
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid number format. Press Enter to try again.");
+                    sc.nextLine();
+                }
+            } else {
+                System.out.println("Invalid format. Please use YY-WW format (e.g., 25-01). Press Enter to try again or '0' to go back.");
+                String response = sc.nextLine();
+                if (response.equals("0")) {
+                    goBack = true;
+                    break;
+                }
+            }
+        } while (!isValidFormat && !goBack);
+
+        // Only proceed with printing the table if we didn't choose to go back
+        if (!goBack && isValidFormat) {
+            System.out.printf("%n%-12s %-15s%n", "Employee ID", "Nr. Activities");
+            System.out.printf("%-12s %-15s%n", "-----------", "--------------");
+            for (Employee employee : systemStorage.getEmployees()) {
+                int weekActivities = systemStorage.getWeekActivitiesNumber(employee.getEmployeeId(), weekNumber);
+                String activitiesDisplay = (weekActivities == -1) ? "Invalid week" : String.valueOf(weekActivities);
+                System.out.printf("%-12s %-15s%n", employee.getEmployeeId(), activitiesDisplay);
+            }
+
+            System.out.println("\nPress Enter to continue...");
+            sc.nextLine();
+        }
+    }
+
+    private void viewSpecificEmployeeSchedule(Scanner sc) {
+        System.out.print("Enter employee's ID: ");
+        String employeeID = sc.nextLine();
+        if (!systemStorage.employeeExists(employeeID)) {
+            System.out.println("Employee not found.");
+            return;
+        }
+
+        System.out.println("\nSchedule for employee ("+ employeeID + "):");
+        System.out.printf("%n%-12s %-15s %-15s %-15s%n", "Project", "Activity", "start", "end");
+        System.out.printf("%-12s %-15s %-15s %-15s%n", "-------", "--------", "-----", "---");
+
+        for(Project project : systemStorage.getProjects()) {
+            boolean projectPrinted = false;
+
+            // First check if any activities in the project are assigned to this employee
+            boolean hasAssignedActivities = project.getActivities().stream()
+                    .anyMatch(activity -> activity.isEmployeeAssigned(employeeID));
+
+            if (hasAssignedActivities) {
+                for(Activity activity : project.getActivities()) {
+                    if(activity.isEmployeeAssigned(employeeID)) {
+                        // Print project name only for the first matching activity
+                        if (!projectPrinted) {
+                            System.out.printf("%-12s%n", project.getProjectName());
+                            projectPrinted = true;
+                        }
+
+                        System.out.printf("%-12s %-15s %-15s %-15s%n",
+                                "      ",
+                                activity.getActivityName(),
+                                activity.getStartDate(),
+                                activity.getEndDate());
+                    }
+                }
+            }
+        }
+
+        System.out.println("\nPress Enter to continue...");
+        sc.nextLine();
+    }
 
 	private void generateProjectStatusReport(Scanner sc) {
         clearConsole();
