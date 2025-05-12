@@ -590,18 +590,18 @@ public class UIConsole {
             System.out.println("2. View Specific Employee Schedule");
             System.out.println("0. Back to Main Menu");
             System.out.print("# ");
+
             try {
                 choice = Integer.parseInt(sc.nextLine());
+                if (choice == 0) {
+                    break;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid number (0-2).");
                 continue; // Invalid choice, continue the loop
             }
-            if (choice == 0) {
-                break; // Exit the loop if the user chooses to go back
-            }
             handleEmployeeAvailability(choice, sc);
-            System.out.println("Press Enter to continue...");
-            sc.nextLine(); // Wait for user input before continuing
+
         }
     }
 
