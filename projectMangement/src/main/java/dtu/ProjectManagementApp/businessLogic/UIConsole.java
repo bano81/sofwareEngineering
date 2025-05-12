@@ -733,7 +733,7 @@ public class UIConsole {
             System.out.println("Project ID: " + project.getProjectId());
             System.out.println("Project Manager: " + project.getProjectManagerId());
             System.out.println("Project Deadline: " + project.getDeadline());
-            int weeksLeft = project.getWeeksUntilDeadline();
+            int weeksLeft = project.getWeeksUntilDeadline(project.getCurrentDate());
             if (weeksLeft < 0) { System.out.println("Deadline exceeded by: " + Math.abs(weeksLeft) + " weeks"); }
             else { System.out.println("Deadline in: " + weeksLeft + " weeks"); }
             System.out.println();
