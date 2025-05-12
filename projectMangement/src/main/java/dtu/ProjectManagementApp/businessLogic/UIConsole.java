@@ -673,7 +673,7 @@ public class UIConsole {
     private void viewSpecificEmployeeSchedule(Scanner sc) {
         System.out.print("Enter employee's ID: ");
         String employeeID = sc.nextLine();
-        if (!systemStorage.employeeExists(employeeID)) {
+        if (!blController.employeeExists(employeeID)) {
             System.out.println("Employee not found.");
             return;
         }
