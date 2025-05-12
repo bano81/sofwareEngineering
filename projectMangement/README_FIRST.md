@@ -19,6 +19,11 @@ The application is accessible through the terminal, and the user can enter promp
 ## TEST USERS
 To login as a test user, we have provided two test users with the following credentials:
 - `huba`
-- `sike`
+- `sike
 
 After login the user sees there main menu from where the user can enter a number to select the desired path from the menu.
+
+# GITHUB
+The project is hosted on GitHub, and the repository can be found at:
+https://github.com/bano81/sofwareEngineering/tree/projekt2.0
+
